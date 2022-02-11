@@ -240,8 +240,8 @@
                                                     <constraint firstItem="jip-dW-Xoz" firstAttribute="top" secondItem="DwA-nX-NbA" secondAttribute="top" constant="48" id="xkc-xA-kDI"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SH0-ux-UJf">
-                                                <rect key="frame" x="0.0" y="320" width="428" height="528"/>
+                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SH0-ux-UJf">
+                                                <rect key="frame" x="0.0" y="320" width="428" height="400"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="1wu-Ts-EJW">
                                                         <rect key="frame" x="24" y="12" width="380" height="206.33333333333334"/>
@@ -320,6 +320,48 @@
                                                     <constraint firstItem="1wu-Ts-EJW" firstAttribute="leading" secondItem="SH0-ux-UJf" secondAttribute="leading" constant="24" id="oBZ-2l-qQT"/>
                                                 </constraints>
                                             </view>
+                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lX8-A9-fHP">
+                                                <rect key="frame" x="0.0" y="720" width="428" height="128"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ACTORS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ftq-gy-Dk2">
+                                                        <rect key="frame" x="24" y="32" width="65.666666666666671" height="20.333333333333329"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jgY-h4-qPc">
+                                                        <rect key="frame" x="24" y="64.333333333333371" width="380" height="220"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="220" id="QW7-ts-dg4"/>
+                                                        </constraints>
+                                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="2kh-yN-gaw">
+                                                            <size key="itemSize" width="128" height="128"/>
+                                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        </collectionViewFlowLayout>
+                                                        <cells>
+                                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="nA2-K5-Eqt">
+                                                                <rect key="frame" x="0.0" y="46" width="128" height="128"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="VQb-u8-wwO">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
+                                                                </collectionViewCellContentView>
+                                                            </collectionViewCell>
+                                                        </cells>
+                                                    </collectionView>
+                                                </subviews>
+                                                <color key="backgroundColor" name="color_movie_show_bg"/>
+                                                <constraints>
+                                                    <constraint firstItem="ftq-gy-Dk2" firstAttribute="leading" secondItem="lX8-A9-fHP" secondAttribute="leading" constant="24" id="4Sp-df-wrf"/>
+                                                    <constraint firstItem="jgY-h4-qPc" firstAttribute="top" secondItem="ftq-gy-Dk2" secondAttribute="bottom" constant="12" id="GcS-hQ-K92"/>
+                                                    <constraint firstAttribute="trailing" secondItem="jgY-h4-qPc" secondAttribute="trailing" constant="24" id="nBW-Lv-Axu"/>
+                                                    <constraint firstItem="jgY-h4-qPc" firstAttribute="leading" secondItem="lX8-A9-fHP" secondAttribute="leading" constant="24" id="p49-uc-nlF"/>
+                                                    <constraint firstItem="ftq-gy-Dk2" firstAttribute="top" secondItem="lX8-A9-fHP" secondAttribute="top" constant="32" id="s88-uN-K2O"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -343,6 +385,7 @@
                     </view>
                     <connections>
                         <outlet property="btnRateMovie" destination="avj-vR-RMs" id="oak-QX-7UO"/>
+                        <outlet property="collectionViewActors" destination="jgY-h4-qPc" id="fOG-wz-ePW"/>
                         <outlet property="ivBack" destination="iZk-F8-U6K" id="hSE-rD-UUH"/>
                     </connections>
                 </viewController>
@@ -433,6 +476,9 @@
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="play.circle.fill" catalog="system" width="128" height="121"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
+        <namedColor name="color_movie_show_bg">
+            <color red="0.125" green="0.14900000393390656" blue="0.20000000298023224" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
         <namedColor name="color_primary">
             <color red="0.082000002264976501" green="0.10999999940395355" blue="0.14100000262260437" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>

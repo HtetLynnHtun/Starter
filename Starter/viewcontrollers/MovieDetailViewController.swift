@@ -11,7 +11,8 @@ class MovieDetailViewController: UIViewController {
 
     @IBOutlet weak var ivBack: UIImageView!
     
-    //    @IBOutlet weak var collectionViewActors: UICollectionView!
+    @IBOutlet weak var collectionViewActors: UICollectionView!
+    
     @IBOutlet weak var btnRateMovie: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,9 +22,9 @@ class MovieDetailViewController: UIViewController {
         btnRateMovie.layer.borderWidth = 2
 
         initGestureRecognizers()
-//        collectionViewActors.dataSource = self
-//        collectionViewActors.delegate = self
-//        collectionViewActors.registerForCell(BestActorsCollectionViewCell.identifier)
+        collectionViewActors.dataSource = self
+        collectionViewActors.delegate = self
+        collectionViewActors.registerForCell(BestActorsCollectionViewCell.identifier)
     }
     
     func initGestureRecognizers() {
@@ -50,7 +51,7 @@ extension MovieDetailViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 2.5, height: 200)
+        return CGSize(width: collectionView.frame.width / 2.5, height: 220)
     }
     
 }
