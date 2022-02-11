@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="BestActorsCollectionViewCell" customModule="Starter" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="226" height="307"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="226" height="307"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eddie" translatesAutoresizingMaskIntoConstraints="NO" id="6KM-HX-Bk3">
+                        <rect key="frame" x="0.0" y="0.0" width="226" height="307"/>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="4pa-CC-O60">
+                        <rect key="frame" x="192" y="11.5" width="24" height="21.5"/>
+                        <color key="tintColor" name="color_yellow"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="24" id="OBC-5v-EoF"/>
+                            <constraint firstAttribute="height" constant="24" id="bVd-TM-tQE"/>
+                        </constraints>
+                    </imageView>
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="JgJ-m8-Vp9">
+                        <rect key="frame" x="192" y="11.5" width="24" height="21.5"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="Stt-tb-BXc"/>
+                            <constraint firstAttribute="width" constant="24" id="lMv-ff-T9w"/>
+                        </constraints>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand.thumbsup.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="89o-Ge-gYA">
+                        <rect key="frame" x="10" y="280.5" width="16" height="16"/>
+                        <color key="tintColor" name="color_yellow"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="16" id="ObK-ZB-Xu5"/>
+                            <constraint firstAttribute="height" constant="16" id="jkV-Xn-r3V"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YOU LIKES 15 MOVIES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="PeS-qu-ZBn">
+                        <rect key="frame" x="36" y="280.5" width="180" height="17.5"/>
+                        <fontDescription key="fontDescription" name="GeezaPro-Bold" family="Geeza Pro" pointSize="14"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Eddie Red" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2I6-8j-faK">
+                        <rect key="frame" x="10" y="251" width="206" height="20"/>
+                        <fontDescription key="fontDescription" name="GeezaPro" family="Geeza Pro" pointSize="16"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="JgJ-m8-Vp9" firstAttribute="leading" secondItem="4pa-CC-O60" secondAttribute="leading" id="16I-BS-TcX"/>
+                <constraint firstAttribute="trailing" secondItem="4pa-CC-O60" secondAttribute="trailing" constant="10" id="2nb-Od-LwI"/>
+                <constraint firstItem="89o-Ge-gYA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="5Xc-Ae-mwM"/>
+                <constraint firstItem="2I6-8j-faK" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="748-Ks-Jiq"/>
+                <constraint firstItem="89o-Ge-gYA" firstAttribute="top" secondItem="2I6-8j-faK" secondAttribute="bottom" constant="10" id="Bqe-Xm-gpO"/>
+                <constraint firstItem="6KM-HX-Bk3" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="HCj-3N-xZD"/>
+                <constraint firstItem="6KM-HX-Bk3" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Kgl-Sb-e0O"/>
+                <constraint firstAttribute="bottom" secondItem="89o-Ge-gYA" secondAttribute="bottom" constant="10" id="Nix-X2-ega"/>
+                <constraint firstAttribute="trailing" secondItem="2I6-8j-faK" secondAttribute="trailing" constant="10" id="PLn-X9-UW8"/>
+                <constraint firstItem="JgJ-m8-Vp9" firstAttribute="trailing" secondItem="4pa-CC-O60" secondAttribute="trailing" id="Q0b-qZ-Whw"/>
+                <constraint firstItem="4pa-CC-O60" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="R8r-1M-Q2R"/>
+                <constraint firstAttribute="trailing" secondItem="6KM-HX-Bk3" secondAttribute="trailing" id="bCp-YC-kal"/>
+                <constraint firstAttribute="trailing" secondItem="PeS-qu-ZBn" secondAttribute="trailing" constant="10" id="cBs-eQ-rSl"/>
+                <constraint firstItem="JgJ-m8-Vp9" firstAttribute="bottom" secondItem="4pa-CC-O60" secondAttribute="bottom" id="cfH-8n-Kfa"/>
+                <constraint firstItem="PeS-qu-ZBn" firstAttribute="leading" secondItem="89o-Ge-gYA" secondAttribute="trailing" constant="10" id="daQ-XZ-aE3"/>
+                <constraint firstAttribute="bottom" secondItem="6KM-HX-Bk3" secondAttribute="bottom" id="e5S-Bb-HvH"/>
+                <constraint firstItem="JgJ-m8-Vp9" firstAttribute="top" secondItem="4pa-CC-O60" secondAttribute="top" id="hwn-T8-83b"/>
+                <constraint firstItem="PeS-qu-ZBn" firstAttribute="centerY" secondItem="89o-Ge-gYA" secondAttribute="centerY" id="mBf-qx-in8"/>
+            </constraints>
+            <size key="customSize" width="226" height="307"/>
+            <connections>
+                <outlet property="ivHeart" destination="JgJ-m8-Vp9" id="YHm-zb-Hmx"/>
+                <outlet property="ivHeartFill" destination="4pa-CC-O60" id="RSn-et-BiR"/>
+            </connections>
+            <point key="canvasLocation" x="265.21739130434787" y="230.02232142857142"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="eddie" width="146.66667175292969" height="220"/>
+        <image name="hand.thumbsup.fill" catalog="system" width="128" height="121"/>
+        <image name="heart" catalog="system" width="128" height="109"/>
+        <image name="heart.fill" catalog="system" width="128" height="109"/>
+        <namedColor name="color_yellow">
+            <color red="0.99900001287460327" green="0.98600000143051147" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
