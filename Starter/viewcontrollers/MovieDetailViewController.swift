@@ -13,6 +13,7 @@ class MovieDetailViewController: UIViewController {
     
     @IBOutlet weak var collectionViewActors: UICollectionView!
     
+    @IBOutlet weak var collectionViewCreators: UICollectionView!
     @IBOutlet weak var btnRateMovie: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,9 +23,17 @@ class MovieDetailViewController: UIViewController {
         btnRateMovie.layer.borderWidth = 2
 
         initGestureRecognizers()
+        registerCollectionViewCells()
+    }
+    
+    func registerCollectionViewCells() {
         collectionViewActors.dataSource = self
         collectionViewActors.delegate = self
         collectionViewActors.registerForCell(BestActorsCollectionViewCell.identifier)
+        
+        collectionViewCreators.dataSource = self
+        collectionViewCreators.delegate = self
+        collectionViewCreators.registerForCell(BestActorsCollectionViewCell.identifier)
     }
     
     func initGestureRecognizers() {
