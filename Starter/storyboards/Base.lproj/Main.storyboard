@@ -238,8 +238,86 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fD6-Sd-qTF">
-                                                <rect key="frame" x="0.0" y="300" width="428" height="548"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <rect key="frame" x="0.0" y="300" width="428" height="208"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="MX8-Rg-TrL">
+                                                        <rect key="frame" x="24" y="16" width="380" height="192"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="STORYLINES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s2C-LX-UZk">
+                                                                <rect key="frame" x="0.0" y="0.0" width="380" height="0.0"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpM-Df-Dpl">
+                                                                <rect key="frame" x="0.0" y="10" width="380" height="122"/>
+                                                                <string key="text">n 1926, Newt Scamander arrives at the Magical Congress of the United States of America with a magically expanded briefcase, which houses a number of dangerous creatures and their habitats. When the creatures escape from the briefcase, it sends the American wizarding authorities after Newt, and threatens to strain even further the state of magical and non-magical relations.</string>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y5B-pa-eK0">
+                                                                <rect key="frame" x="0.0" y="142" width="380" height="50"/>
+                                                                <subviews>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jyf-3v-970">
+                                                                        <rect key="frame" x="0.0" y="10" width="140" height="40"/>
+                                                                        <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="140" id="YGd-yl-Mfq"/>
+                                                                            <constraint firstAttribute="height" constant="40" id="aTu-Ju-Mh4"/>
+                                                                        </constraints>
+                                                                        <state key="normal" title="Button"/>
+                                                                        <buttonConfiguration key="configuration" style="plain" image="play.circle" catalog="system" title="Play Trailer">
+                                                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        </buttonConfiguration>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                <integer key="value" value="20"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </button>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d4y-4a-OHk">
+                                                                        <rect key="frame" x="149" y="10" width="140" height="40"/>
+                                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="40" id="SbJ-yx-o8j"/>
+                                                                            <constraint firstAttribute="width" constant="140" id="ufr-RA-NDh"/>
+                                                                        </constraints>
+                                                                        <state key="normal" title="Button"/>
+                                                                        <buttonConfiguration key="configuration" style="plain" image="star.fill" catalog="system" title="Rate Movie">
+                                                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        </buttonConfiguration>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                <integer key="value" value="20"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </button>
+                                                                </subviews>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <constraints>
+                                                                    <constraint firstItem="Jyf-3v-970" firstAttribute="top" secondItem="Y5B-pa-eK0" secondAttribute="top" constant="10" id="F5T-xG-Blo"/>
+                                                                    <constraint firstItem="d4y-4a-OHk" firstAttribute="leading" secondItem="Jyf-3v-970" secondAttribute="trailing" constant="9" id="cd8-7Q-qJp"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="d4y-4a-OHk" secondAttribute="bottom" id="duc-zP-nvm"/>
+                                                                    <constraint firstItem="d4y-4a-OHk" firstAttribute="top" secondItem="Y5B-pa-eK0" secondAttribute="top" constant="10" id="fuc-Ya-02z"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="Jyf-3v-970" secondAttribute="bottom" id="oxR-KM-DDd"/>
+                                                                    <constraint firstItem="Jyf-3v-970" firstAttribute="leading" secondItem="Y5B-pa-eK0" secondAttribute="leading" id="tvl-jv-uVs"/>
+                                                                </constraints>
+                                                            </view>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" name="color_primary"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="MX8-Rg-TrL" secondAttribute="trailing" constant="24" id="HW7-nr-dl8"/>
+                                                    <constraint firstItem="MX8-Rg-TrL" firstAttribute="leading" secondItem="fD6-Sd-qTF" secondAttribute="leading" constant="24" id="JFL-tf-q59"/>
+                                                    <constraint firstItem="MX8-Rg-TrL" firstAttribute="top" secondItem="fD6-Sd-qTF" secondAttribute="top" constant="16" id="qbh-Kc-GtM"/>
+                                                    <constraint firstAttribute="bottom" secondItem="MX8-Rg-TrL" secondAttribute="bottom" id="sZv-32-mHN"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KfZ-Oz-5Op">
+                                                <rect key="frame" x="0.0" y="508" width="428" height="340"/>
+                                                <color key="backgroundColor" name="color_primary"/>
                                             </view>
                                         </subviews>
                                     </stackView>
@@ -263,6 +341,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnRateMovie" destination="d4y-4a-OHk" id="i69-J9-afl"/>
                         <outlet property="ivBack" destination="9hr-fU-XJR" id="qO8-hF-i6S"/>
                     </connections>
                 </viewController>
@@ -351,6 +430,8 @@
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="lineweight" catalog="system" width="128" height="110"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="play.circle" catalog="system" width="128" height="121"/>
+        <image name="star.fill" catalog="system" width="128" height="116"/>
         <namedColor name="color_primary">
             <color red="0.082000002264976501" green="0.10999999940395355" blue="0.14100000262260437" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>

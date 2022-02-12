@@ -18,8 +18,8 @@ class MovieDetailViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-//        btnRateMovie.layer.borderColor = CGColor.init(red: 255, green: 255, blue: 255, alpha: 1)
-//        btnRateMovie.layer.borderWidth = 2
+        btnRateMovie.layer.borderColor = CGColor.init(red: 255, green: 255, blue: 255, alpha: 1)
+        btnRateMovie.layer.borderWidth = 2
 
         initGestureRecognizers()
 //        collectionViewActors.dataSource = self
