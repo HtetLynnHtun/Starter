@@ -22,9 +22,9 @@ class MovieDetailViewController: UIViewController {
         btnRateMovie.layer.borderWidth = 2
 
         initGestureRecognizers()
-//        collectionViewActors.dataSource = self
-//        collectionViewActors.delegate = self
-//        collectionViewActors.registerForCell(BestActorsCollectionViewCell.identifier)
+        collectionViewActors.dataSource = self
+        collectionViewActors.delegate = self
+        collectionViewActors.registerForCell(BestActorsCollectionViewCell.identifier)
     }
     
     func initGestureRecognizers() {
@@ -51,7 +51,7 @@ extension MovieDetailViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 2.5, height: 220)
+        return CGSize(width: collectionView.frame.width / 2.5, height: 200)
     }
     
 }
