@@ -3,6 +3,7 @@
     <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -269,8 +270,16 @@
                                                                                     <constraint firstAttribute="width" constant="140" id="YGd-yl-Mfq"/>
                                                                                     <constraint firstAttribute="height" constant="40" id="aTu-Ju-Mh4"/>
                                                                                 </constraints>
+                                                                                <color key="tintColor" red="0.55423659420000004" green="1" blue="0.60950336640000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                                 <state key="normal" title="Button"/>
-                                                                                <buttonConfiguration key="configuration" style="plain" image="play.circle" catalog="system" title="Play Trailer">
+                                                                                <buttonConfiguration key="configuration" style="plain" title="Play Trailer" imagePadding="4">
+                                                                                    <imageReference key="image" image="play.circle" catalog="system" symbolScale="large" renderingMode="hierarchical-single">
+                                                                                        <hierarchicalColors>
+                                                                                            <color systemColor="systemGrayColor"/>
+                                                                                            <color systemColor="secondaryLabelColor"/>
+                                                                                            <color systemColor="tertiaryLabelColor"/>
+                                                                                        </hierarchicalColors>
+                                                                                    </imageReference>
                                                                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 </buttonConfiguration>
                                                                                 <userDefinedRuntimeAttributes>
@@ -287,7 +296,14 @@
                                                                                     <constraint firstAttribute="width" constant="140" id="ufr-RA-NDh"/>
                                                                                 </constraints>
                                                                                 <state key="normal" title="Button"/>
-                                                                                <buttonConfiguration key="configuration" style="plain" image="star.fill" catalog="system" title="Rate Movie">
+                                                                                <buttonConfiguration key="configuration" style="plain" title="Rate Movie" imagePadding="4">
+                                                                                    <imageReference key="image" image="star.fill" catalog="system" symbolScale="medium" renderingMode="hierarchical-single">
+                                                                                        <hierarchicalColors>
+                                                                                            <color name="color_yellow"/>
+                                                                                            <color systemColor="secondaryLabelColor"/>
+                                                                                            <color systemColor="tertiaryLabelColor"/>
+                                                                                        </hierarchicalColors>
+                                                                                    </imageReference>
                                                                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 </buttonConfiguration>
                                                                                 <userDefinedRuntimeAttributes>
@@ -565,6 +581,7 @@
                     <size key="freeformSize" width="500" height="1200"/>
                     <connections>
                         <outlet property="btnRateMovie" destination="d4y-4a-OHk" id="i69-J9-afl"/>
+                        <outlet property="buttonPlayTrailer" destination="Jyf-3v-970" id="nFd-7L-Bd1"/>
                         <outlet property="collectionViewActors" destination="lpu-da-ek9" id="dGI-eW-irf"/>
                         <outlet property="collectionViewCreators" destination="4xG-cf-Z8S" id="PQR-eA-cME"/>
                         <outlet property="ivBack" destination="9hr-fU-XJR" id="qO8-hF-i6S"/>
@@ -709,11 +726,23 @@
         <namedColor name="color_primary">
             <color red="0.082000002264976501" green="0.10999999940395355" blue="0.14100000262260437" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
+        <namedColor name="color_yellow">
+            <color red="0.99900001287460327" green="0.98600000143051147" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tertiaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

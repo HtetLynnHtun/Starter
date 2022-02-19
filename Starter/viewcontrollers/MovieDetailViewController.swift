@@ -13,12 +13,15 @@ class MovieDetailViewController: UIViewController {
     
     @IBOutlet weak var collectionViewActors: UICollectionView!
     
+    @IBOutlet weak var buttonPlayTrailer: UIButton!
     @IBOutlet weak var collectionViewCreators: UICollectionView!
     @IBOutlet weak var btnRateMovie: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        buttonPlayTrailer.tintColor = UIColor(named: "color_primary")
+        buttonPlayTrailer.imageView?.tintColor = UIColor(named: "color_primary")
         btnRateMovie.layer.borderColor = CGColor.init(red: 255, green: 255, blue: 255, alpha: 1)
         btnRateMovie.layer.borderWidth = 2
 
