@@ -16,6 +16,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     private let networkAgent = MovieDBNetworkAgent.shared
     private var upcomingMovieList: MovieListResponse?
     private var popularMovieList: MovieListResponse?
+    private var topRatedMovieList: MovieListResponse?
     private var movieGenreList: MovieGenreList?
     
     override func viewDidLoad() {
@@ -24,6 +25,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         fetchUpcomingMovieList()
         fetchPopularMovieList()
         fetchMovieGenreList()
+        fetchTopRatedMovieList()
     }
     
     func onTapMovie() {
@@ -58,6 +60,19 @@ class MovieViewController: UIViewController, MovieItemDelegate {
             self.popularMovieList = popularMovieList
             self.tableViewMovies.reloadSections(
                 IndexSet(integer: MovieType.MOVIE_POPULAR.rawValue),
+                with: .automatic
+            )
+        } failure: { error in
+            print(error)
+        }
+
+    }
+    
+    private func fetchTopRatedMovieList() {
+        networkAgent.getTopRatedMovieList { topRatedMovieList in
+            self.topRatedMovieList = topRatedMovieList
+            self.tableViewMovies.reloadSections(
+                IndexSet(integer: MovieType.MOIVE_SHOWCASE.rawValue),
                 with: .automatic
             )
         } failure: { error in
@@ -115,7 +130,9 @@ extension MovieViewController: UITableViewDataSource {
             cell.genreList = genreVOList
             return cell
             case MovieType.MOIVE_SHOWCASE.rawValue:
-                return tableView.dequeCell(identifier: ShowCaseTableViewCell.identifier, indexPath: indexPath)
+                let cell = tableView.dequeCell(identifier: ShowCaseTableViewCell.identifier, indexPath: indexPath) as! ShowCaseTableViewCell
+            cell.data = topRatedMovieList
+            return cell
             case MovieType.MOVIE_BESTACTOR.rawValue:
                 return tableView.dequeCell(identifier: BestActorTableViewCell.identifier, indexPath: indexPath)
             default:

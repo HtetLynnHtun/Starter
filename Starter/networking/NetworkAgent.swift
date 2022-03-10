@@ -65,5 +65,22 @@ struct MovieDBNetworkAgent {
                 }
             }
     }
+    
+    func getTopRatedMovieList(
+        success: @escaping (MovieListResponse) -> Void,
+        failure: @escaping (String) -> Void
+    ) {
+        let url = "\(AppConstants.baseURL)/movie/top_rated?api_key=\(AppConstants.apiKey)"
+        
+        AF.request(url)
+            .responseDecodable(of: MovieListResponse.self) { response in
+                switch response.result {
+                case .success(let movieListResponse):
+                    success(movieListResponse)
+                case .failure(let error):
+                    failure(error.errorDescription!)
+                }
+            }
+    }
 
 }

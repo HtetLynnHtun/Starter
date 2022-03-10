@@ -59,6 +59,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="collectionViewShowCase" destination="j3L-sc-sjO" id="Zm1-gc-qtq"/>
+                <outlet property="heightOfCollectionViewShowCase" destination="VS3-Ga-XOb" id="WVh-aJ-cpX"/>
                 <outlet property="labelMore" destination="9cB-Ne-4JE" id="gDr-GU-otE"/>
             </connections>
             <point key="canvasLocation" x="205.07246376811597" y="228.34821428571428"/>

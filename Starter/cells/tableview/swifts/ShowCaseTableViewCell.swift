@@ -11,6 +11,15 @@ class ShowCaseTableViewCell: UITableViewCell {
 
     @IBOutlet weak var labelMore: UILabel!
     @IBOutlet weak var collectionViewShowCase: UICollectionView!
+    @IBOutlet weak var heightOfCollectionViewShowCase: NSLayoutConstraint!
+    
+    var data: MovieListResponse? {
+        didSet {
+            if let _ = data {
+                collectionViewShowCase.reloadData()
+            }
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -19,6 +28,7 @@ class ShowCaseTableViewCell: UITableViewCell {
         labelMore.underlineText(text: "MORE SHOWCASES")
         
         registerCollectionViewCell()
+        setupHeights()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -32,19 +42,29 @@ class ShowCaseTableViewCell: UITableViewCell {
         collectionViewShowCase.delegate = self
         collectionViewShowCase.registerForCell(ShowCaseCollectionViewCell.identifier)
     }
+    
+    func setupHeights() {
+        let itemWidth = collectionViewShowCase.frame.width - 50
+        let itemHeight = (itemWidth / 16) * 9
+        heightOfCollectionViewShowCase.constant = itemHeight + 50
+    }
 }
 
 extension ShowCaseTableViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return data?.results?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeCell(identifier: ShowCaseCollectionViewCell.identifier, indexPath: indexPath)
+        let cell = collectionView.dequeCell(identifier: ShowCaseCollectionViewCell.identifier, indexPath: indexPath) as! ShowCaseCollectionViewCell
+        cell.data = data?.results?[indexPath.row]
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width - 50, height: 180)
+        let itemWidth = collectionViewShowCase.frame.width - 50
+        let itemHeight = (itemWidth / 16) * 9
+        return CGSize(width: itemWidth, height: itemHeight)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
