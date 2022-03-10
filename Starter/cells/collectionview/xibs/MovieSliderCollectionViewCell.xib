@@ -17,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="433" height="270"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backdrop" translatesAutoresizingMaskIntoConstraints="NO" id="0XS-aJ-aXA">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0XS-aJ-aXA">
                         <rect key="frame" x="0.0" y="0.0" width="433" height="270"/>
                     </imageView>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="MKb-tZ-iU5">
@@ -49,11 +49,14 @@
                 <constraint firstItem="0XS-aJ-aXA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="lxa-he-RKE"/>
             </constraints>
             <size key="customSize" width="433" height="270"/>
+            <connections>
+                <outlet property="imageViewBackdrop" destination="0XS-aJ-aXA" id="klI-Qp-91O"/>
+                <outlet property="labelContentTitle" destination="kS1-pW-f7u" id="UTr-QT-BsQ"/>
+            </connections>
             <point key="canvasLocation" x="415.21739130434787" y="185.49107142857142"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="backdrop" width="1280" height="720"/>
         <image name="play.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

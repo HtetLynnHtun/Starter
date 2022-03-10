@@ -13,9 +13,13 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     @IBOutlet weak var tableViewMovies: UITableView!
     @IBOutlet weak var viewForToolbar: UIView!
     
+    private let networkAgent = MovieDBNetworkAgent.shared
+    private var data: UpcomingMovieList?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         registerTableViewCells()
+        fetchUpcomingMovieList()
     }
     
     func onTapMovie() {
@@ -31,6 +35,19 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         tableViewMovies.registerForCell(GenreTableViewCell.identifier)
         tableViewMovies.registerForCell(ShowCaseTableViewCell.identifier)
         tableViewMovies.registerForCell(BestActorTableViewCell.identifier)
+    }
+    
+    private func fetchUpcomingMovieList() {
+        networkAgent.getUpcomingMovieList { upcomingMovieList in
+            self.data = upcomingMovieList
+            self.tableViewMovies.reloadSections(
+                IndexSet(integer: MovieType.MOVIE_SLIDER.rawValue),
+                with: .automatic
+            )
+        } failure: { error in
+            print(error)
+        }
+
     }
 }
 
@@ -48,6 +65,7 @@ extension MovieViewController: UITableViewDataSource {
             case MovieType.MOVIE_SLIDER.rawValue:
             let cell = tableView.dequeCell(identifier: MovieSliderTableViewCell.identifier, indexPath: indexPath) as MovieSliderTableViewCell
             cell.delegate = self
+            cell.data = data
             return cell
             
             case MovieType.MOVIE_POPULAR.rawValue:

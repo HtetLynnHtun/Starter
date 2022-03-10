@@ -13,6 +13,15 @@ class MovieSliderTableViewCell: UITableViewCell {
     @IBOutlet weak var collectionViewMovie: UICollectionView!
     var delegate: MovieItemDelegate? = nil
     
+    var data: UpcomingMovieList? {
+        didSet {
+            if let data = data {
+                pageControl.numberOfPages = data.results?.count ?? 0
+                collectionViewMovie.reloadData()
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -33,11 +42,14 @@ class MovieSliderTableViewCell: UITableViewCell {
 
 extension MovieSliderTableViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return data?.results?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeCell(identifier: MovieSliderCollectionViewCell.identifier, indexPath: indexPath)
+        let cell = collectionView.dequeCell(identifier: MovieSliderCollectionViewCell.identifier, indexPath: indexPath) as! MovieSliderCollectionViewCell
+        cell.data = data?.results?[indexPath.row]
+        
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -7,4 +7,5 @@ target 'Starter' do
 
   # Pods for Starter
   pod 'Alamofire', '~> 5.5'
+  pod 'SDWebImage', '~> 5.0'
 end
