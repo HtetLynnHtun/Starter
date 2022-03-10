@@ -11,8 +11,24 @@ class BestActorsCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var ivHeartFill: UIImageView!
     @IBOutlet weak var ivHeart: UIImageView!
+    @IBOutlet weak var imageProfile: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var departmentLabel: UILabel!
     
     var delegate: ActorActionDelegate? = nil
+    var data: ActorResult? {
+        didSet {
+            if let data = data {
+                let name = data.name
+                let department = data.knownForDepartment
+                let profilePath = "\(AppConstants.baseImageURL)/\(data.profilePath ?? "")"
+                
+                nameLabel.text = name
+                departmentLabel.text = department
+                imageProfile.sd_setImage(with: URL(string: profilePath))
+            }
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

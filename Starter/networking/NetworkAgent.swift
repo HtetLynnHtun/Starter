@@ -82,5 +82,22 @@ struct MovieDBNetworkAgent {
                 }
             }
     }
+    
+    func getPopularPeople(
+        success: @escaping (ActorListResponse) -> Void,
+        failure: @escaping (String) -> Void
+    ) {
+        let url = "\(AppConstants.baseURL)/person/popular?api_key=\(AppConstants.apiKey)"
+        
+        AF.request(url)
+            .responseDecodable(of: ActorListResponse.self) { response in
+                switch response.result {
+                case .success(let actorListResponse):
+                    success(actorListResponse)
+                case .failure(let error):
+                    failure(error.errorDescription!)
+                }
+            }
+    }
 
 }

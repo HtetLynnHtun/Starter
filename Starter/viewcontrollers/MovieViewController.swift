@@ -18,6 +18,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     private var popularMovieList: MovieListResponse?
     private var topRatedMovieList: MovieListResponse?
     private var movieGenreList: MovieGenreList?
+    private var popularPeople: ActorListResponse?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +27,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         fetchPopularMovieList()
         fetchMovieGenreList()
         fetchTopRatedMovieList()
+        fetchPopularPeople()
     }
     
     func onTapMovie() {
@@ -82,11 +84,23 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
     
     private func fetchMovieGenreList() {
-        
         networkAgent.getMovieGenreList { movieGenreList in
             self.movieGenreList = movieGenreList
             self.tableViewMovies.reloadSections(
                 IndexSet(integer: MovieType.MOVIE_GENRE.rawValue),
+                with: .automatic
+            )
+        } failure: { error in
+            print(error)
+        }
+
+    }
+    
+    private func fetchPopularPeople() {
+        networkAgent.getPopularPeople { actorListResponse in
+            self.popularPeople = actorListResponse
+            self.tableViewMovies.reloadSections(
+                IndexSet(integer: MovieType.MOVIE_BESTACTOR.rawValue),
                 with: .automatic
             )
         } failure: { error in
@@ -134,7 +148,9 @@ extension MovieViewController: UITableViewDataSource {
             cell.data = topRatedMovieList
             return cell
             case MovieType.MOVIE_BESTACTOR.rawValue:
-                return tableView.dequeCell(identifier: BestActorTableViewCell.identifier, indexPath: indexPath)
+                let cell = tableView.dequeCell(identifier: BestActorTableViewCell.identifier, indexPath: indexPath) as! BestActorTableViewCell
+            cell.data = popularPeople
+            return cell
             default:
                 return UITableViewCell()
             }

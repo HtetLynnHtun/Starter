@@ -12,6 +12,12 @@ class BestActorTableViewCell: UITableViewCell {
     @IBOutlet weak var labelMoreActors: UILabel!
     @IBOutlet weak var collectionViewBestActors: UICollectionView!
     
+    var data: ActorListResponse? {
+        didSet {
+            collectionViewBestActors.reloadData()
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -40,12 +46,13 @@ extension BestActorTableViewCell: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return data?.results?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeCell(identifier: BestActorsCollectionViewCell.identifier, indexPath: indexPath) as BestActorsCollectionViewCell
         cell.delegate = self
+        cell.data = data?.results?[indexPath.row]
         
         return cell
     }

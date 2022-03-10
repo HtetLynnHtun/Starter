@@ -81,8 +81,11 @@
             </constraints>
             <size key="customSize" width="226" height="307"/>
             <connections>
+                <outlet property="departmentLabel" destination="PeS-qu-ZBn" id="4Vg-Nc-htx"/>
+                <outlet property="imageProfile" destination="6KM-HX-Bk3" id="3zA-1d-Iue"/>
                 <outlet property="ivHeart" destination="JgJ-m8-Vp9" id="YHm-zb-Hmx"/>
                 <outlet property="ivHeartFill" destination="4pa-CC-O60" id="RSn-et-BiR"/>
+                <outlet property="nameLabel" destination="2I6-8j-faK" id="8Ky-Gz-bwQ"/>
             </connections>
             <point key="canvasLocation" x="265.21739130434787" y="230.02232142857142"/>
         </collectionViewCell>

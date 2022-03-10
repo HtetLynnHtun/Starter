@@ -23,6 +23,7 @@
 		4F6A572F27B3845E00F7A880 /* PopularFilmCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6A572D27B3845E00F7A880 /* PopularFilmCollectionViewCell.swift */; };
 		4F6A573027B3845E00F7A880 /* PopularFilmCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F6A572E27B3845E00F7A880 /* PopularFilmCollectionViewCell.xib */; };
 		4F75447F27D9D99600E6B84F /* MovieGenreList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F75447E27D9D99600E6B84F /* MovieGenreList.swift */; };
+		4F75448127DA272500E6B84F /* ActorListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F75448027DA272500E6B84F /* ActorListResponse.swift */; };
 		4F8821EE27B4DE7F0058A5F7 /* BestActorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8821EC27B4DE7F0058A5F7 /* BestActorTableViewCell.swift */; };
 		4F8821EF27B4DE7F0058A5F7 /* BestActorTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F8821ED27B4DE7F0058A5F7 /* BestActorTableViewCell.xib */; };
 		4F8821F227B4E2240058A5F7 /* BestActorsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8821F027B4E2240058A5F7 /* BestActorsCollectionViewCell.swift */; };
@@ -75,6 +76,7 @@
 		4F6A572D27B3845E00F7A880 /* PopularFilmCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularFilmCollectionViewCell.swift; sourceTree = "<group>"; };
 		4F6A572E27B3845E00F7A880 /* PopularFilmCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PopularFilmCollectionViewCell.xib; sourceTree = "<group>"; };
 		4F75447E27D9D99600E6B84F /* MovieGenreList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGenreList.swift; sourceTree = "<group>"; };
+		4F75448027DA272500E6B84F /* ActorListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorListResponse.swift; sourceTree = "<group>"; };
 		4F8821EC27B4DE7F0058A5F7 /* BestActorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestActorTableViewCell.swift; sourceTree = "<group>"; };
 		4F8821ED27B4DE7F0058A5F7 /* BestActorTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BestActorTableViewCell.xib; sourceTree = "<group>"; };
 		4F8821F027B4E2240058A5F7 /* BestActorsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestActorsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 			children = (
 				4FB3153B27D9A2F200510B07 /* MovieListResponse.swift */,
 				4F75447E27D9D99600E6B84F /* MovieGenreList.swift */,
+				4F75448027DA272500E6B84F /* ActorListResponse.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -499,6 +502,7 @@
 				4F94E92627B23E8800FAA2CD /* SampleCollectionViewCell.swift in Sources */,
 				4F417C7127AE8AC500724D0E /* MovieDetailViewController.swift in Sources */,
 				4FA3CF5827B5257200206582 /* MovieType.swift in Sources */,
+				4F75448127DA272500E6B84F /* ActorListResponse.swift in Sources */,
 				4FAF847C27B29DDD008F2F91 /* RatingControl.swift in Sources */,
 				4FF0855F27B3D2C400AF3F42 /* GenreVO.swift in Sources */,
 				4FB9C17B2794771D00746052 /* ViewController.swift in Sources */,
