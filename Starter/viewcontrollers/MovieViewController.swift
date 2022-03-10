@@ -16,12 +16,14 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     private let networkAgent = MovieDBNetworkAgent.shared
     private var upcomingMovieList: MovieListResponse?
     private var popularMovieList: MovieListResponse?
+    private var movieGenreList: MovieGenreList?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         registerTableViewCells()
         fetchUpcomingMovieList()
         fetchPopularMovieList()
+        fetchMovieGenreList()
     }
     
     func onTapMovie() {
@@ -63,6 +65,20 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         }
 
     }
+    
+    private func fetchMovieGenreList() {
+        
+        networkAgent.getMovieGenreList { movieGenreList in
+            self.movieGenreList = movieGenreList
+            self.tableViewMovies.reloadSections(
+                IndexSet(integer: MovieType.MOVIE_GENRE.rawValue),
+                with: .automatic
+            )
+        } failure: { error in
+            print(error)
+        }
+
+    }
 }
 
 extension MovieViewController: UITableViewDataSource {
@@ -91,7 +107,13 @@ extension MovieViewController: UITableViewDataSource {
             case MovieType.MOVIE_SHOWTIME.rawValue:
                 return tableView.dequeCell(identifier: MovieShowTimeTableViewCell.identifier, indexPath: indexPath)
             case MovieType.MOVIE_GENRE.rawValue:
-                return tableView.dequeCell(identifier: GenreTableViewCell.identifier, indexPath: indexPath)
+            let cell = tableView.dequeCell(identifier: GenreTableViewCell.identifier, indexPath: indexPath) as! GenreTableViewCell
+            let genreVOList = self.movieGenreList?.genres.map({ genre in
+                return genre.converToVO()
+            })
+            genreVOList?.first?.isSelected = true
+            cell.genreList = genreVOList
+            return cell
             case MovieType.MOIVE_SHOWCASE.rawValue:
                 return tableView.dequeCell(identifier: ShowCaseTableViewCell.identifier, indexPath: indexPath)
             case MovieType.MOVIE_BESTACTOR.rawValue:

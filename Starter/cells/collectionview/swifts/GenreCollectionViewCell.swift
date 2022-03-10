@@ -13,12 +13,12 @@ class GenreCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var labelGenre: UILabel!
     @IBOutlet weak var viewForOverLay: UIView!
     
-    var onTap: ((String) -> Void) = {_ in}
+    var onTap: ((Int) -> Void) = {_ in}
     
     var data: GenreVO? = nil {
         didSet {
             if let genre = data {
-                labelGenre.text = genre.name
+                labelGenre.text = genre.name.uppercased()
                 genre.isSelected ? (viewForOverLay.isHidden = false) : (viewForOverLay.isHidden = true)
             }
         }
@@ -32,7 +32,7 @@ class GenreCollectionViewCell: UICollectionViewCell {
     }
     
     @objc func didTapItem() {
-        onTap(data?.name ?? "")
+        onTap(data?.id ?? 0)
     }
 
 }

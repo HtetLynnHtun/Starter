@@ -48,5 +48,22 @@ struct MovieDBNetworkAgent {
             }
         
     }
+    
+    func getMovieGenreList(
+        success: @escaping (MovieGenreList) -> Void,
+        failure: @escaping (String) -> Void
+    ) {
+        let url = "\(AppConstants.baseURL)/genre/movie/list?api_key=\(AppConstants.apiKey)"
+        
+        AF.request(url)
+            .responseDecodable(of: MovieGenreList.self) { response in
+                switch response.result {
+                case .success(let movieGenreList):
+                    success(movieGenreList)
+                case .failure(let error):
+                    failure(error.errorDescription!)
+                }
+            }
+    }
 
 }

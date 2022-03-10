@@ -12,13 +12,15 @@ class GenreTableViewCell: UITableViewCell {
     @IBOutlet weak var collectionViewGenre: UICollectionView!
     @IBOutlet weak var collectionViewMovie: UICollectionView!
     
-    let genreList = [
-        GenreVO(name: "ACTION", isSelected: true),
-        GenreVO(name: "DRAMAAAAAAAAAAAAAAAA", isSelected: false),
-        GenreVO(name: "FANTASY", isSelected: false),
-        GenreVO(name: "CRIME", isSelected: false),
-        GenreVO(name: "COMEDY", isSelected: false),
-    ]
+    var genreList: [GenreVO]? {
+        didSet {
+            if let _ = genreList {
+                collectionViewGenre.reloadData()
+            }
+        }
+    }
+    var movieList: [MovieResult] = []
+    var movieListByGenre: [Int: [MovieResult]] = [:]
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -46,9 +48,9 @@ class GenreTableViewCell: UITableViewCell {
 extension GenreTableViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (collectionView == collectionViewMovie) {
-            return 10
+            return movieList.count
         }
-        return genreList.count
+        return genreList?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -57,10 +59,10 @@ extension GenreTableViewCell: UICollectionViewDataSource, UICollectionViewDelega
         }
         
         let cell = collectionView.dequeCell(identifier: GenreCollectionViewCell.identifier, indexPath: indexPath) as GenreCollectionViewCell
-        cell.data = genreList[indexPath.row]
-        cell.onTap = { genreName in
-            self.genreList.forEach { genreVO in
-                if (genreVO.name == genreName) {
+        cell.data = self.genreList?[indexPath.row]
+        cell.onTap = { genreId in
+            self.genreList?.forEach { genreVO in
+                if (genreVO.id == genreId) {
                     genreVO.isSelected = true
                 } else {
                     genreVO.isSelected = false
@@ -76,7 +78,7 @@ extension GenreTableViewCell: UICollectionViewDataSource, UICollectionViewDelega
             return CGSize(width: collectionView.frame.width / 3, height: 225)
         }
        
-        let width = sizeOfWidth(text: genreList[indexPath.row].name, font: UIFont(name: "Geeza Pro Regular", size: 14) ?? UIFont.systemFont(ofSize: 14)) + 20
+        let width = sizeOfWidth(text: genreList?[indexPath.row].name ?? "", font: UIFont(name: "Geeza Pro Regular", size: 14) ?? UIFont.systemFont(ofSize: 14)) + 20
         return CGSize(width: width, height: 45)
     }
     
