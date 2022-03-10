@@ -11,6 +11,11 @@ class PopularFilmTableViewCell: UITableViewCell {
 
     @IBOutlet weak var collectionViewMovies: UICollectionView!
     var delegate: MovieItemDelegate? = nil
+    var data: MovieListResponse? {
+        didSet {
+            collectionViewMovies.reloadData()
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,12 +39,14 @@ class PopularFilmTableViewCell: UITableViewCell {
 extension PopularFilmTableViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return self.data?.results?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeCell(identifier: PopularFilmCollectionViewCell.identifier, indexPath: indexPath)
-        }
+        let cell = collectionView.dequeCell(identifier: PopularFilmCollectionViewCell.identifier, indexPath: indexPath) as! PopularFilmCollectionViewCell
+        cell.data = self.data?.results?[indexPath.row]
+        return cell
+    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.onTapMovie()

@@ -14,13 +14,13 @@ struct MovieDBNetworkAgent {
     private init() { }
     
     func getUpcomingMovieList(
-        success: @escaping (UpcomingMovieList) -> Void,
+        success: @escaping (MovieListResponse) -> Void,
         failure: @escaping (String) -> Void
     ) {
         let url = "\(AppConstants.baseURL)/movie/upcoming?api_key=\(AppConstants.apiKey)"
         
         AF.request(url)
-            .responseDecodable(of: UpcomingMovieList.self) { response in
+            .responseDecodable(of: MovieListResponse.self) { response in
                 switch response.result {
                 case .success(let upcomingMovieList):
                     success(upcomingMovieList)
@@ -30,4 +30,23 @@ struct MovieDBNetworkAgent {
             }
         
     }
+    
+    func getPopularMovieList(
+        success: @escaping (MovieListResponse) -> Void,
+        failure: @escaping (String) -> Void
+    ) {
+        let url = "\(AppConstants.baseURL)/movie/popular?api_key=\(AppConstants.apiKey)"
+        
+        AF.request(url)
+            .responseDecodable(of: MovieListResponse.self) { response in
+                switch response.result {
+                case .success(let popularMovieList):
+                    success(popularMovieList)
+                case .failure(let error):
+                    failure(error.errorDescription!)
+                }
+            }
+        
+    }
+
 }

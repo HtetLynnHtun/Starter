@@ -14,12 +14,14 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     @IBOutlet weak var viewForToolbar: UIView!
     
     private let networkAgent = MovieDBNetworkAgent.shared
-    private var data: UpcomingMovieList?
+    private var upcomingMovieList: MovieListResponse?
+    private var popularMovieList: MovieListResponse?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         registerTableViewCells()
         fetchUpcomingMovieList()
+        fetchPopularMovieList()
     }
     
     func onTapMovie() {
@@ -39,9 +41,21 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     
     private func fetchUpcomingMovieList() {
         networkAgent.getUpcomingMovieList { upcomingMovieList in
-            self.data = upcomingMovieList
+            self.upcomingMovieList = upcomingMovieList
             self.tableViewMovies.reloadSections(
                 IndexSet(integer: MovieType.MOVIE_SLIDER.rawValue),
+                with: .automatic
+            )
+        } failure: { error in
+            print(error)
+        }
+    }
+    
+    private func fetchPopularMovieList() {
+        networkAgent.getPopularMovieList { popularMovieList in
+            self.popularMovieList = popularMovieList
+            self.tableViewMovies.reloadSections(
+                IndexSet(integer: MovieType.MOVIE_POPULAR.rawValue),
                 with: .automatic
             )
         } failure: { error in
@@ -65,12 +79,13 @@ extension MovieViewController: UITableViewDataSource {
             case MovieType.MOVIE_SLIDER.rawValue:
             let cell = tableView.dequeCell(identifier: MovieSliderTableViewCell.identifier, indexPath: indexPath) as MovieSliderTableViewCell
             cell.delegate = self
-            cell.data = data
+            cell.data = self.upcomingMovieList
             return cell
             
             case MovieType.MOVIE_POPULAR.rawValue:
             let cell = tableView.dequeCell(identifier: PopularFilmTableViewCell.identifier, indexPath: indexPath) as PopularFilmTableViewCell
             cell.delegate = self
+            cell.data = self.popularMovieList
             return cell
             
             case MovieType.MOVIE_SHOWTIME.rawValue:

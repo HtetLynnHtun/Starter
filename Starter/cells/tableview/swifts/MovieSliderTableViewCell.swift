@@ -13,7 +13,7 @@ class MovieSliderTableViewCell: UITableViewCell {
     @IBOutlet weak var collectionViewMovie: UICollectionView!
     var delegate: MovieItemDelegate? = nil
     
-    var data: UpcomingMovieList? {
+    var data: MovieListResponse? {
         didSet {
             if let data = data {
                 pageControl.numberOfPages = data.results?.count ?? 0

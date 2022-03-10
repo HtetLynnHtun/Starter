@@ -38,7 +38,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6o8-hu-EzF" customClass="RatingControl" customModule="Starter" customModuleProvider="target">
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6o8-hu-EzF" customClass="RatingControl" customModule="Starter" customModuleProvider="target">
                                 <rect key="frame" x="25" y="201.5" width="80" height="16"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="size" keyPath="starSize">
@@ -78,6 +78,12 @@
                 <constraint firstItem="iZk-BQ-l3a" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="z0b-yx-Fg3"/>
             </constraints>
             <size key="customSize" width="223" height="555"/>
+            <connections>
+                <outlet property="imageViewPoster" destination="tww-7O-pca" id="Rev-zM-eyG"/>
+                <outlet property="labelContentTitle" destination="Qb9-nh-uIM" id="SnJ-px-LgE"/>
+                <outlet property="labelRating" destination="kaU-XR-NNX" id="oWf-sp-Btc"/>
+                <outlet property="ratingStar" destination="6o8-hu-EzF" id="Kg0-Kf-7zR"/>
+            </connections>
             <point key="canvasLocation" x="261.59420289855075" y="264.50892857142856"/>
         </collectionViewCell>
     </objects>
