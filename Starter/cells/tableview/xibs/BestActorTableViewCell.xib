@@ -58,6 +58,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="collectionViewBestActors" destination="NVf-pV-Sfw" id="w5j-ae-jDZ"/>
+                <outlet property="heightOfCollectionViewBestActors" destination="ebc-JE-ppJ" id="Q02-4h-sin"/>
                 <outlet property="labelMoreActors" destination="D6P-Ud-1mb" id="le7-4J-Q4d"/>
             </connections>
             <point key="canvasLocation" x="231.15942028985509" y="282.25446428571428"/>

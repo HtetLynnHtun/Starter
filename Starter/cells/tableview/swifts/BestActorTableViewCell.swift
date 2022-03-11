@@ -11,6 +11,7 @@ class BestActorTableViewCell: UITableViewCell {
 
     @IBOutlet weak var labelMoreActors: UILabel!
     @IBOutlet weak var collectionViewBestActors: UICollectionView!
+    @IBOutlet weak var heightOfCollectionViewBestActors: NSLayoutConstraint!
     
     var data: ActorListResponse? {
         didSet {
@@ -24,6 +25,7 @@ class BestActorTableViewCell: UITableViewCell {
         labelMoreActors.underlineText(text: "MORE ACTORS")
         
         registerCollectionViewCell()
+        setupHeights()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -36,6 +38,12 @@ class BestActorTableViewCell: UITableViewCell {
         collectionViewBestActors.dataSource = self
         collectionViewBestActors.delegate = self
         collectionViewBestActors.registerForCell(BestActorsCollectionViewCell.identifier)
+    }
+    
+    private func setupHeights() {
+        let itemWidth = collectionViewBestActors.frame.width / 2.5
+        let itemHeight = itemWidth * 1.5
+        heightOfCollectionViewBestActors.constant = itemHeight
     }
 }
 
@@ -58,6 +66,8 @@ extension BestActorTableViewCell: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 2.5, height: 200)
+        let itemWidth = collectionView.frame.width / 2.5
+        let itemHeight = itemWidth * 1.5
+        return CGSize(width: itemWidth, height: itemHeight)
     }
 }

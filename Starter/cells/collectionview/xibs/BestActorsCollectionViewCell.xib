@@ -17,9 +17,13 @@
                 <rect key="frame" x="0.0" y="0.0" width="226" height="307"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eddie" translatesAutoresizingMaskIntoConstraints="NO" id="6KM-HX-Bk3">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eddie" translatesAutoresizingMaskIntoConstraints="NO" id="6KM-HX-Bk3">
                         <rect key="frame" x="0.0" y="0.0" width="226" height="307"/>
                     </imageView>
+                    <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eXE-Nf-klf" userLabel="Overlay">
+                        <rect key="frame" x="0.0" y="0.0" width="226" height="307"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="4pa-CC-O60">
                         <rect key="frame" x="192" y="11.5" width="24" height="21.5"/>
                         <color key="tintColor" name="color_yellow"/>
@@ -62,6 +66,7 @@
             <constraints>
                 <constraint firstItem="JgJ-m8-Vp9" firstAttribute="leading" secondItem="4pa-CC-O60" secondAttribute="leading" id="16I-BS-TcX"/>
                 <constraint firstAttribute="trailing" secondItem="4pa-CC-O60" secondAttribute="trailing" constant="10" id="2nb-Od-LwI"/>
+                <constraint firstItem="eXE-Nf-klf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="40d-YL-eoi"/>
                 <constraint firstItem="89o-Ge-gYA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="5Xc-Ae-mwM"/>
                 <constraint firstItem="2I6-8j-faK" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="748-Ks-Jiq"/>
                 <constraint firstItem="89o-Ge-gYA" firstAttribute="top" secondItem="2I6-8j-faK" secondAttribute="bottom" constant="10" id="Bqe-Xm-gpO"/>
@@ -71,6 +76,7 @@
                 <constraint firstAttribute="trailing" secondItem="2I6-8j-faK" secondAttribute="trailing" constant="10" id="PLn-X9-UW8"/>
                 <constraint firstItem="JgJ-m8-Vp9" firstAttribute="trailing" secondItem="4pa-CC-O60" secondAttribute="trailing" id="Q0b-qZ-Whw"/>
                 <constraint firstItem="4pa-CC-O60" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="R8r-1M-Q2R"/>
+                <constraint firstAttribute="bottom" secondItem="eXE-Nf-klf" secondAttribute="bottom" id="Sx2-P9-Pey"/>
                 <constraint firstAttribute="trailing" secondItem="6KM-HX-Bk3" secondAttribute="trailing" id="bCp-YC-kal"/>
                 <constraint firstAttribute="trailing" secondItem="PeS-qu-ZBn" secondAttribute="trailing" constant="10" id="cBs-eQ-rSl"/>
                 <constraint firstItem="JgJ-m8-Vp9" firstAttribute="bottom" secondItem="4pa-CC-O60" secondAttribute="bottom" id="cfH-8n-Kfa"/>
@@ -78,6 +84,8 @@
                 <constraint firstAttribute="bottom" secondItem="6KM-HX-Bk3" secondAttribute="bottom" id="e5S-Bb-HvH"/>
                 <constraint firstItem="JgJ-m8-Vp9" firstAttribute="top" secondItem="4pa-CC-O60" secondAttribute="top" id="hwn-T8-83b"/>
                 <constraint firstItem="PeS-qu-ZBn" firstAttribute="centerY" secondItem="89o-Ge-gYA" secondAttribute="centerY" id="mBf-qx-in8"/>
+                <constraint firstItem="eXE-Nf-klf" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="o5w-Xk-qmT"/>
+                <constraint firstAttribute="trailing" secondItem="eXE-Nf-klf" secondAttribute="trailing" id="umZ-9W-Zdm"/>
             </constraints>
             <size key="customSize" width="226" height="307"/>
             <connections>
