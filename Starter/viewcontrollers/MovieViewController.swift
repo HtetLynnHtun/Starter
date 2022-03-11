@@ -16,6 +16,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     private let networkAgent = MovieDBNetworkAgent.shared
     private var upcomingMovieList: MovieListResponse?
     private var popularMovieList: MovieListResponse?
+    private var popularSeriesList: SeriesListResponse?
     private var topRatedMovieList: MovieListResponse?
     private var movieGenreList: MovieGenreList?
     private var popularPeople: ActorListResponse?
@@ -25,6 +26,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         registerTableViewCells()
         fetchUpcomingMovieList()
         fetchPopularMovieList()
+        fetchPopularSeries()
         fetchMovieGenreList()
         fetchTopRatedMovieList()
         fetchPopularPeople()
@@ -39,6 +41,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         
         tableViewMovies.registerForCell(MovieSliderTableViewCell.identifier)
         tableViewMovies.registerForCell(PopularFilmTableViewCell.identifier)
+        tableViewMovies.registerForCell(PopularSeriesTableViewCell.identifier)
         tableViewMovies.registerForCell(MovieShowTimeTableViewCell.identifier)
         tableViewMovies.registerForCell(GenreTableViewCell.identifier)
         tableViewMovies.registerForCell(ShowCaseTableViewCell.identifier)
@@ -108,11 +111,24 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         }
 
     }
+    
+    private func fetchPopularSeries() {
+        networkAgent.getPopularSeries { seriesListResponse in
+            self.popularSeriesList = seriesListResponse
+            self.tableViewMovies.reloadSections(
+                IndexSet(integer: MovieType.SERIES_POPULAR.rawValue),
+                with: .automatic
+            )
+        } failure: { error in
+            print(error)
+        }
+
+    }
 }
 
 extension MovieViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
+        return 7
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -133,8 +149,15 @@ extension MovieViewController: UITableViewDataSource {
             cell.data = self.popularMovieList
             return cell
             
+            case MovieType.SERIES_POPULAR.rawValue:
+            let cell = tableView.dequeCell(identifier: PopularSeriesTableViewCell.identifier, indexPath: indexPath) as PopularSeriesTableViewCell
+//            cell.delegate = self
+            cell.data = self.popularSeriesList
+            return cell
+            
             case MovieType.MOVIE_SHOWTIME.rawValue:
                 return tableView.dequeCell(identifier: MovieShowTimeTableViewCell.identifier, indexPath: indexPath)
+            
             case MovieType.MOVIE_GENRE.rawValue:
             let cell = tableView.dequeCell(identifier: GenreTableViewCell.identifier, indexPath: indexPath) as! GenreTableViewCell
             let genreVOList = self.movieGenreList?.genres.map({ genre in
@@ -143,10 +166,12 @@ extension MovieViewController: UITableViewDataSource {
             genreVOList?.first?.isSelected = true
             cell.genreList = genreVOList
             return cell
+            
             case MovieType.MOIVE_SHOWCASE.rawValue:
                 let cell = tableView.dequeCell(identifier: ShowCaseTableViewCell.identifier, indexPath: indexPath) as! ShowCaseTableViewCell
             cell.data = topRatedMovieList
             return cell
+            
             case MovieType.MOVIE_BESTACTOR.rawValue:
                 let cell = tableView.dequeCell(identifier: BestActorTableViewCell.identifier, indexPath: indexPath) as! BestActorTableViewCell
             cell.data = popularPeople

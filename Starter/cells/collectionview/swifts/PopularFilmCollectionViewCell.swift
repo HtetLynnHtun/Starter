@@ -14,7 +14,7 @@ class PopularFilmCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var labelRating: UITextView!
     @IBOutlet weak var ratingStar: RatingControl!
     
-    var data: MovieResult? {
+    var data: MediaResult? {
         didSet {
             if let data = data {
                 let posterPath = "\(AppConstants.baseImageURL)/\(data.posterPath ?? "")"

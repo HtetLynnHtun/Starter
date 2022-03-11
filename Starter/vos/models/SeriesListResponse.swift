@@ -1,16 +1,16 @@
 //
-//  UpcomingMovieList.swift
+//  SeriesListResponse.swift
 //  Starter
 //
-//  Created by kira on 10/03/2022.
+//  Created by kira on 11/03/2022.
 //
 
 import Foundation
 
-// MARK: - MovieListResponse
-struct MovieListResponse: Codable {
+// MARK: - SeriesListResponse
+struct SeriesListResponse: Codable {
     let page: Int?
-    let results: [MovieResult]?
+    let results: [SeriesResult]?
     let totalPages, totalResults: Int?
 
     enum CodingKeys: String, CodingKey {
@@ -20,36 +20,35 @@ struct MovieListResponse: Codable {
     }
 }
 
-// MARK: - MovieResult
-struct MovieResult: Codable {
-    let adult: Bool?
-    let backdropPath: String?
+// MARK: - Result
+struct SeriesResult: Codable {
+    let backdropPath, firstAirDate: String?
     let genreIDS: [Int]?
     let id: Int?
+    let name: String?
+    let originCountry: [String]?
     let originalLanguage: String?
-    let originalTitle, overview: String?
+    let originalName, overview: String?
     let popularity: Double?
-    let posterPath, releaseDate, title: String?
-    let video: Bool?
+    let posterPath: String?
     let voteAverage: Double?
     let voteCount: Int?
 
     enum CodingKeys: String, CodingKey {
-        case adult
         case backdropPath = "backdrop_path"
+        case firstAirDate = "first_air_date"
         case genreIDS = "genre_ids"
-        case id
+        case id, name
+        case originCountry = "origin_country"
         case originalLanguage = "original_language"
-        case originalTitle = "original_title"
+        case originalName = "original_name"
         case overview, popularity
         case posterPath = "poster_path"
-        case releaseDate = "release_date"
-        case title, video
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
     }
     
     func toMediaResult() -> MediaResult {
-        return MediaResult(posterPath: self.posterPath, originalTitle: self.originalTitle, voteAverage: self.voteAverage)
+        return MediaResult(posterPath: self.posterPath, originalTitle: self.originalName, voteAverage: self.voteAverage)
     }
 }

@@ -117,4 +117,22 @@ struct MovieDBNetworkAgent {
                 }
             }
     }
+    
+    
+    func getPopularSeries(
+        success: @escaping (SeriesListResponse) -> Void,
+        failure: @escaping (String) -> Void
+    ) {
+        let url = "\(AppConstants.baseURL)/tv/popular?api_key=\(AppConstants.apiKey)"
+        
+        AF.request(url)
+            .responseDecodable(of: SeriesListResponse.self) { response in
+                switch response.result {
+                case .success(let seriesListResponse):
+                    success(seriesListResponse)
+                case .failure(let error):
+                    failure(error.errorDescription!)
+                }
+            }
+    }
 }
