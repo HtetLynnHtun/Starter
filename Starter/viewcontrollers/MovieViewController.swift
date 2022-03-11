@@ -30,8 +30,8 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         fetchPopularPeople()
     }
     
-    func onTapMovie() {
-        navigateToMovieDetailViewController()
+    func onTapMovie(id: Int) {
+        navigateToMovieDetailViewController(id: id)
     }
     
     private func registerTableViewCells () {

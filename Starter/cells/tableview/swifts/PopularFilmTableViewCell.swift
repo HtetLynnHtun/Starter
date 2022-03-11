@@ -49,7 +49,8 @@ extension PopularFilmTableViewCell: UICollectionViewDataSource, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.onTapMovie()
+        let movie = self.data?.results?[indexPath.row]
+        delegate?.onTapMovie(id: movie?.id ?? -1)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -100,4 +100,21 @@ struct MovieDBNetworkAgent {
             }
     }
 
+    func getMovieDetailsByID(
+        id: Int,
+        success: @escaping (MovieDetailResponse) -> Void,
+        failure: @escaping (String) -> Void
+    ) {
+        let url = "\(AppConstants.baseURL)/movie/\(id)?api_key=\(AppConstants.apiKey)"
+        
+        AF.request(url)
+            .responseDecodable(of: MovieDetailResponse.self) { response in
+                switch response.result {
+                case .success(let movieDetailResponse):
+                    success(movieDetailResponse)
+                case .failure(let error):
+                    failure(error.errorDescription!)
+                }
+            }
+    }
 }
