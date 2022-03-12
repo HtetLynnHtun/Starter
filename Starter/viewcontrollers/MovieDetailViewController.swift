@@ -35,6 +35,7 @@ class MovieDetailViewController: UIViewController {
     let networkAgent = MovieDBNetworkAgent.shared
     var movieId: Int = -1
     var productionCompanies = [ProductionCompany]()
+    var casts = [Cast]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +50,7 @@ class MovieDetailViewController: UIViewController {
         registerCollectionViewCells()
         setupHeights()
         fetchMovieDetails()
+        fetchCredits()
     }
     
     func registerCollectionViewCells() {
@@ -78,6 +80,16 @@ class MovieDetailViewController: UIViewController {
     private func fetchMovieDetails() {
         networkAgent.getMovieDetailsByID(id: movieId) { movieDetailResponse in
             self.bindData(movieDetailResponse)
+        } failure: { error in
+            print(error)
+        }
+
+    }
+    
+    private func fetchCredits() {
+        networkAgent.getMovieCredits(of: movieId) { creditsResponse in
+            self.casts = creditsResponse.cast ?? []
+            self.collectionViewActors.reloadData()
         } failure: { error in
             print(error)
         }
@@ -122,6 +134,8 @@ extension MovieDetailViewController: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (collectionView == collectionViewProductionCompanies) {
             return productionCompanies.count
+        } else if (collectionView == collectionViewActors) {
+            return casts.count
         }
         return 10
     }
@@ -132,6 +146,12 @@ extension MovieDetailViewController: UICollectionViewDataSource, UICollectionVie
                 return UICollectionViewCell()
             }
             cell.data = productionCompanies[indexPath.row]
+            return cell
+        } else if (collectionView == collectionViewActors) {
+            guard let cell = collectionView.dequeCell(identifier: BestActorsCollectionViewCell.identifier, indexPath: indexPath) as? BestActorsCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.data = casts[indexPath.row].toActorResult()
             return cell
         } else {
             guard let cell = collectionView.dequeCell(identifier: BestActorsCollectionViewCell.identifier, indexPath: indexPath) as? BestActorsCollectionViewCell else {
