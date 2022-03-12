@@ -53,10 +53,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="500" height="1200"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3BX-Aw-7R8">
-                                        <rect key="frame" x="0.0" y="0.0" width="500" height="1749"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="500" height="1799"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="OPX-XV-WLi">
-                                                <rect key="frame" x="0.0" y="0.0" width="500" height="1749"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="500" height="1799"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b7I-M9-Wgu">
                                                         <rect key="frame" x="0.0" y="0.0" width="500" height="300"/>
@@ -95,14 +95,14 @@
                                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
-                                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QMC-Tv-K65">
-                                                                                <rect key="frame" x="289.66666666666669" y="47.666666666666671" width="80" height="33"/>
+                                                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QMC-Tv-K65">
+                                                                                <rect key="frame" x="273" y="47.666666666666671" width="96.666666666666686" height="33"/>
                                                                                 <subviews>
-                                                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="82F-UF-w0a">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="80" height="33"/>
+                                                                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="82F-UF-w0a">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="96.666666666666671" height="67"/>
                                                                                         <subviews>
-                                                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gmi-vl-B0N" customClass="RatingControl" customModule="Starter" customModuleProvider="target">
-                                                                                                <rect key="frame" x="0.0" y="0.0" width="80" height="16"/>
+                                                                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gmi-vl-B0N" customClass="RatingControl" customModule="Starter" customModuleProvider="target">
+                                                                                                <rect key="frame" x="0.0" y="0.0" width="96.666666666666671" height="50"/>
                                                                                                 <userDefinedRuntimeAttributes>
                                                                                                     <userDefinedRuntimeAttribute type="size" keyPath="starSize">
                                                                                                         <size key="value" width="16" height="16"/>
@@ -115,8 +115,8 @@
                                                                                                     </userDefinedRuntimeAttribute>
                                                                                                 </userDefinedRuntimeAttributes>
                                                                                             </stackView>
-                                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="38876 VOTES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Xu2-1O-Jzh">
-                                                                                                <rect key="frame" x="0.0" y="16" width="80" height="17"/>
+                                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="38876 VOTES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Xu2-1O-Jzh">
+                                                                                                <rect key="frame" x="0.0" y="50" width="96.666666666666671" height="17"/>
                                                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                                 <nil key="highlightedColor"/>
@@ -548,19 +548,19 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tTH-Yf-qCW">
-                                                        <rect key="frame" x="0.0" y="1452.6666666666667" width="500" height="296.33333333333326"/>
+                                                        <rect key="frame" x="0.0" y="1452.6666666666667" width="500" height="346.33333333333326"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CREATORS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qU2-OR-eSk">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SIMILAR CONTENTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qU2-OR-eSk">
                                                                 <rect key="frame" x="24" y="32" width="452" height="20.333333333333329"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4xG-cf-Z8S">
-                                                                <rect key="frame" x="0.0" y="64.333333333333258" width="500" height="200"/>
+                                                                <rect key="frame" x="0.0" y="64.333333333333258" width="500" height="250"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="height" constant="200" id="FI6-DR-ieW"/>
+                                                                    <constraint firstAttribute="height" constant="250" id="FI6-DR-ieW"/>
                                                                 </constraints>
                                                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="24" minimumInteritemSpacing="24" id="ZQK-ON-mwv">
                                                                     <size key="itemSize" width="128" height="128"/>
@@ -570,7 +570,7 @@
                                                                 </collectionViewFlowLayout>
                                                                 <cells>
                                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="kEK-GA-Tpt">
-                                                                        <rect key="frame" x="24" y="36" width="128" height="128"/>
+                                                                        <rect key="frame" x="24" y="61" width="128" height="128"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="uoH-Fs-LxR">
                                                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
@@ -627,10 +627,9 @@
                         <outlet property="btnRateMovie" destination="d4y-4a-OHk" id="i69-J9-afl"/>
                         <outlet property="buttonPlayTrailer" destination="Jyf-3v-970" id="nFd-7L-Bd1"/>
                         <outlet property="collectionViewActors" destination="3Wp-l3-d1C" id="0Fm-Ma-U9h"/>
-                        <outlet property="collectionViewCreators" destination="4xG-cf-Z8S" id="PQR-eA-cME"/>
                         <outlet property="collectionViewProductionCompanies" destination="lpu-da-ek9" id="dRK-Pz-9NM"/>
+                        <outlet property="collectionViewSimilarContents" destination="4xG-cf-Z8S" id="PQR-eA-cME"/>
                         <outlet property="heightOfCollectionViewActors" destination="2sh-XR-rFn" id="e9J-XG-O08"/>
-                        <outlet property="heightOfCollectionViewCreators" destination="FI6-DR-ieW" id="fQY-bG-pAm"/>
                         <outlet property="imageBackdrop" destination="m6U-hT-OTZ" id="gcc-vW-oVb"/>
                         <outlet property="ivBack" destination="9hr-fU-XJR" id="qO8-hF-i6S"/>
                         <outlet property="labelOriginalTitle" destination="CCB-gT-oko" id="zZL-TW-HK7"/>

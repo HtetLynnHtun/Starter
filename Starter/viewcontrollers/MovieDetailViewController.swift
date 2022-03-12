@@ -13,9 +13,8 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var collectionViewActors: UICollectionView!
     @IBOutlet weak var collectionViewProductionCompanies: UICollectionView!
     @IBOutlet weak var buttonPlayTrailer: UIButton!
-    @IBOutlet weak var collectionViewCreators: UICollectionView!
+    @IBOutlet weak var collectionViewSimilarContents: UICollectionView!
     @IBOutlet weak var heightOfCollectionViewActors: NSLayoutConstraint!
-    @IBOutlet weak var heightOfCollectionViewCreators: NSLayoutConstraint!
     @IBOutlet weak var btnRateMovie: UIButton!
     
     @IBOutlet weak var labelTitle: UILabel!
@@ -36,6 +35,7 @@ class MovieDetailViewController: UIViewController {
     var movieId: Int = -1
     var productionCompanies = [ProductionCompany]()
     var casts = [Cast]()
+    var similarMovies = [MovieResult]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +51,7 @@ class MovieDetailViewController: UIViewController {
         setupHeights()
         fetchMovieDetails()
         fetchCredits()
+        fetchSimilarMovies()
     }
     
     func registerCollectionViewCells() {
@@ -58,9 +59,9 @@ class MovieDetailViewController: UIViewController {
         collectionViewActors.delegate = self
         collectionViewActors.registerForCell(BestActorsCollectionViewCell.identifier)
         
-        collectionViewCreators.dataSource = self
-        collectionViewCreators.delegate = self
-        collectionViewCreators.registerForCell(BestActorsCollectionViewCell.identifier)
+        collectionViewSimilarContents.dataSource = self
+        collectionViewSimilarContents.delegate = self
+        collectionViewSimilarContents.registerForCell(PopularFilmCollectionViewCell.identifier)
         
         collectionViewProductionCompanies.dataSource = self
         collectionViewProductionCompanies.delegate = self
@@ -93,7 +94,15 @@ class MovieDetailViewController: UIViewController {
         } failure: { error in
             print(error)
         }
-
+    }
+    
+    private func fetchSimilarMovies() {
+        networkAgent.getSimilarMovies(id: movieId) { movieListResponse in
+            self.similarMovies = movieListResponse.results ?? []
+            self.collectionViewSimilarContents.reloadData()
+        } failure: { error in
+            print(error)
+        }
     }
     
     private func bindData(_ data: MovieDetailResponse) {
@@ -126,7 +135,6 @@ class MovieDetailViewController: UIViewController {
         let itemWidth = collectionViewActors.frame.width / 2.5
         let itemHeight = itemWidth * 1.5
         heightOfCollectionViewActors.constant = itemHeight
-        heightOfCollectionViewCreators.constant = itemHeight
     }
 }
 
@@ -136,8 +144,9 @@ extension MovieDetailViewController: UICollectionViewDataSource, UICollectionVie
             return productionCompanies.count
         } else if (collectionView == collectionViewActors) {
             return casts.count
+        } else {
+            return similarMovies.count
         }
-        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -154,9 +163,10 @@ extension MovieDetailViewController: UICollectionViewDataSource, UICollectionVie
             cell.data = casts[indexPath.row].toActorResult()
             return cell
         } else {
-            guard let cell = collectionView.dequeCell(identifier: BestActorsCollectionViewCell.identifier, indexPath: indexPath) as? BestActorsCollectionViewCell else {
+            guard let cell = collectionView.dequeCell(identifier: PopularFilmCollectionViewCell.identifier, indexPath: indexPath) as? PopularFilmCollectionViewCell else {
                 return UICollectionViewCell()
             }
+            cell.data = similarMovies[indexPath.row].toMediaResult()
             return cell
         }
     }
@@ -166,9 +176,13 @@ extension MovieDetailViewController: UICollectionViewDataSource, UICollectionVie
             let itemWidth = 200
             let itemHeight = itemWidth
             return CGSize(width: itemWidth, height: itemHeight)
-        } else {
+        } else if (collectionView == collectionViewActors) {
             let itemWidth = collectionView.frame.width / 2.5
             let itemHeight = itemWidth * 1.5
+            return CGSize(width: itemWidth, height: itemHeight)
+        } else {
+            let itemWidth = 120.0
+            let itemHeight = collectionView.frame.height
             return CGSize(width: itemWidth, height: itemHeight)
         }
     }
