@@ -14,13 +14,31 @@ class GenreTableViewCell: UITableViewCell {
     
     var genreList: [GenreVO]? {
         didSet {
-            if let _ = genreList {
-                collectionViewGenre.reloadData()
-            }
+            genreList?.removeAll(where: { genreVO in
+                return movieListByGenre[genreVO.id] == nil
+            })
+            collectionViewGenre.reloadData()
+            onTapGenre(genreId: genreList?.first?.id ?? 0)
         }
     }
-    var movieList: [MovieResult] = []
-    var movieListByGenre: [Int: [MovieResult]] = [:]
+    var allMoviesAndSeries: Set<MediaResult>? {
+        didSet {
+            allMoviesAndSeries?.forEach({ mediaResult in
+                mediaResult.genreIDS?.forEach({ genreID in
+                    let key = genreID
+                    
+                    if var _ = movieListByGenre[key] {
+                        movieListByGenre[key]!.append(mediaResult)
+                    } else {
+                        movieListByGenre[key] = [mediaResult]
+                    }
+                })
+            })
+        }
+    }
+    
+    var selectedMovieList: [MediaResult]? = []
+    var movieListByGenre: [Int: [MediaResult]] = [:]
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -48,34 +66,44 @@ class GenreTableViewCell: UITableViewCell {
 extension GenreTableViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (collectionView == collectionViewMovie) {
-            return movieList.count
+            return selectedMovieList?.count ?? 0
         }
         return genreList?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if (collectionView == collectionViewMovie) {
-            return collectionView.dequeCell(identifier: PopularFilmCollectionViewCell.identifier, indexPath: indexPath)
+            let cell = collectionView.dequeCell(identifier: PopularFilmCollectionViewCell.identifier, indexPath: indexPath) as PopularFilmCollectionViewCell
+            cell.data = selectedMovieList?[indexPath.row]
+            return cell
+        } else {
+            let cell = collectionView.dequeCell(identifier: GenreCollectionViewCell.identifier, indexPath: indexPath) as GenreCollectionViewCell
+            cell.data = self.genreList?[indexPath.row]
+            cell.onTap = onTapGenre
+            return cell
         }
-        
-        let cell = collectionView.dequeCell(identifier: GenreCollectionViewCell.identifier, indexPath: indexPath) as GenreCollectionViewCell
-        cell.data = self.genreList?[indexPath.row]
-        cell.onTap = { genreId in
-            self.genreList?.forEach { genreVO in
-                if (genreVO.id == genreId) {
-                    genreVO.isSelected = true
-                } else {
-                    genreVO.isSelected = false
-                }
+    }
+    
+    private func onTapGenre(genreId: Int) {
+        self.genreList?.forEach { genreVO in
+            if (genreVO.id == genreId) {
+                genreVO.isSelected = true
+            } else {
+                genreVO.isSelected = false
             }
-            self.collectionViewGenre.reloadData()
         }
-        return cell
+        let moviesForCurrentGenre = self.movieListByGenre[genreId]
+        self.selectedMovieList = moviesForCurrentGenre
+        
+        self.collectionViewGenre.reloadData()
+        self.collectionViewMovie.reloadData()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if (collectionView == collectionViewMovie) {
-            return CGSize(width: collectionView.frame.width / 3, height: 225)
+            let itemWidth = 120.0
+            let itemHeight = collectionView.frame.height
+            return CGSize(width: itemWidth, height: itemHeight)
         }
        
         let width = sizeOfWidth(text: genreList?[indexPath.row].name ?? "", font: UIFont(name: "Geeza Pro Regular", size: 14) ?? UIFont.systemFont(ofSize: 14)) + 20

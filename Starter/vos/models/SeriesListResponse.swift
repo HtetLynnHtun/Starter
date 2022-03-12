@@ -49,6 +49,7 @@ struct SeriesResult: Codable {
     }
     
     func toMediaResult() -> MediaResult {
-        return MediaResult(posterPath: self.posterPath, originalTitle: self.originalName, voteAverage: self.voteAverage)
+        return MediaResult(id: self.id, posterPath: self.posterPath, originalTitle: self.originalName, voteAverage: self.voteAverage, genreIDS: self.genreIDS)
+        
     }
 }

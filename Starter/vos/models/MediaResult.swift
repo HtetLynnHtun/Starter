@@ -7,8 +7,10 @@
 
 import Foundation
 
-struct MediaResult {
+struct MediaResult: Hashable {
+    let id: Int?
     let posterPath: String?
     let originalTitle: String?
     let voteAverage: Double?
+    let genreIDS: [Int]?
 }

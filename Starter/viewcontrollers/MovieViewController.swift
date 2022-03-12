@@ -160,6 +160,18 @@ extension MovieViewController: UITableViewDataSource {
             
             case MovieType.MOVIE_GENRE.rawValue:
             let cell = tableView.dequeCell(identifier: GenreTableViewCell.identifier, indexPath: indexPath) as! GenreTableViewCell
+            var allMoviesAndSeries = Set<MediaResult>()
+            self.upcomingMovieList?.results?.forEach({ movieResult in
+                allMoviesAndSeries.insert(movieResult.toMediaResult())
+            })
+            self.popularMovieList?.results?.forEach({ movieResult in
+                allMoviesAndSeries.insert(movieResult.toMediaResult())
+            })
+            self.popularSeriesList?.results?.forEach({ seriesResult in
+                allMoviesAndSeries.insert(seriesResult.toMediaResult())
+            })
+            cell.allMoviesAndSeries = allMoviesAndSeries
+            
             let genreVOList = self.movieGenreList?.genres.map({ genre in
                 return genre.converToVO()
             })

@@ -54,6 +54,8 @@ extension PopularFilmTableViewCell: UICollectionViewDataSource, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 3, height: 225)
+        let itemWidth = 120.0
+        let itemHeight = collectionView.frame.height
+        return CGSize(width: itemWidth, height: itemHeight)
     }
 }

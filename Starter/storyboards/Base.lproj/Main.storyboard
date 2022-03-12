@@ -95,14 +95,14 @@
                                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
-                                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QMC-Tv-K65">
-                                                                                <rect key="frame" x="289.66666666666669" y="47.666666666666671" width="80" height="33"/>
+                                                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QMC-Tv-K65">
+                                                                                <rect key="frame" x="273" y="47.666666666666671" width="96.666666666666686" height="33"/>
                                                                                 <subviews>
-                                                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="82F-UF-w0a">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="80" height="33"/>
+                                                                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="82F-UF-w0a">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="96.666666666666671" height="67"/>
                                                                                         <subviews>
-                                                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gmi-vl-B0N" customClass="RatingControl" customModule="Starter" customModuleProvider="target">
-                                                                                                <rect key="frame" x="0.0" y="0.0" width="80" height="16"/>
+                                                                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gmi-vl-B0N" customClass="RatingControl" customModule="Starter" customModuleProvider="target">
+                                                                                                <rect key="frame" x="0.0" y="0.0" width="96.666666666666671" height="50"/>
                                                                                                 <userDefinedRuntimeAttributes>
                                                                                                     <userDefinedRuntimeAttribute type="size" keyPath="starSize">
                                                                                                         <size key="value" width="16" height="16"/>
@@ -115,8 +115,8 @@
                                                                                                     </userDefinedRuntimeAttribute>
                                                                                                 </userDefinedRuntimeAttributes>
                                                                                             </stackView>
-                                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="38876 VOTES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Xu2-1O-Jzh">
-                                                                                                <rect key="frame" x="0.0" y="16" width="80" height="17"/>
+                                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="38876 VOTES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Xu2-1O-Jzh">
+                                                                                                <rect key="frame" x="0.0" y="50" width="96.666666666666671" height="17"/>
                                                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                                 <nil key="highlightedColor"/>
