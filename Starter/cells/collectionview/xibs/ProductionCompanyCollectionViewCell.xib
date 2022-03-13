@@ -22,12 +22,8 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="de6-0r-VIz">
                                 <rect key="frame" x="0.0" y="0.0" width="196" height="169"/>
                             </imageView>
-                            <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="feh-9R-d3o">
-                                <rect key="frame" x="0.0" y="0.0" width="196" height="169"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yk9-zL-lkZ">
-                                <rect key="frame" x="8" y="141.5" width="180" height="19.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yk9-zL-lkZ">
+                                <rect key="frame" x="8" y="8" width="180" height="153"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -40,12 +36,9 @@
                             <constraint firstItem="de6-0r-VIz" firstAttribute="leading" secondItem="Fzz-zu-ueA" secondAttribute="leading" id="OGp-Y7-gv7"/>
                             <constraint firstAttribute="trailing" secondItem="Yk9-zL-lkZ" secondAttribute="trailing" constant="8" id="Pqc-Dh-BJb"/>
                             <constraint firstAttribute="trailing" secondItem="de6-0r-VIz" secondAttribute="trailing" id="Rmc-6c-pUk"/>
-                            <constraint firstItem="feh-9R-d3o" firstAttribute="top" secondItem="Fzz-zu-ueA" secondAttribute="top" id="XSp-7V-tB3"/>
+                            <constraint firstItem="Yk9-zL-lkZ" firstAttribute="top" secondItem="Fzz-zu-ueA" secondAttribute="top" constant="8" id="UNz-m6-ntW"/>
                             <constraint firstAttribute="bottom" secondItem="Yk9-zL-lkZ" secondAttribute="bottom" constant="8" id="dus-Vi-7W6"/>
                             <constraint firstItem="de6-0r-VIz" firstAttribute="top" secondItem="Fzz-zu-ueA" secondAttribute="top" id="fu5-E6-dHL"/>
-                            <constraint firstAttribute="bottom" secondItem="feh-9R-d3o" secondAttribute="bottom" id="hIO-Rz-aQC"/>
-                            <constraint firstItem="feh-9R-d3o" firstAttribute="leading" secondItem="Fzz-zu-ueA" secondAttribute="leading" id="rbu-qB-3b9"/>
-                            <constraint firstAttribute="trailing" secondItem="feh-9R-d3o" secondAttribute="trailing" id="zlD-8u-0BV"/>
                         </constraints>
                     </view>
                 </subviews>

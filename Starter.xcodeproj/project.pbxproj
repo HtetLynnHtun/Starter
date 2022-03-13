@@ -52,6 +52,9 @@
 		4FB3153C27D9A2F200510B07 /* MovieListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB3153B27D9A2F200510B07 /* MovieListResponse.swift */; };
 		4FB38BC727B2687200DDC98E /* MovieSliderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB38BC527B2687200DDC98E /* MovieSliderCollectionViewCell.swift */; };
 		4FB38BC827B2687200DDC98E /* MovieSliderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FB38BC627B2687200DDC98E /* MovieSliderCollectionViewCell.xib */; };
+		4FB80B4B27DD9500006B6BB9 /* TrailersResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB80B4A27DD9500006B6BB9 /* TrailersResponse.swift */; };
+		4FB80B4E27DD98E3006B6BB9 /* YoutubePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB80B4C27DD98E3006B6BB9 /* YoutubePlayerViewController.swift */; };
+		4FB80B4F27DD98E3006B6BB9 /* YoutubePlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FB80B4D27DD98E3006B6BB9 /* YoutubePlayerViewController.xib */; };
 		4FB9C1772794771D00746052 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB9C1762794771D00746052 /* AppDelegate.swift */; };
 		4FB9C1792794771D00746052 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB9C1782794771D00746052 /* SceneDelegate.swift */; };
 		4FB9C17B2794771D00746052 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB9C17A2794771D00746052 /* ViewController.swift */; };
@@ -113,6 +116,9 @@
 		4FB3153B27D9A2F200510B07 /* MovieListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListResponse.swift; sourceTree = "<group>"; };
 		4FB38BC527B2687200DDC98E /* MovieSliderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSliderCollectionViewCell.swift; sourceTree = "<group>"; };
 		4FB38BC627B2687200DDC98E /* MovieSliderCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieSliderCollectionViewCell.xib; sourceTree = "<group>"; };
+		4FB80B4A27DD9500006B6BB9 /* TrailersResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailersResponse.swift; sourceTree = "<group>"; };
+		4FB80B4C27DD98E3006B6BB9 /* YoutubePlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubePlayerViewController.swift; sourceTree = "<group>"; };
+		4FB80B4D27DD98E3006B6BB9 /* YoutubePlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YoutubePlayerViewController.xib; sourceTree = "<group>"; };
 		4FB9C1732794771D00746052 /* Starter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Starter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FB9C1762794771D00746052 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4FB9C1782794771D00746052 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -168,6 +174,8 @@
 				4FB9C17A2794771D00746052 /* ViewController.swift */,
 				4F417C7027AE8AC500724D0E /* MovieDetailViewController.swift */,
 				4F94E92227B23D2A00FAA2CD /* MovieViewController.swift */,
+				4FB80B4C27DD98E3006B6BB9 /* YoutubePlayerViewController.swift */,
+				4FB80B4D27DD98E3006B6BB9 /* YoutubePlayerViewController.xib */,
 			);
 			path = viewcontrollers;
 			sourceTree = "<group>";
@@ -331,6 +339,7 @@
 				4F7F109227DB5DE40088D3B2 /* SeriesListResponse.swift */,
 				4F7F109827DB60C00088D3B2 /* MediaResult.swift */,
 				4FF270E327DC7D9700137889 /* CreditsResponse.swift */,
+				4FB80B4A27DD9500006B6BB9 /* TrailersResponse.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -468,6 +477,7 @@
 				4FB9C17E2794771D00746052 /* Main.storyboard in Resources */,
 				4F8821F327B4E2240058A5F7 /* BestActorsCollectionViewCell.xib in Resources */,
 				4F5BFF1D27B3FE9000B10C1E /* ShowCaseTableViewCell.xib in Resources */,
+				4FB80B4F27DD98E3006B6BB9 /* YoutubePlayerViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -543,6 +553,7 @@
 				4F5BFF1C27B3FE9000B10C1E /* ShowCaseTableViewCell.swift in Sources */,
 				4F8821F227B4E2240058A5F7 /* BestActorsCollectionViewCell.swift in Sources */,
 				4F94E91A27B234D400FAA2CD /* Sample1TableViewCell.swift in Sources */,
+				4FB80B4E27DD98E3006B6BB9 /* YoutubePlayerViewController.swift in Sources */,
 				4F8821EE27B4DE7F0058A5F7 /* BestActorTableViewCell.swift in Sources */,
 				4F7F109927DB60C00088D3B2 /* MediaResult.swift in Sources */,
 				4F7F108927DB2E0B0088D3B2 /* MovieDetailResponse.swift in Sources */,
@@ -556,6 +567,7 @@
 				4FA3CF5527B4F67C00206582 /* ActorActionDelegate.swift in Sources */,
 				4FB9C1792794771D00746052 /* SceneDelegate.swift in Sources */,
 				4FB3153A27D9A18A00510B07 /* NetworkAgent.swift in Sources */,
+				4FB80B4B27DD9500006B6BB9 /* TrailersResponse.swift in Sources */,
 				4FB3153627D9A0B700510B07 /* AppConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

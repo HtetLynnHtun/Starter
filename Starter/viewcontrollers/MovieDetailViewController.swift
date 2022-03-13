@@ -36,11 +36,13 @@ class MovieDetailViewController: UIViewController {
     var productionCompanies = [ProductionCompany]()
     var casts = [Cast]()
     var similarMovies = [MovieResult]()
+    var trailers = [TrailerResult]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        buttonPlayTrailer.isHidden = true
         buttonPlayTrailer.tintColor = UIColor(named: "color_primary")
         buttonPlayTrailer.imageView?.tintColor = UIColor(named: "color_primary")
         btnRateMovie.layer.borderColor = CGColor.init(red: 255, green: 255, blue: 255, alpha: 1)
@@ -50,6 +52,7 @@ class MovieDetailViewController: UIViewController {
         registerCollectionViewCells()
         setupHeights()
         fetchMovieDetails()
+        fetchMovieTrailers()
         fetchCredits()
         fetchSimilarMovies()
     }
@@ -103,6 +106,27 @@ class MovieDetailViewController: UIViewController {
         } failure: { error in
             print(error)
         }
+    }
+    
+    private func fetchMovieTrailers() {
+        networkAgent.getMovieTrailers(id: movieId) { trailersResponse in
+            self.trailers = trailersResponse.results ?? []
+            if !self.trailers.isEmpty {
+                self.buttonPlayTrailer.isHidden = false
+            }
+        } failure: { error in
+            print(error)
+        }
+
+    }
+    
+    @IBAction func onTapTrailer(_ sender: UIButton) {
+        let youtubeId = trailers.first { trailerResult in
+            trailerResult.site == "YouTube"
+        }?.key
+        let playerVC = YoutubePlayerViewController()
+        playerVC.youtubeId = youtubeId
+        self.present(playerVC, animated: true)
     }
     
     private func bindData(_ data: MovieDetailResponse) {
@@ -173,7 +197,7 @@ extension MovieDetailViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if (collectionView == collectionViewProductionCompanies) {
-            let itemWidth = 200
+            let itemWidth = collectionView.frame.height
             let itemHeight = itemWidth
             return CGSize(width: itemWidth, height: itemHeight)
         } else if (collectionView == collectionViewActors) {

@@ -18,7 +18,13 @@ class ProductionCompanyCollectionViewCell: UICollectionViewCell {
                 print(data)
                 let logoPath = "\(AppConstants.baseImageURL)/\(data.logoPath ?? "")"
                 imageLogo.sd_setImage(with: URL(string: logoPath))
-                labelName.text = data.name
+                
+                if (data.logoPath == nil || data.logoPath!.isEmpty) {
+                    labelName.text = data.name
+                } else {
+                    labelName.text = ""
+                }
+                
             }
         }
     }
