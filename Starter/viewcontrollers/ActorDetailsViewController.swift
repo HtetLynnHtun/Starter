@@ -51,6 +51,9 @@ class ActorDetailsViewController: UIViewController {
     private func fetchCombinedCredits() {
         networkAgent.getCombinedCredits(of: actorID) { actorCreditsResponse in
             self.creditsData = actorCreditsResponse.results ?? []
+            self.creditsData.sort { first, second in
+                first.popularity ?? 0 > second.popularity ?? 0
+            }
             self.collectionViewCredits.reloadData()
         } failure: { error in
             print(error)
