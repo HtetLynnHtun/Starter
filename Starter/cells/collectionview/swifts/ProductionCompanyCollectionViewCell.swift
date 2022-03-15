@@ -15,7 +15,6 @@ class ProductionCompanyCollectionViewCell: UICollectionViewCell {
     var data: ProductionCompany? {
         didSet {
             if let data = data {
-                print(data)
                 let logoPath = "\(AppConstants.baseImageURL)/\(data.logoPath ?? "")"
                 imageLogo.sd_setImage(with: URL(string: logoPath))
                 

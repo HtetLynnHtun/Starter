@@ -13,4 +13,5 @@ struct MediaResult: Hashable {
     let originalTitle: String?
     let voteAverage: Double?
     let genreIDS: [Int]?
+    let contentType: DetailContentType
 }

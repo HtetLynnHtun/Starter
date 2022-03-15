@@ -58,7 +58,7 @@ extension MovieSliderTableViewCell: UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movie = data?.results?[indexPath.row]
-        delegate?.onTapMovie(id: movie?.id ?? -1);
+        delegate?.onTapMovie(id: movie?.id ?? -1, contentType: .movie);
     }
     
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {

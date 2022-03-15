@@ -32,10 +32,12 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var lableDescription: UILabel!
     
     let networkAgent = MovieDBNetworkAgent.shared
-    var movieId: Int = -1
+    var contentType: DetailContentType = .movie
+    var contentId: Int = -1
     var productionCompanies = [ProductionCompany]()
     var casts = [Cast]()
     var similarMovies = [MovieResult]()
+    var similarSeries = [SeriesResult]()
     var trailers = [TrailerResult]()
     
     override func viewDidLoad() {
@@ -51,10 +53,7 @@ class MovieDetailViewController: UIViewController {
         initGestureRecognizers()
         registerCollectionViewCells()
         setupHeights()
-        fetchMovieDetails()
-        fetchMovieTrailers()
-        fetchCredits()
-        fetchSimilarMovies()
+        fetchContentDetails()
     }
     
     func registerCollectionViewCells() {
@@ -81,8 +80,24 @@ class MovieDetailViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
+    private func fetchContentDetails() {
+        switch contentType {
+        case .movie:
+            fetchMovieDetails()
+            fetchMovieTrailers()
+            fetchCredits()
+            fetchSimilarMovies()
+        case .series:
+            fetchSeriesDetails()
+            fetchSeriesTrailers()
+            fetchSeriesCredits()
+            fetchSimilarSeriess()
+        }
+    }
+    
+    // ======================= Movie API =========================
     private func fetchMovieDetails() {
-        networkAgent.getMovieDetailsByID(id: movieId) { movieDetailResponse in
+        networkAgent.getMovieDetailsByID(id: contentId) { movieDetailResponse in
             self.bindData(movieDetailResponse)
         } failure: { error in
             print(error)
@@ -91,7 +106,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchCredits() {
-        networkAgent.getMovieCredits(of: movieId) { creditsResponse in
+        networkAgent.getMovieCredits(of: contentId) { creditsResponse in
             self.casts = creditsResponse.cast ?? []
             self.collectionViewActors.reloadData()
         } failure: { error in
@@ -100,7 +115,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchSimilarMovies() {
-        networkAgent.getSimilarMovies(id: movieId) { movieListResponse in
+        networkAgent.getSimilarMovies(id: contentId) { movieListResponse in
             self.similarMovies = movieListResponse.results ?? []
             self.collectionViewSimilarContents.reloadData()
         } failure: { error in
@@ -109,7 +124,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchMovieTrailers() {
-        networkAgent.getMovieTrailers(id: movieId) { trailersResponse in
+        networkAgent.getMovieTrailers(id: contentId) { trailersResponse in
             self.trailers = trailersResponse.results ?? []
             if !self.trailers.isEmpty {
                 self.buttonPlayTrailer.isHidden = false
@@ -120,6 +135,46 @@ class MovieDetailViewController: UIViewController {
 
     }
     
+    // ======================== Series API ===========================
+    private func fetchSeriesDetails() {
+        networkAgent.getSeriesDetailsByID(id: contentId) { seriesDetailResponse in
+            self.bindData(seriesDetailResponse)
+        } failure: { error in
+            print(error)
+        }
+
+    }
+    
+    private func fetchSeriesTrailers() {
+        networkAgent.getSeriesTrailers(id: contentId) { trailersResponse in
+            self.trailers = trailersResponse.results ?? []
+            if !self.trailers.isEmpty {
+                self.buttonPlayTrailer.isHidden = false
+            }
+        } failure: { error in
+            print(error)
+        }
+    }
+    
+    private func fetchSeriesCredits() {
+        networkAgent.getSeriesCredits(of: contentId) { creditsResponse in
+            self.casts = creditsResponse.cast ?? []
+            self.collectionViewActors.reloadData()
+        } failure: { error in
+            print(error)
+        }
+    }
+    
+    private func fetchSimilarSeriess() {
+        networkAgent.getSimilarSeries(id: contentId) { seriesListResponse in
+            self.similarSeries = seriesListResponse.results ?? []
+            self.collectionViewSimilarContents.reloadData()
+        } failure: { error in
+            print(error)
+        }
+    }
+    
+    // =================================================================
     @IBAction func onTapTrailer(_ sender: UIButton) {
         let youtubeId = trailers.first { trailerResult in
             trailerResult.site == "YouTube"
@@ -149,6 +204,26 @@ class MovieDetailViewController: UIViewController {
         lableDescription.text = data.overview
     }
     
+    private func bindData(_ data: SeriesDetailResponse) {
+        productionCompanies = data.productionCompanies ?? []
+        collectionViewProductionCompanies.reloadData()
+        
+        let backdropPath = "\(AppConstants.baseImageURL)/\(data.backdropPath ?? "")"
+        imageBackdrop.sd_setImage(with: URL(string: backdropPath))
+        labelTitle.text = data.name
+        labelReleaseYear.text = String(data.firstAirDate?.split(separator: "-")[0] ?? "")
+        labelVotes.text = "\(data.voteCount ?? 0) VOTES"
+        ratingStar.rating = Int((data.voteAverage ?? 0.0) * 0.5)
+        labelVoteAverage.text = "\(data.voteAverage ?? 0.0)"
+        labelRuntime.text = readableRuntime(data.episodeRunTime?.first ?? 0)
+        labelOverview.text = data.overview
+        labelOriginalTitle.text = data.originalName
+        labelType.text = data.genres?.map({ $0.name }).joined(separator: ", ")
+        labelProduction.text = data.productionCountries?.map({ $0.name ?? "" }).joined(separator: ", ")
+        labelReleaseDate.text = data.firstAirDate
+        lableDescription.text = data.overview
+    }
+    
     private func readableRuntime(_ time: Int) -> String{
         let hour = time / 60
         let minutes = time % 60
@@ -160,6 +235,18 @@ class MovieDetailViewController: UIViewController {
         let itemHeight = itemWidth * 1.5
         heightOfCollectionViewActors.constant = itemHeight
     }
+    
+    func onTapActor(id: Int) {
+        navigateToActorDetailsViewController(id: id)
+    }
+    
+    func onTapMovie(id: Int) {
+        navigateToMovieDetailViewController(id: id, contentType: .movie)
+    }
+    
+    func onTapSeries(id: Int) {
+        navigateToMovieDetailViewController(id: id, contentType: .series)
+    }
 }
 
 extension MovieDetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -169,7 +256,12 @@ extension MovieDetailViewController: UICollectionViewDataSource, UICollectionVie
         } else if (collectionView == collectionViewActors) {
             return casts.count
         } else {
-            return similarMovies.count
+            switch contentType {
+            case .movie:
+                return similarMovies.count
+            case .series:
+                return similarSeries.count
+            }
         }
     }
     
@@ -190,8 +282,30 @@ extension MovieDetailViewController: UICollectionViewDataSource, UICollectionVie
             guard let cell = collectionView.dequeCell(identifier: PopularFilmCollectionViewCell.identifier, indexPath: indexPath) as? PopularFilmCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.data = similarMovies[indexPath.row].toMediaResult()
+            switch contentType {
+            case .movie:
+                cell.data = similarMovies[indexPath.row].toMediaResult()
+            case .series:
+                cell.data = similarSeries[indexPath.row].toMediaResult()
+            }
+            
             return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if (collectionView == collectionViewActors) {
+            let actor = casts[indexPath.row]
+            onTapActor(id: actor.id ?? -1)
+        } else if (collectionView == collectionViewSimilarContents) {
+            switch contentType {
+            case .movie:
+                let movie = similarMovies[indexPath.row]
+                onTapMovie(id: movie.id ?? -1)
+            case .series:
+                let series = similarSeries[indexPath.row]
+                onTapSeries(id: series.id ?? -1)
+            }
         }
     }
     

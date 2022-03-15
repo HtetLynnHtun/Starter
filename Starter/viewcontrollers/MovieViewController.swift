@@ -24,6 +24,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerTableViewCells()
+        setupGestureRecognizers()
         fetchUpcomingMovieList()
         fetchPopularMovieList()
         fetchPopularSeries()
@@ -32,8 +33,19 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         fetchPopularPeople()
     }
     
-    func onTapMovie(id: Int) {
-        navigateToMovieDetailViewController(id: id)
+    func onTapMovie(id: Int, contentType: DetailContentType) {
+        navigateToMovieDetailViewController(id: id, contentType: contentType)
+    }
+    
+    func onTapActor(id: Int) {
+        navigateToActorDetailsViewController(id: id)
+    }
+    
+    func onTapMore(contentType: MoreContentType) {
+        let vc = MoreContentViewController()
+        vc.modalPresentationStyle = .automatic
+        vc.contentType = contentType
+        present(vc, animated: true)
     }
     
     private func registerTableViewCells () {
@@ -122,7 +134,18 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         } failure: { error in
             print(error)
         }
-
+    }
+    
+    private func setupGestureRecognizers() {
+        let searchTapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapSearch))
+        ivSearch.isUserInteractionEnabled = true
+        ivSearch.addGestureRecognizer(searchTapGesture)
+    }
+    
+    @objc private func onTapSearch() {
+        let vc = SearchViewController()
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
     }
 }
 
@@ -151,7 +174,7 @@ extension MovieViewController: UITableViewDataSource {
             
             case MovieType.SERIES_POPULAR.rawValue:
             let cell = tableView.dequeCell(identifier: PopularSeriesTableViewCell.identifier, indexPath: indexPath) as PopularSeriesTableViewCell
-//            cell.delegate = self
+            cell.delegate = self
             cell.data = self.popularSeriesList
             return cell
             
@@ -160,6 +183,7 @@ extension MovieViewController: UITableViewDataSource {
             
             case MovieType.MOVIE_GENRE.rawValue:
             let cell = tableView.dequeCell(identifier: GenreTableViewCell.identifier, indexPath: indexPath) as! GenreTableViewCell
+            cell.delegate = self
             var allMoviesAndSeries = Set<MediaResult>()
             self.upcomingMovieList?.results?.forEach({ movieResult in
                 allMoviesAndSeries.insert(movieResult.toMediaResult())
@@ -182,11 +206,15 @@ extension MovieViewController: UITableViewDataSource {
             case MovieType.MOIVE_SHOWCASE.rawValue:
                 let cell = tableView.dequeCell(identifier: ShowCaseTableViewCell.identifier, indexPath: indexPath) as! ShowCaseTableViewCell
             cell.data = topRatedMovieList
+            cell.delegate = self
+            cell.onTapMore = onTapMore
             return cell
             
             case MovieType.MOVIE_BESTACTOR.rawValue:
                 let cell = tableView.dequeCell(identifier: BestActorTableViewCell.identifier, indexPath: indexPath) as! BestActorTableViewCell
             cell.data = popularPeople
+            cell.onTapActor = onTapActor
+            cell.onTapMore = onTapMore
             return cell
             default:
                 return UITableViewCell()

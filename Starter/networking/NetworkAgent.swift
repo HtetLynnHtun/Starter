@@ -13,6 +13,26 @@ struct MovieDBNetworkAgent {
     
     private init() { }
     
+    func searchMoviesAndSeries(
+        query: String,
+        page: Int,
+        success: @escaping (SearchResponse) -> Void,
+        failure: @escaping (String) -> Void
+    ) {
+        let urlEncodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        let url = "\(AppConstants.baseURL)/search/multi?query=\(urlEncodedQuery ?? "")&page=\(page)&api_key=\(AppConstants.apiKey)"
+        
+        AF.request(url)
+            .responseDecodable(of: SearchResponse.self) { response in
+                switch response.result {
+                case .success(let searchResponse):
+                    success(searchResponse)
+                case .failure(let error):
+                    failure(error.errorDescription!)
+                }
+            }
+    }
+    
     func getUpcomingMovieList(
         success: @escaping (MovieListResponse) -> Void,
         failure: @escaping (String) -> Void
@@ -67,10 +87,11 @@ struct MovieDBNetworkAgent {
     }
     
     func getTopRatedMovieList(
+        page: Int = 1,
         success: @escaping (MovieListResponse) -> Void,
         failure: @escaping (String) -> Void
     ) {
-        let url = "\(AppConstants.baseURL)/movie/top_rated?api_key=\(AppConstants.apiKey)"
+        let url = "\(AppConstants.baseURL)/movie/top_rated?page=\(page)&api_key=\(AppConstants.apiKey)"
         
         AF.request(url)
             .responseDecodable(of: MovieListResponse.self) { response in
@@ -84,16 +105,53 @@ struct MovieDBNetworkAgent {
     }
     
     func getPopularPeople(
+        page: Int = 1,
         success: @escaping (ActorListResponse) -> Void,
         failure: @escaping (String) -> Void
     ) {
-        let url = "\(AppConstants.baseURL)/person/popular?api_key=\(AppConstants.apiKey)"
+        let url = "\(AppConstants.baseURL)/person/popular?page=\(page)&api_key=\(AppConstants.apiKey)"
         
         AF.request(url)
             .responseDecodable(of: ActorListResponse.self) { response in
                 switch response.result {
                 case .success(let actorListResponse):
                     success(actorListResponse)
+                case .failure(let error):
+                    failure(error.errorDescription!)
+                }
+            }
+    }
+    
+    func getPersonDetailsByID(
+        of id: Int,
+        success: @escaping (ActorDetailResponse) -> Void,
+        failure: @escaping (String) -> Void
+    ) {
+        let url = "\(AppConstants.baseURL)/person/\(id)?api_key=\(AppConstants.apiKey)"
+        
+        AF.request(url)
+            .responseDecodable(of: ActorDetailResponse.self) { response in
+                switch response.result {
+                case .success(let actorDetailResponse):
+                    success(actorDetailResponse)
+                case .failure(let error):
+                    failure(error.errorDescription!)
+                }
+            }
+    }
+    
+    func getCombinedCredits(
+        of id: Int,
+        success: @escaping (ActorCreditsResponse) -> Void,
+        failure: @escaping (String) -> Void
+    ) {
+        let url = "\(AppConstants.baseURL)/person/\(id)/combined_credits?api_key=\(AppConstants.apiKey)"
+        
+        AF.request(url)
+            .responseDecodable(of: ActorCreditsResponse.self) { response in
+                switch response.result {
+                case .success(let data):
+                    success(data)
                 case .failure(let error):
                     failure(error.errorDescription!)
                 }
@@ -175,6 +233,72 @@ struct MovieDBNetworkAgent {
                 switch response.result {
                 case .success(let trailersResponse):
                     success(trailersResponse)
+                case .failure(let error):
+                    failure(error.errorDescription!)
+                }
+            }
+    }
+    
+    
+    // =========================== Series API =================================
+    func getSeriesDetailsByID(
+        id: Int,
+        success: @escaping (SeriesDetailResponse) -> Void,
+        failure: @escaping (String) -> Void
+    ) {
+        let url = "\(AppConstants.baseURL)/tv/\(id)?api_key=\(AppConstants.apiKey)"
+        
+        AF.request(url)
+            .responseDecodable(of: SeriesDetailResponse.self) { response in
+                switch response.result {
+                case .success(let seriesDetailResponse):
+                    success(seriesDetailResponse)
+                case .failure(let error):
+                    failure(error.errorDescription!)
+                }
+            }
+    }
+    
+    func getSeriesTrailers(id: Int, success: @escaping (TrailersResponse) -> Void, failure: @escaping (String) -> Void) {
+        let url = "\(AppConstants.baseURL)/tv/\(id)/videos?api_key=\(AppConstants.apiKey)"
+        
+        AF.request(url)
+            .responseDecodable(of: TrailersResponse.self) { response in
+                switch response.result {
+                case .success(let trailersResponse):
+                    success(trailersResponse)
+                case .failure(let error):
+                    failure(error.errorDescription!)
+                }
+            }
+    }
+    
+    func getSeriesCredits(
+        of id: Int,
+        success: @escaping (CreditsResponse) -> Void,
+        failure: @escaping (String) -> Void
+    ) {
+        let url = "\(AppConstants.baseURL)/tv/\(id)/credits?api_key=\(AppConstants.apiKey)"
+        
+        AF.request(url)
+            .responseDecodable(of: CreditsResponse.self) { response in
+                switch response.result {
+                case .success(let creditsResponse):
+                    success(creditsResponse)
+                case .failure(let error):
+                    failure(error.errorDescription!)
+                }
+            }
+    }
+    
+    func getSimilarSeries(id: Int, success: @escaping (SeriesListResponse) -> Void, failure: @escaping (String) -> Void) {
+        let url = "\(AppConstants.baseURL)/tv/\(id)/similar?api_key=\(AppConstants.apiKey)"
+        
+        AF.request(url)
+            .responseDecodable(of: SeriesListResponse.self) { response in
+                switch response.result {
+                case .success(let seriesListResponse):
+                    success(seriesListResponse)
                 case .failure(let error):
                     failure(error.errorDescription!)
                 }

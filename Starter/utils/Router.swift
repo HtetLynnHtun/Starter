@@ -21,11 +21,20 @@ extension UIStoryboard {
 }
 
 extension UIViewController {
-    func navigateToMovieDetailViewController(id: Int) {
+    func navigateToMovieDetailViewController(id: Int, contentType: DetailContentType) {
         guard let vc = UIStoryboard.mainStoryBoard().instantiateViewController(withIdentifier: MovieDetailViewController.identifier) as?  MovieDetailViewController else {return}
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .flipHorizontal
-        vc.movieId = id
+        vc.contentType = contentType
+        vc.contentId = id
         present(vc, animated: true)
+    }
+    
+    func navigateToActorDetailsViewController(id: Int) {
+        let vc = ActorDetailsViewController()
+        vc.modalPresentationStyle = .automatic
+        vc.actorID = id
+        present(vc, animated: true)
+        
     }
 }

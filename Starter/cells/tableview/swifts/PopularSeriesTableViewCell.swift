@@ -11,6 +11,8 @@ class PopularSeriesTableViewCell: UITableViewCell {
     
     @IBOutlet weak var collectionViewSeries: UICollectionView!
     
+    var delegate: MovieItemDelegate?
+    
     var data: SeriesListResponse? {
         didSet {
             if let _ = data {
@@ -48,6 +50,11 @@ extension PopularSeriesTableViewCell: UICollectionViewDataSource, UICollectionVi
         let cell = collectionView.dequeCell(identifier: PopularFilmCollectionViewCell.identifier, indexPath: indexPath) as! PopularFilmCollectionViewCell
         cell.data = data?.results?[indexPath.row].toMediaResult()
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let series = data?.results?[indexPath.row].toMediaResult()
+        delegate?.onTapMovie(id: series?.id ?? -1, contentType: .series)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

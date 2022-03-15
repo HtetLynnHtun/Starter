@@ -15,9 +15,15 @@ class BestActorTableViewCell: UITableViewCell {
     
     var data: ActorListResponse? {
         didSet {
-            collectionViewBestActors.reloadData()
+            if let _ = data {
+                collectionViewBestActors.reloadData()
+                labelMoreActors.isUserInteractionEnabled = true
+            }
         }
     }
+    
+    var onTapMore: ((_ contentType: MoreContentType) -> Void) = {contentType in }
+    var onTapActor: ((_ id: Int) -> Void) = {id in}
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,6 +32,7 @@ class BestActorTableViewCell: UITableViewCell {
         
         registerCollectionViewCell()
         setupHeights()
+        setupGestureRecognizers()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -45,6 +52,15 @@ class BestActorTableViewCell: UITableViewCell {
         let itemHeight = itemWidth * 1.5
         heightOfCollectionViewBestActors.constant = itemHeight
     }
+    
+    private func setupGestureRecognizers() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTapMoreHandler))
+        labelMoreActors.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc private func onTapMoreHandler() {
+        onTapMore(.moreActors(data))
+    }
 }
 
 extension BestActorTableViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ActorActionDelegate {
@@ -63,6 +79,11 @@ extension BestActorTableViewCell: UICollectionViewDataSource, UICollectionViewDe
         cell.data = data?.results?[indexPath.row]
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let actor = data?.results?[indexPath.row]
+        onTapActor(actor?.id ?? -1)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

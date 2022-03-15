@@ -37,6 +37,7 @@ class GenreTableViewCell: UITableViewCell {
         }
     }
     
+    var delegate: MovieItemDelegate?
     var selectedMovieList: [MediaResult]? = []
     var movieListByGenre: [Int: [MediaResult]] = [:]
     
@@ -97,6 +98,11 @@ extension GenreTableViewCell: UICollectionViewDataSource, UICollectionViewDelega
         
         self.collectionViewGenre.reloadData()
         self.collectionViewMovie.reloadData()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let media = selectedMovieList?[indexPath.row]
+        delegate?.onTapMovie(id: media?.id ?? -1, contentType: media?.contentType ?? .movie)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

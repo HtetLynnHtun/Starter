@@ -17,17 +17,23 @@ class ShowCaseTableViewCell: UITableViewCell {
         didSet {
             if let _ = data {
                 collectionViewShowCase.reloadData()
+                labelMore.isUserInteractionEnabled = true
             }
         }
     }
+    
+    var delegate: MovieItemDelegate?
+    var onTapMore: ((_ contentType: MoreContentType) -> Void) = {contentType in }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
         labelMore.underlineText(text: "MORE SHOWCASES")
+        labelMore.isUserInteractionEnabled = false
         
         registerCollectionViewCell()
+        setupGestureRecognizers()
         setupHeights()
     }
 
@@ -47,6 +53,15 @@ class ShowCaseTableViewCell: UITableViewCell {
         let itemWidth = collectionViewShowCase.frame.width - 50
         let itemHeight = (itemWidth / 16) * 9
         heightOfCollectionViewShowCase.constant = itemHeight + 50
+    }
+    
+    private func setupGestureRecognizers() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTapMoreHandler))
+        labelMore.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc private func onTapMoreHandler() {
+        onTapMore(.moreMovies(data))
     }
 }
 
@@ -70,5 +85,10 @@ extension ShowCaseTableViewCell: UICollectionViewDataSource, UICollectionViewDel
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // get horizontal scroll indicator view and change it's  background
         scrollView.subviews.last?.subviews[0].backgroundColor = UIColor(named: "color_yellow")
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let media = data?.results?[indexPath.row]
+        delegate?.onTapMovie(id: media?.id ?? -1, contentType: .movie)
     }
 }
