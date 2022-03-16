@@ -5,15 +5,12 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchViewController" customModule="Starter" customModuleProvider="target">
             <connections>
-                <outlet property="buttonBack" destination="IYg-NN-l6a" id="C6B-yg-fb1"/>
                 <outlet property="collectionViewContent" destination="eml-mv-zRx" id="KFN-ep-S8t"/>
-                <outlet property="textFieldSearch" destination="DTa-gk-s2p" id="wQ4-yn-kOs"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,59 +19,8 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MR4-zZ-wI5" userLabel="Search Bar">
-                    <rect key="frame" x="0.0" y="44" width="414" height="40"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IYg-NN-l6a">
-                            <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="40" id="Aai-qk-2oL"/>
-                                <constraint firstAttribute="height" constant="40" id="Njk-Ec-7pv"/>
-                            </constraints>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="arrow.left" catalog="system">
-                                <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </buttonConfiguration>
-                            <connections>
-                                <action selector="onTapBack:" destination="-1" eventType="touchUpInside" id="9b2-vX-PUL"/>
-                            </connections>
-                        </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hjf-PS-iOk">
-                            <rect key="frame" x="40" y="0.0" width="362" height="40"/>
-                            <subviews>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DTa-gk-s2p">
-                                    <rect key="frame" x="0.0" y="0.0" width="362" height="40"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                    <textInputTraits key="textInputTraits" returnKeyType="search"/>
-                                </textField>
-                            </subviews>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            <constraints>
-                                <constraint firstItem="DTa-gk-s2p" firstAttribute="leading" secondItem="hjf-PS-iOk" secondAttribute="leading" id="Ko4-kQ-SEs"/>
-                                <constraint firstItem="DTa-gk-s2p" firstAttribute="top" secondItem="hjf-PS-iOk" secondAttribute="top" id="UDb-Eu-smH"/>
-                                <constraint firstAttribute="height" constant="40" id="bWo-Vf-ZQa"/>
-                                <constraint firstAttribute="bottom" secondItem="DTa-gk-s2p" secondAttribute="bottom" id="fc1-1g-b1V"/>
-                                <constraint firstAttribute="trailing" secondItem="DTa-gk-s2p" secondAttribute="trailing" id="kda-pC-j5I"/>
-                            </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                    <integer key="value" value="20"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </view>
-                    </subviews>
-                    <color key="backgroundColor" name="color_primary"/>
-                    <constraints>
-                        <constraint firstItem="IYg-NN-l6a" firstAttribute="top" secondItem="MR4-zZ-wI5" secondAttribute="top" id="Dvr-sZ-RtG"/>
-                        <constraint firstItem="IYg-NN-l6a" firstAttribute="leading" secondItem="MR4-zZ-wI5" secondAttribute="leading" id="IDS-g5-hI0"/>
-                        <constraint firstItem="hjf-PS-iOk" firstAttribute="leading" secondItem="IYg-NN-l6a" secondAttribute="trailing" id="cl6-ZP-KYW"/>
-                        <constraint firstItem="hjf-PS-iOk" firstAttribute="top" secondItem="MR4-zZ-wI5" secondAttribute="top" id="kgR-QC-1Id"/>
-                        <constraint firstAttribute="trailing" secondItem="hjf-PS-iOk" secondAttribute="trailing" constant="12" id="vDu-fw-yim"/>
-                        <constraint firstAttribute="height" constant="40" id="vFD-Du-hNR"/>
-                    </constraints>
-                </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="eml-mv-zRx">
-                    <rect key="frame" x="0.0" y="84" width="414" height="812"/>
+                    <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="12" minimumInteritemSpacing="12" id="kQZ-2s-CiT">
                         <size key="itemSize" width="128" height="128"/>
@@ -88,10 +34,7 @@
             <color key="backgroundColor" name="color_primary"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="eml-mv-zRx" secondAttribute="bottom" id="9wj-fh-Q2t"/>
-                <constraint firstItem="MR4-zZ-wI5" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="CeX-gJ-J2C"/>
-                <constraint firstItem="MR4-zZ-wI5" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="EBt-BY-iFN"/>
-                <constraint firstItem="eml-mv-zRx" firstAttribute="top" secondItem="MR4-zZ-wI5" secondAttribute="bottom" id="LFS-B2-mmq"/>
-                <constraint firstItem="MR4-zZ-wI5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="OTn-di-fq9"/>
+                <constraint firstItem="eml-mv-zRx" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="kve-Ec-BMR"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="eml-mv-zRx" secondAttribute="trailing" id="nz7-tE-vbb"/>
                 <constraint firstItem="eml-mv-zRx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="pnk-vx-yBK"/>
             </constraints>
@@ -99,12 +42,8 @@
         </view>
     </objects>
     <resources>
-        <image name="arrow.left" catalog="system" width="128" height="98"/>
         <namedColor name="color_primary">
             <color red="0.082000002264976501" green="0.10999999940395355" blue="0.14100000262260437" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

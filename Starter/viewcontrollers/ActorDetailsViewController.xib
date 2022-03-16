@@ -185,20 +185,6 @@
                         <constraint firstItem="3ol-l6-x1A" firstAttribute="leading" secondItem="Ha2-9K-x4Q" secondAttribute="leading" id="trw-mB-fi2"/>
                     </constraints>
                 </scrollView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wMw-V1-9O0">
-                    <rect key="frame" x="8" y="64" width="40" height="40"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="40" id="SQe-qq-VlO"/>
-                        <constraint firstAttribute="width" constant="40" id="vPc-eY-ZBl"/>
-                    </constraints>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" image="chevron.left" catalog="system">
-                        <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </buttonConfiguration>
-                    <connections>
-                        <action selector="onTapBack:" destination="-1" eventType="touchUpInside" id="ZKj-hV-RwN"/>
-                    </connections>
-                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -208,15 +194,12 @@
                 <constraint firstItem="FxQ-Ig-Guf" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.7" id="Vp1-Jc-GU3"/>
                 <constraint firstAttribute="bottom" secondItem="Ha2-9K-x4Q" secondAttribute="bottom" id="Yhu-2g-Ito"/>
                 <constraint firstAttribute="trailing" secondItem="Ha2-9K-x4Q" secondAttribute="trailing" id="cUZ-s5-KKs"/>
-                <constraint firstItem="wMw-V1-9O0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="h6C-sy-Y8m"/>
-                <constraint firstItem="wMw-V1-9O0" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="mnK-TU-FOK"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="10.869565217391305" y="59.263392857142854"/>
         </view>
     </objects>
     <resources>
-        <image name="chevron.left" catalog="system" width="96" height="128"/>
         <namedColor name="color_primary">
             <color red="0.082000002264976501" green="0.10999999940395355" blue="0.14100000262260437" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>

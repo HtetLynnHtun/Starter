@@ -62,6 +62,7 @@ class ActorDetailsViewController: UIViewController {
     }
     
     private func bindData(_ data: ActorDetailResponse) {
+        navigationItem.title = data.name ?? ""
         labelName.text = data.name ?? ""
         labelBirthday.text = data.birthday ?? ""
         labelBiography.text = data.biography ?? ""
@@ -80,10 +81,6 @@ class ActorDetailsViewController: UIViewController {
             let url = URL(string: homepageUrl)!
             UIApplication.shared.open(url)
         }
-    }
-
-    @IBAction func onTapBack(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
     }
     
     private func onTapItem(id: Int, contentType: DetailContentType) {

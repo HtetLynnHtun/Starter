@@ -9,7 +9,6 @@ import UIKit
 
 class MovieDetailViewController: UIViewController {
 
-    @IBOutlet weak var ivBack: UIImageView!
     @IBOutlet weak var collectionViewActors: UICollectionView!
     @IBOutlet weak var collectionViewProductionCompanies: UICollectionView!
     @IBOutlet weak var buttonPlayTrailer: UIButton!
@@ -50,7 +49,6 @@ class MovieDetailViewController: UIViewController {
         btnRateMovie.layer.borderColor = CGColor.init(red: 255, green: 255, blue: 255, alpha: 1)
         btnRateMovie.layer.borderWidth = 2
 
-        initGestureRecognizers()
         registerCollectionViewCells()
         setupHeights()
         fetchContentDetails()
@@ -68,16 +66,6 @@ class MovieDetailViewController: UIViewController {
         collectionViewProductionCompanies.dataSource = self
         collectionViewProductionCompanies.delegate = self
         collectionViewProductionCompanies.registerForCell(ProductionCompanyCollectionViewCell.identifier)
-    }
-    
-    func initGestureRecognizers() {
-        let tapGestureForBack = UITapGestureRecognizer(target: self, action: #selector(onTapBack))
-        ivBack.isUserInteractionEnabled = true
-        ivBack.addGestureRecognizer(tapGestureForBack)
-    }
-    
-    @objc func onTapBack() {
-        self.dismiss(animated: true)
     }
     
     private func fetchContentDetails() {
@@ -198,6 +186,7 @@ class MovieDetailViewController: UIViewController {
         labelRuntime.text = readableRuntime(data.runtime ?? 0)
         labelOverview.text = data.overview
         labelOriginalTitle.text = data.originalTitle
+        navigationItem.title = data.originalTitle
         labelType.text = data.genres?.map({ $0.name }).joined(separator: ", ")
         labelProduction.text = data.productionCountries?.map({ $0.name ?? "" }).joined(separator: ", ")
         labelReleaseDate.text = data.releaseDate

@@ -8,10 +8,7 @@
 import UIKit
 
 class MovieViewController: UIViewController, MovieItemDelegate {
-    @IBOutlet weak var ivSearch: UIImageView!
-    @IBOutlet weak var ivMenu: UIImageView!
     @IBOutlet weak var tableViewMovies: UITableView!
-    @IBOutlet weak var viewForToolbar: UIView!
     
     private let networkAgent = MovieDBNetworkAgent.shared
     private var upcomingMovieList: MovieListResponse?
@@ -23,8 +20,9 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "")
         registerTableViewCells()
-        setupGestureRecognizers()
         fetchUpcomingMovieList()
         fetchPopularMovieList()
         fetchPopularSeries()
@@ -42,10 +40,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
     
     func onTapMore(contentType: MoreContentType) {
-        let vc = MoreContentViewController()
-        vc.modalPresentationStyle = .automatic
-        vc.contentType = contentType
-        present(vc, animated: true)
+        navigateToMoreContentViewController(contentType: contentType)
     }
     
     private func registerTableViewCells () {
@@ -136,16 +131,8 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         }
     }
     
-    private func setupGestureRecognizers() {
-        let searchTapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapSearch))
-        ivSearch.isUserInteractionEnabled = true
-        ivSearch.addGestureRecognizer(searchTapGesture)
-    }
-    
-    @objc private func onTapSearch() {
-        let vc = SearchViewController()
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true, completion: nil)
+    @IBAction func onTapSearch(_ sender: UIBarButtonItem) {
+        navigateToSearchViewController()
     }
 }
 

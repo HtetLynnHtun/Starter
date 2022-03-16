@@ -9,9 +9,9 @@ import UIKit
 
 class SearchViewController: UIViewController, MovieItemDelegate {
     
-    @IBOutlet weak var buttonBack: UIButton!
-    @IBOutlet weak var textFieldSearch: UITextField!
     @IBOutlet weak var collectionViewContent: UICollectionView!
+    
+    var searchBar = UISearchBar()
     
     let networkAgent = MovieDBNetworkAgent.shared
     var data = [SearchResult] ()
@@ -22,18 +22,20 @@ class SearchViewController: UIViewController, MovieItemDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        textFieldSearch.delegate = self
+        setupSearchBar()
         registerCells()
+    }
+    
+    private func setupSearchBar() {
+        searchBar.delegate = self
+        searchBar.placeholder = "Search..."
+        navigationItem.titleView = searchBar
     }
     
     private func registerCells() {
         collectionViewContent.dataSource = self
         collectionViewContent.delegate = self
         collectionViewContent.registerForCell(PopularFilmCollectionViewCell.identifier)
-    }
-
-    @IBAction func onTapBack(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
     }
     
     private func startSearching(query: String, page: Int) {
@@ -61,11 +63,13 @@ class SearchViewController: UIViewController, MovieItemDelegate {
     
 }
 
-extension SearchViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        let query = textField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        startSearching(query: query, page: 1)
-        return textField.resignFirstResponder()
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+        if var query = searchBar.text {
+            query = query.trimmingCharacters(in: .whitespacesAndNewlines)
+            startSearching(query: query, page: 1)
+        }
     }
 }
 

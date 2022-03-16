@@ -27,14 +27,25 @@ extension UIViewController {
         vc.modalTransitionStyle = .flipHorizontal
         vc.contentType = contentType
         vc.contentId = id
-        present(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func navigateToSearchViewController() {
+        let vc = SearchViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func navigateToActorDetailsViewController(id: Int) {
         let vc = ActorDetailsViewController()
         vc.modalPresentationStyle = .automatic
         vc.actorID = id
-        present(vc, animated: true)
-        
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func navigateToMoreContentViewController(contentType: MoreContentType) {
+        let vc = MoreContentViewController()
+        vc.modalPresentationStyle = .automatic
+        vc.contentType = contentType
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
