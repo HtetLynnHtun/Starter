@@ -37,7 +37,7 @@ class GenreTableViewCell: UITableViewCell {
         }
     }
     
-    var delegate: MovieItemDelegate?
+    self var delegate: MovieItemDelegate?
     var selectedMovieList: [MediaResult]? = []
     var movieListByGenre: [Int: [MediaResult]] = [:]
     

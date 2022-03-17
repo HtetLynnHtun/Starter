@@ -22,7 +22,7 @@ class ShowCaseTableViewCell: UITableViewCell {
         }
     }
     
-    var delegate: MovieItemDelegate?
+    weak var delegate: MovieItemDelegate?
     var onTapMore: ((_ contentType: MoreContentType) -> Void) = {contentType in }
     
     override func awakeFromNib() {

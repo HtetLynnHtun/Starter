@@ -11,7 +11,7 @@ class PopularSeriesTableViewCell: UITableViewCell {
     
     @IBOutlet weak var collectionViewSeries: UICollectionView!
     
-    var delegate: MovieItemDelegate?
+    weak var delegate: MovieItemDelegate?
     
     var data: SeriesListResponse? {
         didSet {

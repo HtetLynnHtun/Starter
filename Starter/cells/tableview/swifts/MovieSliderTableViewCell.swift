@@ -11,7 +11,7 @@ class MovieSliderTableViewCell: UITableViewCell {
 
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var collectionViewMovie: UICollectionView!
-    var delegate: MovieItemDelegate? = nil
+    weak var delegate: MovieItemDelegate? = nil
     
     var data: MovieListResponse? {
         didSet {

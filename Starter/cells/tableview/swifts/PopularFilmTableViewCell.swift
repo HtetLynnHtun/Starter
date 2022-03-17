@@ -10,7 +10,7 @@ import UIKit
 class PopularFilmTableViewCell: UITableViewCell {
 
     @IBOutlet weak var collectionViewMovies: UICollectionView!
-    var delegate: MovieItemDelegate? = nil
+    weak var delegate: MovieItemDelegate? = nil
     var data: MovieListResponse? {
         didSet {
             collectionViewMovies.reloadData()

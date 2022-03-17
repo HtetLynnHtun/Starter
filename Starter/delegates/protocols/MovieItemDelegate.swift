@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol MovieItemDelegate {
+protocol MovieItemDelegate: class {
     func onTapMovie(id: Int, contentType: DetailContentType)
 }

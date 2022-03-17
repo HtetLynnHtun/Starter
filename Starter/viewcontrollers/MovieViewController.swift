@@ -56,7 +56,8 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
     
     private func fetchUpcomingMovieList() {
-        networkAgent.getUpcomingMovieList { result in
+        networkAgent.getUpcomingMovieList { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let upcomingMovieList):
                 self.upcomingMovieList = upcomingMovieList
@@ -71,7 +72,8 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
     
     private func fetchPopularMovieList() {
-        networkAgent.getPopularMovieList { result in
+        networkAgent.getPopularMovieList { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let popularMovieList):
                 self.popularMovieList = popularMovieList
@@ -86,7 +88,8 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
     
     private func fetchTopRatedMovieList() {
-        networkAgent.getTopRatedMovieList { result in
+        networkAgent.getTopRatedMovieList { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let topRatedMovieList):
                 self.topRatedMovieList = topRatedMovieList
@@ -102,7 +105,8 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
     
     private func fetchMovieGenreList() {
-        networkAgent.getMovieGenreList { result in
+        networkAgent.getMovieGenreList { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let movieGenreList):
                 self.movieGenreList = movieGenreList
@@ -117,7 +121,8 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
     
     private func fetchPopularPeople() {
-        networkAgent.getPopularPeople { result in
+        networkAgent.getPopularPeople { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let actorListResponse):
                 self.popularPeople = actorListResponse
@@ -132,7 +137,8 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
     
     private func fetchPopularSeries() {
-        networkAgent.getPopularSeries { result in
+        networkAgent.getPopularSeries { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let seriesListResponse):
                 self.popularSeriesList = seriesListResponse

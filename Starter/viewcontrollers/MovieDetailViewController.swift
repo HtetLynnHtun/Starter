@@ -39,6 +39,12 @@ class MovieDetailViewController: UIViewController {
     var similarSeries = [SeriesResult]()
     var trailers = [TrailerResult]()
     
+    private var bigobj = Array(repeating: "Ratain", count: 10000000)
+    
+    deinit {
+        print("==> \(String(describing: type(of: self))) is dismissed")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -85,7 +91,8 @@ class MovieDetailViewController: UIViewController {
     
     // ======================= Movie API =========================
     private func fetchMovieDetails() {
-        networkAgent.getMovieDetailsByID(id: contentId) { result in
+        networkAgent.getMovieDetailsByID(id: contentId) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let movieDetailResponse):
                 self.bindData(movieDetailResponse)
@@ -97,7 +104,8 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchCredits() {
-        networkAgent.getMovieCredits(of: contentId) { result in
+        networkAgent.getMovieCredits(of: contentId) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let creditsResponse):
                 self.casts = creditsResponse.cast ?? []
@@ -109,7 +117,8 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchSimilarMovies() {
-        networkAgent.getSimilarMovies(id: contentId) { result in
+        networkAgent.getSimilarMovies(id: contentId) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let movieListResponse):
                 self.similarMovies = movieListResponse.results ?? []
@@ -121,7 +130,8 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchMovieTrailers() {
-        networkAgent.getMovieTrailers(id: contentId) { result in
+        networkAgent.getMovieTrailers(id: contentId) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let trailersResponse):
                 self.trailers = trailersResponse.results ?? []
@@ -136,7 +146,8 @@ class MovieDetailViewController: UIViewController {
     
     // ======================== Series API ===========================
     private func fetchSeriesDetails() {
-        networkAgent.getSeriesDetailsByID(id: contentId) { result in
+        networkAgent.getSeriesDetailsByID(id: contentId) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let seriesDetailResponse):
                 self.bindData(seriesDetailResponse)
@@ -147,7 +158,8 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchSeriesTrailers() {
-        networkAgent.getSeriesTrailers(id: contentId) { result in
+        networkAgent.getSeriesTrailers(id: contentId) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let trailersResponse):
                 self.trailers = trailersResponse.results ?? []
@@ -161,7 +173,8 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchSeriesCredits() {
-        networkAgent.getSeriesCredits(of: contentId) { result in
+        networkAgent.getSeriesCredits(of: contentId) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let creditsResponse):
                 self.casts = creditsResponse.cast ?? []
@@ -173,7 +186,8 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchSimilarSeriess() {
-        networkAgent.getSimilarSeries(id: contentId) { result in
+        networkAgent.getSimilarSeries(id: contentId) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let seriesListResponse):
                 self.similarSeries = seriesListResponse.results ?? []
