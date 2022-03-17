@@ -8,8 +8,11 @@
 import UIKit
 
 class MovieViewController: UIViewController, MovieItemDelegate {
+    
+    // MARK: - IBOutlet
     @IBOutlet weak var tableViewMovies: UITableView!
     
+    // MARK: - propetry
     private let networkAgent = AlamofireNetworkAgent.shared
     private var upcomingMovieList: MovieListResponse?
     private var popularMovieList: MovieListResponse?
@@ -18,6 +21,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     private var movieGenreList: MovieGenreList?
     private var popularPeople: ActorListResponse?
     
+    // MARK: - view lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,18 +35,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         fetchPopularPeople()
     }
     
-    func onTapMovie(id: Int, contentType: DetailContentType) {
-        navigateToMovieDetailViewController(id: id, contentType: contentType)
-    }
-    
-    func onTapActor(id: Int) {
-        navigateToActorDetailsViewController(id: id)
-    }
-    
-    func onTapMore(contentType: MoreContentType) {
-        navigateToMoreContentViewController(contentType: contentType)
-    }
-    
+    // MARK: - cell registrations
     private func registerTableViewCells () {
         tableViewMovies.dataSource = self
         
@@ -55,6 +48,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         tableViewMovies.registerForCell(BestActorTableViewCell.identifier)
     }
     
+    // MARK: - api methods
     private func fetchUpcomingMovieList() {
         networkAgent.getUpcomingMovieList { [weak self] result in
             guard let self = self else { return }
@@ -152,11 +146,25 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         }
     }
     
+    // MARK: - onTap callbacks
     @IBAction func onTapSearch(_ sender: UIBarButtonItem) {
         navigateToSearchViewController()
     }
+    
+    func onTapMovie(id: Int, contentType: DetailContentType) {
+        navigateToMovieDetailViewController(id: id, contentType: contentType)
+    }
+    
+    func onTapActor(id: Int) {
+        navigateToActorDetailsViewController(id: id)
+    }
+    
+    func onTapMore(contentType: MoreContentType) {
+        navigateToMoreContentViewController(contentType: contentType)
+    }
 }
 
+// MARK: - ViewController extensions
 extension MovieViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 7

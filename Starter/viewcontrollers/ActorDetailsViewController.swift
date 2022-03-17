@@ -9,6 +9,7 @@ import UIKit
 
 class ActorDetailsViewController: UIViewController {
     
+    // MARK: - IBOutlets
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var labelBirthday: UILabel!
     @IBOutlet weak var imagePoster: UIImageView!
@@ -16,11 +17,13 @@ class ActorDetailsViewController: UIViewController {
     @IBOutlet weak var buttonReadMore: UIButton!
     @IBOutlet weak var collectionViewCredits: UICollectionView!
     
+    // MARK: - properties
     let networkAgent = AlamofireNetworkAgent.shared
     var actorID: Int = 1
     var homepageUrl: String?
     var creditsData = [MovieOrTV]()
     
+    // MARK: - view lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -33,12 +36,14 @@ class ActorDetailsViewController: UIViewController {
         buttonReadMore.isHidden = true
     }
     
+    // MARK: - cell registrations
     private func registerCells() {
         collectionViewCredits.dataSource = self
         collectionViewCredits.delegate = self
         collectionViewCredits.registerForCell(PopularFilmCollectionViewCell.identifier)
     }
     
+    // MARK: - API methods
     private func fetchDetails() {
         networkAgent.getPersonDetailsByID(of: actorID) { result in
             switch result {
@@ -67,6 +72,7 @@ class ActorDetailsViewController: UIViewController {
 
     }
     
+    // MARK: - data bindings
     private func bindData(_ data: ActorDetailResponse) {
         navigationItem.title = data.name ?? ""
         labelName.text = data.name ?? ""
@@ -82,6 +88,7 @@ class ActorDetailsViewController: UIViewController {
         }
     }
     
+    // MARK: - onTap callbacks
     @IBAction func onTapReadMore(_ sender: UIButton) {
         if let homepageUrl = homepageUrl {
             let url = URL(string: homepageUrl)!
@@ -94,6 +101,7 @@ class ActorDetailsViewController: UIViewController {
     }
 }
 
+// MARK: - ViewController extensions
 extension ActorDetailsViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return creditsData.count

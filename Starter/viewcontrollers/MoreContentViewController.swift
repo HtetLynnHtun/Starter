@@ -9,8 +9,10 @@ import UIKit
 
 class MoreContentViewController: UIViewController {
     
+    // MARK: - IBOutlets
     @IBOutlet weak var collectionViewContent: UICollectionView!
     
+    // MARK: - properties
     var contentType: MoreContentType?
     var movieData: [MovieResult] = []
     var movieCurrentPage = 1
@@ -18,11 +20,11 @@ class MoreContentViewController: UIViewController {
     var actorData: [ActorResult] = []
     var actorCurrentPage = 1
     var actorTotalPage = 1
-    
     let networkAgent = AlamofireNetworkAgent.shared
     var actorSpacing = 12.0
     var movieSpacing = 16.0
     
+    // MARK: - view lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
         initData()
@@ -42,6 +44,7 @@ class MoreContentViewController: UIViewController {
         }
     }
     
+    // MARK: - cell registrations
     private func registerCells() {
         collectionViewContent.dataSource = self
         collectionViewContent.delegate = self
@@ -55,6 +58,7 @@ class MoreContentViewController: UIViewController {
         }
     }
     
+    // MARK: - API methods
     private func fetchMovies(page: Int) {
         networkAgent.getTopRatedMovieList(page: page) { result in
             switch result {
@@ -79,6 +83,7 @@ class MoreContentViewController: UIViewController {
         }
     }
     
+    // MARK: - onTap callbacks
     private func onTapMovie(id: Int) {
         navigateToMovieDetailViewController(id: id, contentType: .movie)
     }
@@ -89,7 +94,9 @@ class MoreContentViewController: UIViewController {
 
 }
 
+// MARK: - ViewController extensions
 extension MoreContentViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    // numbersOfItemsInSection
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch contentType {
         case .moreMovies:
@@ -101,6 +108,7 @@ extension MoreContentViewController: UICollectionViewDataSource, UICollectionVie
         }
     }
     
+    // cellForItemAt
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch contentType {
         case .moreMovies:
@@ -116,6 +124,7 @@ extension MoreContentViewController: UICollectionViewDataSource, UICollectionVie
         }
     }
     
+    // didSelectItemAt
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch contentType {
         case .moreMovies:
@@ -129,6 +138,7 @@ extension MoreContentViewController: UICollectionViewDataSource, UICollectionVie
         }
     }
     
+    // willDisplay
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         switch contentType {
         case .moreMovies:
@@ -150,6 +160,7 @@ extension MoreContentViewController: UICollectionViewDataSource, UICollectionVie
         }
     }
     
+    // sizeForItemAt
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch contentType {
         case .moreMovies:
@@ -165,6 +176,7 @@ extension MoreContentViewController: UICollectionViewDataSource, UICollectionVie
         }
     }
     
+    // minimumInterItemSpacing
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         switch contentType {
         case .moreMovies:
@@ -176,6 +188,7 @@ extension MoreContentViewController: UICollectionViewDataSource, UICollectionVie
         }
     }
     
+    // minimumLineSpacing
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         switch contentType {
         case .moreMovies:
@@ -187,6 +200,7 @@ extension MoreContentViewController: UICollectionViewDataSource, UICollectionVie
         }
     }
     
+    // insetForSectionAt
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }

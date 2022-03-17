@@ -9,8 +9,10 @@ import UIKit
 
 class SearchViewController: UIViewController, MovieItemDelegate {
     
+    // MARK: - IBOutlets
     @IBOutlet weak var collectionViewContent: UICollectionView!
     
+    // MARK: - properties
     var searchBar = UISearchBar()
     
     let networkAgent = AlamofireNetworkAgent.shared
@@ -20,18 +22,21 @@ class SearchViewController: UIViewController, MovieItemDelegate {
     var itemSpacing = 12
     var searchedQuery = ""
     
+    // MARK: - view lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSearchBar()
         registerCells()
     }
     
+    // MARK: - view setups
     private func setupSearchBar() {
         searchBar.delegate = self
         searchBar.placeholder = "Search..."
         navigationItem.titleView = searchBar
     }
     
+    // MARK: - cell registrations
     private func registerCells() {
         collectionViewContent.dataSource = self
         collectionViewContent.delegate = self
@@ -57,15 +62,17 @@ class SearchViewController: UIViewController, MovieItemDelegate {
             print(error)
             }
         }
-
     }
     
+    
+    // MARK: - onTap callbacks
     func onTapMovie(id: Int, contentType: DetailContentType) {
         navigateToMovieDetailViewController(id: id, contentType: contentType)
     }
     
 }
 
+// MARK: - ViewController extensions
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.endEditing(true)

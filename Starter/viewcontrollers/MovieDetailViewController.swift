@@ -9,13 +9,13 @@ import UIKit
 
 class MovieDetailViewController: UIViewController {
 
+    // MARK: - IBOutlets
     @IBOutlet weak var collectionViewActors: UICollectionView!
     @IBOutlet weak var collectionViewProductionCompanies: UICollectionView!
     @IBOutlet weak var buttonPlayTrailer: UIButton!
     @IBOutlet weak var collectionViewSimilarContents: UICollectionView!
     @IBOutlet weak var heightOfCollectionViewActors: NSLayoutConstraint!
     @IBOutlet weak var btnRateMovie: UIButton!
-    
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var imageBackdrop: UIImageView!
     @IBOutlet weak var labelReleaseYear: UILabel!
@@ -30,6 +30,7 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var labelReleaseDate: UILabel!
     @IBOutlet weak var lableDescription: UILabel!
     
+    // MARK: - Properties
     let networkAgent = AlamofireNetworkAgent.shared
     var contentType: DetailContentType = .movie
     var contentId: Int = -1
@@ -39,27 +40,32 @@ class MovieDetailViewController: UIViewController {
     var similarSeries = [SeriesResult]()
     var trailers = [TrailerResult]()
     
-    private var bigobj = Array(repeating: "Ratain", count: 10000000)
-    
-    deinit {
-        print("==> \(String(describing: type(of: self))) is dismissed")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        buttonPlayTrailer.isHidden = true
-        buttonPlayTrailer.tintColor = UIColor(named: "color_primary")
-        buttonPlayTrailer.imageView?.tintColor = UIColor(named: "color_primary")
-        btnRateMovie.layer.borderColor = CGColor.init(red: 255, green: 255, blue: 255, alpha: 1)
-        btnRateMovie.layer.borderWidth = 2
-
+        setupViews()
         registerCollectionViewCells()
         setupHeights()
         fetchContentDetails()
     }
     
+    // MARK: - Views setup
+    private func setupViews() {
+        buttonPlayTrailer.isHidden = true
+        buttonPlayTrailer.tintColor = UIColor(named: "color_primary")
+        buttonPlayTrailer.imageView?.tintColor = UIColor(named: "color_primary")
+        btnRateMovie.layer.borderColor = CGColor.init(red: 255, green: 255, blue: 255, alpha: 1)
+        btnRateMovie.layer.borderWidth = 2
+    }
+    
+    private func setupHeights() {
+        let itemWidth = collectionViewActors.frame.width / 2.5
+        let itemHeight = itemWidth * 1.5
+        heightOfCollectionViewActors.constant = itemHeight
+    }
+    
+    // MARK: - Cell registrations
     func registerCollectionViewCells() {
         collectionViewActors.dataSource = self
         collectionViewActors.delegate = self
@@ -74,6 +80,7 @@ class MovieDetailViewController: UIViewController {
         collectionViewProductionCompanies.registerForCell(ProductionCompanyCollectionViewCell.identifier)
     }
     
+    // MARK: - API methods
     private func fetchContentDetails() {
         switch contentType {
         case .movie:
@@ -89,7 +96,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
-    // ======================= Movie API =========================
+    // MARK: - API methods - movie
     private func fetchMovieDetails() {
         networkAgent.getMovieDetailsByID(id: contentId) { [weak self] result in
             guard let self = self else { return }
@@ -144,7 +151,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
-    // ======================== Series API ===========================
+    // MARK: - API methods - series
     private func fetchSeriesDetails() {
         networkAgent.getSeriesDetailsByID(id: contentId) { [weak self] result in
             guard let self = self else { return }
@@ -198,16 +205,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
-    // =================================================================
-    @IBAction func onTapTrailer(_ sender: UIButton) {
-        let youtubeId = trailers.first { trailerResult in
-            trailerResult.site == "YouTube"
-        }?.key
-        let playerVC = YoutubePlayerViewController()
-        playerVC.youtubeId = youtubeId
-        self.present(playerVC, animated: true)
-    }
-    
+    // MARK: - Data bindings
     private func bindData(_ data: MovieDetailResponse) {
         productionCompanies = data.productionCompanies ?? []
         collectionViewProductionCompanies.reloadData()
@@ -255,12 +253,16 @@ class MovieDetailViewController: UIViewController {
         return "\(hour)hr \(minutes)mins"
     }
     
-    private func setupHeights() {
-        let itemWidth = collectionViewActors.frame.width / 2.5
-        let itemHeight = itemWidth * 1.5
-        heightOfCollectionViewActors.constant = itemHeight
+    // MARK: - Callbacks for onTap
+    @IBAction func onTapTrailer(_ sender: UIButton) {
+        let youtubeId = trailers.first { trailerResult in
+            trailerResult.site == "YouTube"
+        }?.key
+        let playerVC = YoutubePlayerViewController()
+        playerVC.youtubeId = youtubeId
+        self.present(playerVC, animated: true)
     }
-    
+
     func onTapActor(id: Int) {
         navigateToActorDetailsViewController(id: id)
     }
@@ -274,6 +276,7 @@ class MovieDetailViewController: UIViewController {
     }
 }
 
+// MARK: - ViewController extensions
 extension MovieDetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (collectionView == collectionViewProductionCompanies) {
