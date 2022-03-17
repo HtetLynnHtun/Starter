@@ -31,6 +31,8 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var lableDescription: UILabel!
     
     // MARK: - Properties
+    private let movieModel: MovieModel = MovieModelImpl.shared
+    private let seriesModel: SeriesModel = SeriesModelImpl.shared
     let networkAgent = AlamofireNetworkAgent.shared
     var contentType: DetailContentType = .movie
     var contentId: Int = -1
@@ -98,7 +100,7 @@ class MovieDetailViewController: UIViewController {
     
     // MARK: - API methods - movie
     private func fetchMovieDetails() {
-        networkAgent.getMovieDetailsByID(id: contentId) { [weak self] result in
+        movieModel.getMovieDetailsByID(id: contentId) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let movieDetailResponse):
@@ -111,7 +113,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchCredits() {
-        networkAgent.getMovieCredits(of: contentId) { [weak self] result in
+        movieModel.getMovieCredits(of: contentId) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let creditsResponse):
@@ -124,7 +126,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchSimilarMovies() {
-        networkAgent.getSimilarMovies(id: contentId) { [weak self] result in
+        movieModel.getSimilarMovies(id: contentId) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let movieListResponse):
@@ -137,7 +139,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchMovieTrailers() {
-        networkAgent.getMovieTrailers(id: contentId) { [weak self] result in
+        movieModel.getMovieTrailers(id: contentId) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let trailersResponse):
@@ -153,7 +155,7 @@ class MovieDetailViewController: UIViewController {
     
     // MARK: - API methods - series
     private func fetchSeriesDetails() {
-        networkAgent.getSeriesDetailsByID(id: contentId) { [weak self] result in
+        seriesModel.getSeriesDetailsByID(id: contentId) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let seriesDetailResponse):
@@ -165,7 +167,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchSeriesTrailers() {
-        networkAgent.getSeriesTrailers(id: contentId) { [weak self] result in
+        seriesModel.getSeriesTrailers(id: contentId) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let trailersResponse):
@@ -180,7 +182,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchSeriesCredits() {
-        networkAgent.getSeriesCredits(of: contentId) { [weak self] result in
+        seriesModel.getSeriesCredits(of: contentId) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let creditsResponse):
@@ -193,7 +195,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchSimilarSeriess() {
-        networkAgent.getSimilarSeries(id: contentId) { [weak self] result in
+        seriesModel.getSimilarSeries(id: contentId) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let seriesListResponse):

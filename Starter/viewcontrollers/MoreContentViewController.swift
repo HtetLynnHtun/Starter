@@ -13,6 +13,8 @@ class MoreContentViewController: UIViewController {
     @IBOutlet weak var collectionViewContent: UICollectionView!
     
     // MARK: - properties
+    private let movieModel: MovieModel = MovieModelImpl.shared
+    private let personModel: PersonModel = PersonModelImpl.shared
     var contentType: MoreContentType?
     var movieData: [MovieResult] = []
     var movieCurrentPage = 1
@@ -60,7 +62,7 @@ class MoreContentViewController: UIViewController {
     
     // MARK: - API methods
     private func fetchMovies(page: Int) {
-        networkAgent.getTopRatedMovieList(page: page) { result in
+        movieModel.getTopRatedMovieList(page: page) { result in
             switch result {
             case .success(let movieListResponse):
                 self.movieData.append(contentsOf: movieListResponse.results ?? [])
@@ -72,7 +74,7 @@ class MoreContentViewController: UIViewController {
     }
     
     private func fetchActors(page: Int) {
-        networkAgent.getPopularPeople(page: page) { result in
+        personModel.getPopularPeople(page: page) { result in
             switch result {
             case .success(let actorListResponse):
                 self.actorData.append(contentsOf: actorListResponse.results ?? [])

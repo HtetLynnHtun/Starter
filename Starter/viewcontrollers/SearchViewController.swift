@@ -13,8 +13,8 @@ class SearchViewController: UIViewController, MovieItemDelegate {
     @IBOutlet weak var collectionViewContent: UICollectionView!
     
     // MARK: - properties
+    private let searchModel: SearchModel = SearchModelImpl.shared
     var searchBar = UISearchBar()
-    
     let networkAgent = AlamofireNetworkAgent.shared
     var data = [SearchResult] ()
     var currentPage = 1
@@ -43,8 +43,9 @@ class SearchViewController: UIViewController, MovieItemDelegate {
         collectionViewContent.registerForCell(PopularFilmCollectionViewCell.identifier)
     }
     
+    // MARK: - API methods
     private func startSearching(query: String, page: Int) {
-        networkAgent.searchMoviesAndSeries(query: query, page: page) { result in
+        searchModel.searchMoviesAndSeries(query: query, page: page) { result in
             switch result {
             case .success(let searchResponse):
                 let data = searchResponse.results.filter { result in
@@ -59,7 +60,7 @@ class SearchViewController: UIViewController, MovieItemDelegate {
                 }
                 self.collectionViewContent.reloadData()
             case .failure(let error):
-            print(error)
+                print(error)
             }
         }
     }

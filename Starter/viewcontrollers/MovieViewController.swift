@@ -13,7 +13,9 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     @IBOutlet weak var tableViewMovies: UITableView!
     
     // MARK: - propetry
-    private let networkAgent = AlamofireNetworkAgent.shared
+    private let movieModel: MovieModel = MovieModelImpl.shared
+    private let personModel: PersonModel = PersonModelImpl.shared
+    private let seriesModel: SeriesModel = SeriesModelImpl.shared
     private var upcomingMovieList: MovieListResponse?
     private var popularMovieList: MovieListResponse?
     private var popularSeriesList: SeriesListResponse?
@@ -50,7 +52,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     
     // MARK: - api methods
     private func fetchUpcomingMovieList() {
-        networkAgent.getUpcomingMovieList { [weak self] result in
+        movieModel.getUpcomingMovieList { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let upcomingMovieList):
@@ -66,7 +68,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
     
     private func fetchPopularMovieList() {
-        networkAgent.getPopularMovieList { [weak self] result in
+        movieModel.getPopularMovieList { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let popularMovieList):
@@ -82,7 +84,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
     
     private func fetchTopRatedMovieList() {
-        networkAgent.getTopRatedMovieList { [weak self] result in
+        movieModel.getTopRatedMovieList(page: 1) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let topRatedMovieList):
@@ -99,7 +101,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
     
     private func fetchMovieGenreList() {
-        networkAgent.getMovieGenreList { [weak self] result in
+        movieModel.getMovieGenreList { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let movieGenreList):
@@ -115,7 +117,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
     
     private func fetchPopularPeople() {
-        networkAgent.getPopularPeople { [weak self] result in
+        personModel.getPopularPeople(page: 1) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let actorListResponse):
@@ -131,7 +133,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
     
     private func fetchPopularSeries() {
-        networkAgent.getPopularSeries { [weak self] result in
+        seriesModel.getPopularSeries { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let seriesListResponse):

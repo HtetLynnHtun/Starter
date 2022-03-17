@@ -18,6 +18,7 @@ class ActorDetailsViewController: UIViewController {
     @IBOutlet weak var collectionViewCredits: UICollectionView!
     
     // MARK: - properties
+    private let personModel: PersonModel = PersonModelImpl.shared
     let networkAgent = AlamofireNetworkAgent.shared
     var actorID: Int = 1
     var homepageUrl: String?
@@ -45,7 +46,7 @@ class ActorDetailsViewController: UIViewController {
     
     // MARK: - API methods
     private func fetchDetails() {
-        networkAgent.getPersonDetailsByID(of: actorID) { result in
+        personModel.getPersonDetailsByID(of: actorID) { result in
             switch result {
             case .success(let actorDetailResponse):
                 self.bindData(actorDetailResponse)
@@ -57,7 +58,7 @@ class ActorDetailsViewController: UIViewController {
     }
     
     private func fetchCombinedCredits() {
-        networkAgent.getCombinedCredits(of: actorID) { result in
+        personModel.getCombinedCredits(of: actorID) { result in
             switch result {
             case .success(let actorCreditsResponse):
                 self.creditsData = actorCreditsResponse.results ?? []
