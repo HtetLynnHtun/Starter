@@ -16,7 +16,7 @@ class ActorDetailsViewController: UIViewController {
     @IBOutlet weak var buttonReadMore: UIButton!
     @IBOutlet weak var collectionViewCredits: UICollectionView!
     
-    let networkAgent = MovieDBNetworkAgent.shared
+    let networkAgent = AlamofireNetworkAgent.shared
     var actorID: Int = 1
     var homepageUrl: String?
     var creditsData = [MovieOrTV]()
@@ -40,23 +40,29 @@ class ActorDetailsViewController: UIViewController {
     }
     
     private func fetchDetails() {
-        networkAgent.getPersonDetailsByID(of: actorID) { actorDetailResponse in
-            self.bindData(actorDetailResponse)
-        } failure: { error in
-            print(error)
+        networkAgent.getPersonDetailsByID(of: actorID) { result in
+            switch result {
+            case .success(let actorDetailResponse):
+                self.bindData(actorDetailResponse)
+            case .failure(let error):
+                print(error)
+            }
         }
 
     }
     
     private func fetchCombinedCredits() {
-        networkAgent.getCombinedCredits(of: actorID) { actorCreditsResponse in
-            self.creditsData = actorCreditsResponse.results ?? []
-            self.creditsData.sort { first, second in
-                first.popularity ?? 0 > second.popularity ?? 0
+        networkAgent.getCombinedCredits(of: actorID) { result in
+            switch result {
+            case .success(let actorCreditsResponse):
+                self.creditsData = actorCreditsResponse.results ?? []
+                self.creditsData.sort { first, second in
+                    first.popularity ?? 0 > second.popularity ?? 0
+                }
+                self.collectionViewCredits.reloadData()
+            case .failure(let error):
+                print(error)
             }
-            self.collectionViewCredits.reloadData()
-        } failure: { error in
-            print(error)
         }
 
     }

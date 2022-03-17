@@ -8,233 +8,186 @@
 import Foundation
 import Alamofire
 
-struct MovieDBNetworkAgent {
-    static let shared = MovieDBNetworkAgent()
+struct AlamofireNetworkAgent: NetworkAgentProtocol {
+    static let shared = AlamofireNetworkAgent()
     
     private init() { }
     
     func searchMoviesAndSeries(
         query: String,
         page: Int,
-        success: @escaping (SearchResponse) -> Void,
-        failure: @escaping (String) -> Void
+        completion: @escaping (MDBResult<SearchResponse>) -> Void
     ) {
         let urlEncodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        let url = "\(AppConstants.baseURL)/search/multi?query=\(urlEncodedQuery ?? "")&page=\(page)&api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+        AF.request(MDBEndpoint.search(urlEncodedQuery!, page))
             .responseDecodable(of: SearchResponse.self) { response in
                 switch response.result {
                 case .success(let searchResponse):
-                    success(searchResponse)
+                    completion(.success(searchResponse))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
     
-    func getUpcomingMovieList(
-        success: @escaping (MovieListResponse) -> Void,
-        failure: @escaping (String) -> Void
-    ) {
-        let url = "\(AppConstants.baseURL)/movie/upcoming?api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+    func getUpcomingMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
+        AF.request(MDBEndpoint.upcomingMovies)
             .responseDecodable(of: MovieListResponse.self) { response in
                 switch response.result {
                 case .success(let upcomingMovieList):
-                    success(upcomingMovieList)
+                    completion(.success(upcomingMovieList))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
-        
     }
     
-    func getPopularMovieList(
-        success: @escaping (MovieListResponse) -> Void,
-        failure: @escaping (String) -> Void
-    ) {
-        let url = "\(AppConstants.baseURL)/movie/popular?api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+    func getPopularMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
+        AF.request(MDBEndpoint.popularMovies)
             .responseDecodable(of: MovieListResponse.self) { response in
                 switch response.result {
                 case .success(let popularMovieList):
-                    success(popularMovieList)
+                    completion(.success(popularMovieList))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
-        
     }
     
-    func getMovieGenreList(
-        success: @escaping (MovieGenreList) -> Void,
-        failure: @escaping (String) -> Void
-    ) {
-        let url = "\(AppConstants.baseURL)/genre/movie/list?api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+    func getMovieGenreList(completion: @escaping (MDBResult<MovieGenreList>) -> Void) {
+        AF.request(MDBEndpoint.movieGenres)
             .responseDecodable(of: MovieGenreList.self) { response in
                 switch response.result {
                 case .success(let movieGenreList):
-                    success(movieGenreList)
+                    completion(.success(movieGenreList))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
     
     func getTopRatedMovieList(
         page: Int = 1,
-        success: @escaping (MovieListResponse) -> Void,
-        failure: @escaping (String) -> Void
+        completion: @escaping (MDBResult<MovieListResponse>) -> Void
     ) {
-        let url = "\(AppConstants.baseURL)/movie/top_rated?page=\(page)&api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+        AF.request(MDBEndpoint.topRatedMovies(page))
             .responseDecodable(of: MovieListResponse.self) { response in
                 switch response.result {
                 case .success(let movieListResponse):
-                    success(movieListResponse)
+                    completion(.success(movieListResponse))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
     
     func getPopularPeople(
         page: Int = 1,
-        success: @escaping (ActorListResponse) -> Void,
-        failure: @escaping (String) -> Void
+        completion: @escaping (MDBResult<ActorListResponse>) -> Void
     ) {
-        let url = "\(AppConstants.baseURL)/person/popular?page=\(page)&api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+        AF.request(MDBEndpoint.popularPeople(page))
             .responseDecodable(of: ActorListResponse.self) { response in
                 switch response.result {
                 case .success(let actorListResponse):
-                    success(actorListResponse)
+                    completion(.success(actorListResponse))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
     
     func getPersonDetailsByID(
         of id: Int,
-        success: @escaping (ActorDetailResponse) -> Void,
-        failure: @escaping (String) -> Void
+        completion: @escaping (MDBResult<ActorDetailResponse>) -> Void
     ) {
-        let url = "\(AppConstants.baseURL)/person/\(id)?api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+        AF.request(MDBEndpoint.personDetails(id))
             .responseDecodable(of: ActorDetailResponse.self) { response in
                 switch response.result {
                 case .success(let actorDetailResponse):
-                    success(actorDetailResponse)
+                    completion(.success(actorDetailResponse))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
     
     func getCombinedCredits(
         of id: Int,
-        success: @escaping (ActorCreditsResponse) -> Void,
-        failure: @escaping (String) -> Void
+        completion: @escaping (MDBResult<ActorCreditsResponse>) -> Void
     ) {
-        let url = "\(AppConstants.baseURL)/person/\(id)/combined_credits?api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+        AF.request(MDBEndpoint.combinedCredits(id))
             .responseDecodable(of: ActorCreditsResponse.self) { response in
                 switch response.result {
                 case .success(let data):
-                    success(data)
+                    completion(.success(data))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
 
     func getMovieDetailsByID(
         id: Int,
-        success: @escaping (MovieDetailResponse) -> Void,
-        failure: @escaping (String) -> Void
+        completion: @escaping (MDBResult<MovieDetailResponse>) -> Void
     ) {
-        let url = "\(AppConstants.baseURL)/movie/\(id)?api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+        AF.request(MDBEndpoint.movieDetails(id))
             .responseDecodable(of: MovieDetailResponse.self) { response in
                 switch response.result {
                 case .success(let movieDetailResponse):
-                    success(movieDetailResponse)
+                    completion(.success(movieDetailResponse))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
     
-    func getPopularSeries(
-        success: @escaping (SeriesListResponse) -> Void,
-        failure: @escaping (String) -> Void
-    ) {
-        let url = "\(AppConstants.baseURL)/tv/popular?api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+    func getPopularSeries(completion: @escaping (MDBResult<SeriesListResponse>) -> Void) {
+        AF.request(MDBEndpoint.popularSeries)
             .responseDecodable(of: SeriesListResponse.self) { response in
                 switch response.result {
                 case .success(let seriesListResponse):
-                    success(seriesListResponse)
+                    completion(.success(seriesListResponse))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
     
     func getMovieCredits(
         of id: Int,
-        success: @escaping (CreditsResponse) -> Void,
-        failure: @escaping (String) -> Void
+        completion: @escaping (MDBResult<CreditsResponse>) -> Void
     ) {
-        let url = "\(AppConstants.baseURL)/movie/\(id)/credits?api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+        AF.request(MDBEndpoint.movieCredits(id))
             .responseDecodable(of: CreditsResponse.self) { response in
                 switch response.result {
                 case .success(let creditsResponse):
-                    success(creditsResponse)
+                    completion(.success(creditsResponse))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
     
-    func getSimilarMovies(id: Int, success: @escaping (MovieListResponse) -> Void, failure: @escaping (String) -> Void) {
-        let url = "\(AppConstants.baseURL)/movie/\(id)/similar?api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+    func getSimilarMovies(id: Int, completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
+        AF.request(MDBEndpoint.similarMovies(id))
             .responseDecodable(of: MovieListResponse.self) { response in
                 switch response.result {
                 case .success(let movieListResponse):
-                    success(movieListResponse)
+                    completion(.success(movieListResponse))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
     
-    func getMovieTrailers(id: Int, success: @escaping (TrailersResponse) -> Void, failure: @escaping (String) -> Void) {
-        let url = "\(AppConstants.baseURL)/movie/\(id)/videos?api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+    func getMovieTrailers(id: Int, completion: @escaping (MDBResult<TrailersResponse>) -> Void) {
+        AF.request(MDBEndpoint.movieTrailers(id))
             .responseDecodable(of: TrailersResponse.self) { response in
                 switch response.result {
                 case .success(let trailersResponse):
-                    success(trailersResponse)
+                    completion(.success(trailersResponse))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
@@ -243,65 +196,133 @@ struct MovieDBNetworkAgent {
     // =========================== Series API =================================
     func getSeriesDetailsByID(
         id: Int,
-        success: @escaping (SeriesDetailResponse) -> Void,
-        failure: @escaping (String) -> Void
+        completion: @escaping (MDBResult<SeriesDetailResponse>) -> Void
     ) {
-        let url = "\(AppConstants.baseURL)/tv/\(id)?api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+        AF.request(MDBEndpoint.seriesDetails(id))
             .responseDecodable(of: SeriesDetailResponse.self) { response in
                 switch response.result {
                 case .success(let seriesDetailResponse):
-                    success(seriesDetailResponse)
+                    completion(.success(seriesDetailResponse))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
     
-    func getSeriesTrailers(id: Int, success: @escaping (TrailersResponse) -> Void, failure: @escaping (String) -> Void) {
-        let url = "\(AppConstants.baseURL)/tv/\(id)/videos?api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+    func getSeriesTrailers(id: Int, completion: @escaping (MDBResult<TrailersResponse>) -> Void) {
+        AF.request(MDBEndpoint.seriesTrailers(id))
             .responseDecodable(of: TrailersResponse.self) { response in
                 switch response.result {
                 case .success(let trailersResponse):
-                    success(trailersResponse)
+                    completion(.success(trailersResponse))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
     
     func getSeriesCredits(
         of id: Int,
-        success: @escaping (CreditsResponse) -> Void,
-        failure: @escaping (String) -> Void
+        completion: @escaping (MDBResult<CreditsResponse>) -> Void
     ) {
-        let url = "\(AppConstants.baseURL)/tv/\(id)/credits?api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+        AF.request(MDBEndpoint.seriesCredits(id))
             .responseDecodable(of: CreditsResponse.self) { response in
                 switch response.result {
                 case .success(let creditsResponse):
-                    success(creditsResponse)
+                    completion(.success(creditsResponse))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
     
-    func getSimilarSeries(id: Int, success: @escaping (SeriesListResponse) -> Void, failure: @escaping (String) -> Void) {
-        let url = "\(AppConstants.baseURL)/tv/\(id)/similar?api_key=\(AppConstants.apiKey)"
-        
-        AF.request(url)
+    func getSimilarSeries(id: Int, completion: @escaping (MDBResult<SeriesListResponse>) -> Void) {
+        AF.request(MDBEndpoint.similarSeries(id))
             .responseDecodable(of: SeriesListResponse.self) { response in
                 switch response.result {
                 case .success(let seriesListResponse):
-                    success(seriesListResponse)
+                    completion(.success(seriesListResponse))
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    completion(.failure(handleError(response, error, MDBCommomResponseError.self)))
                 }
             }
     }
+    
+    /**
+     ===== These could have happened! =====
+     
+     * JSON Serialization Error - key mismatch, expected key not found,
+     * Wrong API Endpoint
+     * Wrong http method - use "GET" instead of "POST"
+     * Invalid credentials - no credentials, expired credentials
+     * 4xx - client error, 401 - valid credentails?, 404 - wrong endpoint?,
+     * 5xx - server error
+     
+     */
+    
+    private func handleError<T, E: MDBErrorModel> (
+        _ response: DataResponse<T, AFError>,
+        _ error: AFError,
+        _ errorBodyType: E.Type
+    ) -> String {
+        var respBody = ""
+        var serverErrorMessage: String?
+        var errorBody: E?
+        
+        if let respData = response.data {
+            respBody = String(data: respData, encoding: .utf8) ?? "empty response body"
+            
+            errorBody = try? JSONDecoder().decode(errorBodyType, from: respData)
+            serverErrorMessage = errorBody?.message
+        }
+        
+        let respCode = response.response?.statusCode ?? 0
+        let sourcePath = response.request?.url?.absoluteString ?? "no URL"
+        
+        print(
+            """
+            =================
+            URL
+            -> \(sourcePath)
+            
+            status
+            -> \(respCode)
+            
+            Body
+            -> \(respBody)
+            
+            Underlying Error
+            -> \(error.underlyingError!)
+            
+            Error Description
+            -> \(error.errorDescription!)
+            """
+        )
+        
+        return serverErrorMessage ?? error.errorDescription ?? "undefined"
+    }
+    
+}
+
+protocol MDBErrorModel: Decodable {
+    var message: String { get }
+}
+
+class MDBCommomResponseError: MDBErrorModel {
+    var message: String {
+        return statusMessage
+    }
+    
+    let statusMessage: String
+    let statusCode: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case statusMessage = "status_message"
+        case statusCode = "status_code"
+    }
+}
+
+enum MDBResult<T> {
+    case success(T)
+    case failure(String)
 }

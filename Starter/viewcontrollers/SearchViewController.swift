@@ -13,7 +13,7 @@ class SearchViewController: UIViewController, MovieItemDelegate {
     
     var searchBar = UISearchBar()
     
-    let networkAgent = MovieDBNetworkAgent.shared
+    let networkAgent = AlamofireNetworkAgent.shared
     var data = [SearchResult] ()
     var currentPage = 1
     var totalPages = 1
@@ -39,20 +39,23 @@ class SearchViewController: UIViewController, MovieItemDelegate {
     }
     
     private func startSearching(query: String, page: Int) {
-        networkAgent.searchMoviesAndSeries(query: query, page: page) { searchResponse in
-            let data = searchResponse.results.filter { result in
-                result.mediaType == "tv" || result.mediaType == "movie"
-            }
-            if (self.searchedQuery != query) {
-                self.searchedQuery = query
-                self.data = data
-                self.totalPages = searchResponse.totalPages ?? 1
-            } else {
-                self.data.append(contentsOf: data)
-            }
-            self.collectionViewContent.reloadData()
-        } failure: { error in
+        networkAgent.searchMoviesAndSeries(query: query, page: page) { result in
+            switch result {
+            case .success(let searchResponse):
+                let data = searchResponse.results.filter { result in
+                    result.mediaType == "tv" || result.mediaType == "movie"
+                }
+                if (self.searchedQuery != query) {
+                    self.searchedQuery = query
+                    self.data = data
+                    self.totalPages = searchResponse.totalPages ?? 1
+                } else {
+                    self.data.append(contentsOf: data)
+                }
+                self.collectionViewContent.reloadData()
+            case .failure(let error):
             print(error)
+            }
         }
 
     }

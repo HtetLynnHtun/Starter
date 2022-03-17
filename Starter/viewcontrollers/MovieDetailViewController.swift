@@ -30,7 +30,7 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var labelReleaseDate: UILabel!
     @IBOutlet weak var lableDescription: UILabel!
     
-    let networkAgent = MovieDBNetworkAgent.shared
+    let networkAgent = AlamofireNetworkAgent.shared
     var contentType: DetailContentType = .movie
     var contentId: Int = -1
     var productionCompanies = [ProductionCompany]()
@@ -85,80 +85,102 @@ class MovieDetailViewController: UIViewController {
     
     // ======================= Movie API =========================
     private func fetchMovieDetails() {
-        networkAgent.getMovieDetailsByID(id: contentId) { movieDetailResponse in
-            self.bindData(movieDetailResponse)
-        } failure: { error in
-            print(error)
+        networkAgent.getMovieDetailsByID(id: contentId) { result in
+            switch result {
+            case .success(let movieDetailResponse):
+                self.bindData(movieDetailResponse)
+            case .failure(let error):
+                print(error)
+                
+            }
         }
-
     }
     
     private func fetchCredits() {
-        networkAgent.getMovieCredits(of: contentId) { creditsResponse in
-            self.casts = creditsResponse.cast ?? []
-            self.collectionViewActors.reloadData()
-        } failure: { error in
-            print(error)
+        networkAgent.getMovieCredits(of: contentId) { result in
+            switch result {
+            case .success(let creditsResponse):
+                self.casts = creditsResponse.cast ?? []
+                self.collectionViewActors.reloadData()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
     private func fetchSimilarMovies() {
-        networkAgent.getSimilarMovies(id: contentId) { movieListResponse in
-            self.similarMovies = movieListResponse.results ?? []
-            self.collectionViewSimilarContents.reloadData()
-        } failure: { error in
-            print(error)
+        networkAgent.getSimilarMovies(id: contentId) { result in
+            switch result {
+            case .success(let movieListResponse):
+                self.similarMovies = movieListResponse.results ?? []
+                self.collectionViewSimilarContents.reloadData()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
     private func fetchMovieTrailers() {
-        networkAgent.getMovieTrailers(id: contentId) { trailersResponse in
-            self.trailers = trailersResponse.results ?? []
-            if !self.trailers.isEmpty {
-                self.buttonPlayTrailer.isHidden = false
+        networkAgent.getMovieTrailers(id: contentId) { result in
+            switch result {
+            case .success(let trailersResponse):
+                self.trailers = trailersResponse.results ?? []
+                if !self.trailers.isEmpty {
+                    self.buttonPlayTrailer.isHidden = false
+                }
+            case .failure(let error):
+                print(error)
             }
-        } failure: { error in
-            print(error)
         }
-
     }
     
     // ======================== Series API ===========================
     private func fetchSeriesDetails() {
-        networkAgent.getSeriesDetailsByID(id: contentId) { seriesDetailResponse in
-            self.bindData(seriesDetailResponse)
-        } failure: { error in
-            print(error)
+        networkAgent.getSeriesDetailsByID(id: contentId) { result in
+            switch result {
+            case .success(let seriesDetailResponse):
+                self.bindData(seriesDetailResponse)
+            case .failure(let error):
+                print(error)
+            }
         }
-
     }
     
     private func fetchSeriesTrailers() {
-        networkAgent.getSeriesTrailers(id: contentId) { trailersResponse in
-            self.trailers = trailersResponse.results ?? []
-            if !self.trailers.isEmpty {
-                self.buttonPlayTrailer.isHidden = false
+        networkAgent.getSeriesTrailers(id: contentId) { result in
+            switch result {
+            case .success(let trailersResponse):
+                self.trailers = trailersResponse.results ?? []
+                if !self.trailers.isEmpty {
+                    self.buttonPlayTrailer.isHidden = false
+                }
+            case .failure(let error):
+                print(error)
             }
-        } failure: { error in
-            print(error)
         }
     }
     
     private func fetchSeriesCredits() {
-        networkAgent.getSeriesCredits(of: contentId) { creditsResponse in
-            self.casts = creditsResponse.cast ?? []
-            self.collectionViewActors.reloadData()
-        } failure: { error in
-            print(error)
+        networkAgent.getSeriesCredits(of: contentId) { result in
+            switch result {
+            case .success(let creditsResponse):
+                self.casts = creditsResponse.cast ?? []
+                self.collectionViewActors.reloadData()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
     private func fetchSimilarSeriess() {
-        networkAgent.getSimilarSeries(id: contentId) { seriesListResponse in
-            self.similarSeries = seriesListResponse.results ?? []
-            self.collectionViewSimilarContents.reloadData()
-        } failure: { error in
-            print(error)
+        networkAgent.getSimilarSeries(id: contentId) { result in
+            switch result {
+            case .success(let seriesListResponse):
+                self.similarSeries = seriesListResponse.results ?? []
+                self.collectionViewSimilarContents.reloadData()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     

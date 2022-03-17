@@ -19,7 +19,7 @@ class MoreContentViewController: UIViewController {
     var actorCurrentPage = 1
     var actorTotalPage = 1
     
-    let networkAgent = MovieDBNetworkAgent.shared
+    let networkAgent = AlamofireNetworkAgent.shared
     var actorSpacing = 12.0
     var movieSpacing = 16.0
     
@@ -56,22 +56,27 @@ class MoreContentViewController: UIViewController {
     }
     
     private func fetchMovies(page: Int) {
-        networkAgent.getTopRatedMovieList(page: page) { movieListResponse in
-            self.movieData.append(contentsOf: movieListResponse.results ?? [])
-            self.collectionViewContent.reloadData()
-        } failure: { error in
-            print(error)
+        networkAgent.getTopRatedMovieList(page: page) { result in
+            switch result {
+            case .success(let movieListResponse):
+                self.movieData.append(contentsOf: movieListResponse.results ?? [])
+                self.collectionViewContent.reloadData()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
     private func fetchActors(page: Int) {
-        networkAgent.getPopularPeople(page: page) { actorListResponse in
-            self.actorData.append(contentsOf: actorListResponse.results ?? [])
-            self.collectionViewContent.reloadData()
-        } failure: { error in
-            print(error)
+        networkAgent.getPopularPeople(page: page) { result in
+            switch result {
+            case .success(let actorListResponse):
+                self.actorData.append(contentsOf: actorListResponse.results ?? [])
+                self.collectionViewContent.reloadData()
+            case .failure(let error):
+                print(error)
+            }
         }
-
     }
     
     private func onTapMovie(id: Int) {

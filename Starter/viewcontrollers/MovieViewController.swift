@@ -10,7 +10,7 @@ import UIKit
 class MovieViewController: UIViewController, MovieItemDelegate {
     @IBOutlet weak var tableViewMovies: UITableView!
     
-    private let networkAgent = MovieDBNetworkAgent.shared
+    private let networkAgent = AlamofireNetworkAgent.shared
     private var upcomingMovieList: MovieListResponse?
     private var popularMovieList: MovieListResponse?
     private var popularSeriesList: SeriesListResponse?
@@ -56,78 +56,93 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
     
     private func fetchUpcomingMovieList() {
-        networkAgent.getUpcomingMovieList { upcomingMovieList in
-            self.upcomingMovieList = upcomingMovieList
-            self.tableViewMovies.reloadSections(
-                IndexSet(integer: MovieType.MOVIE_SLIDER.rawValue),
-                with: .automatic
-            )
-        } failure: { error in
-            print(error)
+        networkAgent.getUpcomingMovieList { result in
+            switch result {
+            case .success(let upcomingMovieList):
+                self.upcomingMovieList = upcomingMovieList
+                self.tableViewMovies.reloadSections(
+                    IndexSet(integer: MovieType.MOVIE_SLIDER.rawValue),
+                    with: .automatic
+                )
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
     private func fetchPopularMovieList() {
-        networkAgent.getPopularMovieList { popularMovieList in
-            self.popularMovieList = popularMovieList
-            self.tableViewMovies.reloadSections(
-                IndexSet(integer: MovieType.MOVIE_POPULAR.rawValue),
-                with: .automatic
-            )
-        } failure: { error in
-            print(error)
+        networkAgent.getPopularMovieList { result in
+            switch result {
+            case .success(let popularMovieList):
+                self.popularMovieList = popularMovieList
+                self.tableViewMovies.reloadSections(
+                    IndexSet(integer: MovieType.MOVIE_POPULAR.rawValue),
+                    with: .automatic
+                )
+            case .failure(let error):
+                print(error)
+            }
         }
-
     }
     
     private func fetchTopRatedMovieList() {
-        networkAgent.getTopRatedMovieList { topRatedMovieList in
-            self.topRatedMovieList = topRatedMovieList
-            self.tableViewMovies.reloadSections(
-                IndexSet(integer: MovieType.MOIVE_SHOWCASE.rawValue),
-                with: .automatic
-            )
-        } failure: { error in
-            print(error)
+        networkAgent.getTopRatedMovieList { result in
+            switch result {
+            case .success(let topRatedMovieList):
+                self.topRatedMovieList = topRatedMovieList
+                self.tableViewMovies.reloadSections(
+                    IndexSet(integer: MovieType.MOIVE_SHOWCASE.rawValue),
+                    with: .automatic
+                )
+            case .failure(let error):
+                print(error)
+            }
         }
 
     }
     
     private func fetchMovieGenreList() {
-        networkAgent.getMovieGenreList { movieGenreList in
-            self.movieGenreList = movieGenreList
-            self.tableViewMovies.reloadSections(
-                IndexSet(integer: MovieType.MOVIE_GENRE.rawValue),
-                with: .automatic
-            )
-        } failure: { error in
-            print(error)
+        networkAgent.getMovieGenreList { result in
+            switch result {
+            case .success(let movieGenreList):
+                self.movieGenreList = movieGenreList
+                self.tableViewMovies.reloadSections(
+                    IndexSet(integer: MovieType.MOVIE_GENRE.rawValue),
+                    with: .automatic
+                )
+            case .failure(let error):
+                print(error)
+            }
         }
-
     }
     
     private func fetchPopularPeople() {
-        networkAgent.getPopularPeople { actorListResponse in
-            self.popularPeople = actorListResponse
-            self.tableViewMovies.reloadSections(
-                IndexSet(integer: MovieType.MOVIE_BESTACTOR.rawValue),
-                with: .automatic
-            )
-        } failure: { error in
-            print(error)
+        networkAgent.getPopularPeople { result in
+            switch result {
+            case .success(let actorListResponse):
+                self.popularPeople = actorListResponse
+                self.tableViewMovies.reloadSections(
+                    IndexSet(integer: MovieType.MOVIE_BESTACTOR.rawValue),
+                    with: .automatic
+                )
+            case .failure(let error):
+                print(error)
+            }
         }
-
     }
     
     private func fetchPopularSeries() {
-        networkAgent.getPopularSeries { seriesListResponse in
-            self.popularSeriesList = seriesListResponse
-            self.tableViewMovies.reloadSections(
-                IndexSet(integer: MovieType.SERIES_POPULAR.rawValue),
-                with: .automatic
-            )
-        } failure: { error in
-            print(error)
+        networkAgent.getPopularSeries { result in
+            switch result {
+            case .success(let seriesListResponse):
+                self.popularSeriesList = seriesListResponse
+                self.tableViewMovies.reloadSections(
+                    IndexSet(integer: MovieType.SERIES_POPULAR.rawValue),
+                    with: .automatic
+                )
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
