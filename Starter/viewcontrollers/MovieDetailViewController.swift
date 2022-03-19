@@ -243,6 +243,7 @@ class MovieDetailViewController: UIViewController {
         labelRuntime.text = readableRuntime(data.episodeRunTime?.first ?? 0)
         labelOverview.text = data.overview
         labelOriginalTitle.text = data.originalName
+        navigationItem.title = data.originalName
         labelType.text = data.genres?.map({ $0.name }).joined(separator: ", ")
         labelProduction.text = data.productionCountries?.map({ $0.name ?? "" }).joined(separator: ", ")
         labelReleaseDate.text = data.firstAirDate
