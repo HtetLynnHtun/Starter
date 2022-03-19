@@ -27,7 +27,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "")
+        setupNavBar()
         registerTableViewCells()
         fetchUpcomingMovieList()
         fetchPopularMovieList()
@@ -48,6 +48,17 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         tableViewMovies.registerForCell(GenreTableViewCell.identifier)
         tableViewMovies.registerForCell(ShowCaseTableViewCell.identifier)
         tableViewMovies.registerForCell(BestActorTableViewCell.identifier)
+    }
+    
+    private func setupNavBar() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(named: "color_primary")
+        appearance.titleTextAttributes = [.font: UIFont.boldSystemFont(ofSize: 20.0),
+                                          .foregroundColor: UIColor.white]
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     // MARK: - api methods
