@@ -33,6 +33,9 @@ class SearchViewController: UIViewController, MovieItemDelegate {
     private func setupSearchBar() {
         searchBar.delegate = self
         searchBar.placeholder = "Search..."
+        searchBar.tintColor = .white
+        let textOfSearchBar = searchBar.value(forKey: "searchField") as? UITextField
+        textOfSearchBar?.textColor = .white
         navigationItem.titleView = searchBar
     }
     
@@ -79,7 +82,9 @@ extension SearchViewController: UISearchBarDelegate {
         searchBar.endEditing(true)
         if var query = searchBar.text {
             query = query.trimmingCharacters(in: .whitespacesAndNewlines)
-            startSearching(query: query, page: 1)
+            if !query.isEmpty {
+                startSearching(query: query, page: 1)
+            }
         }
     }
 }
