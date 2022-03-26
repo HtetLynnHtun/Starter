@@ -17,6 +17,7 @@ protocol MovieModel {
     func getMovieCredits(of id: Int, completion: @escaping (MDBResult<[ActorResult]>) -> Void)
     func getSimilarMovies(id: Int, completion: @escaping (MDBResult<[MovieResult]>) -> Void)
     func getMovieTrailers(id: Int, completion: @escaping (MDBResult<TrailersResponse>) -> Void)
+    func getTopRatedMoviesTotalPages() -> Int
 }
 
 class MovieModelImpl: MovieModel {
@@ -93,17 +94,32 @@ class MovieModelImpl: MovieModel {
         }
     }
     
+    private var totalPages = 0
+    func getTopRatedMoviesTotalPages() -> Int {
+        return totalPages
+    }
+    
     func getTopRatedMovieList(page: Int, completion: @escaping (MDBResult<[MovieResult]>) -> Void) {
         let contentType: MovieSeriesGroupType = .topRatedMovies
+        var networkResult = [MovieResult]()
         
         networkAgent.getTopRatedMovieList(page: page) { result in
             switch result {
             case .success(let data):
-                self.movieRepository.saveList(data: data.results ?? [], type: contentType)
+                networkResult = data.results ?? []
+                self.totalPages = data.totalPages ?? 1
+                self.movieRepository.saveList(data: networkResult, type: contentType)
             case .failure(let error):
                 print("\(#function) \(error)")
             }
-            self.contentTypeRepository.getMoviesOrSeries(type: contentType) { data in
+            
+            if networkResult.isEmpty {
+                self.contentTypeRepository.getTopRatedMoviesTotalPages { pages in
+                    self.totalPages = pages
+                }
+            }
+            
+            self.contentTypeRepository.getTopRatedMovies(page: page) { data in
                 completion(.success(data))
             }
         }

@@ -12,6 +12,8 @@ protocol ContentTypeRepository {
     func save(name: String) -> BelongsToTypeEntity
     func getMoviesOrSeries(type: MovieSeriesGroupType, completion: @escaping ([MovieResult]) -> Void)
     func getBelongsToTypeEntity(type: MovieSeriesGroupType) -> BelongsToTypeEntity
+    func getTopRatedMovies(page: Int, completion: @escaping ([MovieResult]) -> Void)
+    func getTopRatedMoviesTotalPages(completion: @escaping (Int) -> Void)
 }
 
 class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
@@ -70,6 +72,48 @@ class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
             }))
         } else {
             completion([MovieResult]())
+        }
+    }
+    
+    // MARK: pagination for TopRatedMovies
+    private let itemPerPage = 20
+    
+    func getTopRatedMoviesTotalPages(completion: @escaping (Int) -> Void) {
+        let fetchRequest = MovieEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "belongsToType.name CONTAINS[cd] %@", "Top Rated Movies")
+        
+        do {
+            let count = try self.coreData.context.count(for: fetchRequest)
+            var totalPages = count / itemPerPage
+            if count % itemPerPage != 0 {
+                totalPages += 1
+            }
+            completion(totalPages)
+        } catch {
+            print("\(#function) \(error.localizedDescription)")
+            completion(0)
+        }
+    }
+    
+    func getTopRatedMovies(page: Int, completion: @escaping ([MovieResult]) -> Void) {
+        let fetchRequest = MovieEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "belongsToType.name CONTAINS[cd] %@", "Top Rated Movies")
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "voteAverage", ascending: false),
+            NSSortDescriptor(key: "popularity", ascending: false)
+        ]
+        fetchRequest.fetchLimit = itemPerPage
+        fetchRequest.fetchOffset = (itemPerPage * page) - itemPerPage
+        
+        do {
+            let results = try self.coreData.context.fetch(fetchRequest)
+            let items = results.map { entity in
+                return MovieEntity.toMovieResult(entity: entity)
+            }
+            completion(items)
+        } catch {
+            completion([])
+            print("\(#function) \(error.localizedDescription)")
         }
     }
     

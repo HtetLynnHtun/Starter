@@ -99,9 +99,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
             guard let self = self else { return }
             switch result {
             case .success(let topRatedMovieList):
-                self.topRatedMovieList = topRatedMovieList.sorted(by: { first, second -> Bool in
-                    return first.voteAverage! > second.voteAverage!
-                })
+                self.topRatedMovieList = topRatedMovieList
                 self.tableViewMovies.reloadSections(
                     IndexSet(integer: MovieType.MOIVE_SHOWCASE.rawValue),
                     with: .automatic

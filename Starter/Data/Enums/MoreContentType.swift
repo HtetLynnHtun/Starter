@@ -8,6 +8,6 @@
 import Foundation
 
 enum MoreContentType {
-    case moreMovies(MovieListResponse?)
+    case moreMovies([MovieResult]?)
     case moreActors([ActorResult]?)
 }

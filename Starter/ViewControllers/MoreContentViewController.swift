@@ -22,7 +22,6 @@ class MoreContentViewController: UIViewController {
     var actorData: [ActorResult] = []
     var actorCurrentPage = 1
     var actorTotalPage = 1
-    let networkAgent = AlamofireNetworkAgent.shared
     var actorSpacing = 12.0
     var movieSpacing = 16.0
     
@@ -36,9 +35,9 @@ class MoreContentViewController: UIViewController {
     private func initData() {
         if let contentType = contentType {
             switch contentType {
-            case .moreMovies(let movieListResponse):
-                movieData = movieListResponse?.results ?? []
-                movieTotalPage = movieListResponse?.totalPages ?? 1
+            case .moreMovies(let moreMovies):
+                movieData = moreMovies ?? []
+                movieTotalPage = movieModel.getTopRatedMoviesTotalPages()
             case .moreActors(let moreActors):
                 actorData = moreActors ?? []
                 actorTotalPage = personModel.getTotalPages()
@@ -67,6 +66,7 @@ class MoreContentViewController: UIViewController {
             switch result {
             case .success(let movieListResponse):
                 self.movieData.append(contentsOf: movieListResponse)
+                self.movieTotalPage = self.movieModel.getTopRatedMoviesTotalPages()
                 self.collectionViewContent.reloadData()
             case .failure(let error):
                 print(error)

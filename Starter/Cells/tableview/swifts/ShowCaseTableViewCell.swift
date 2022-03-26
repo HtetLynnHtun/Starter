@@ -61,7 +61,7 @@ class ShowCaseTableViewCell: UITableViewCell {
     }
     
     @objc private func onTapMoreHandler() {
-//        onTapMore(.moreMovies(data))
+        onTapMore(.moreMovies(data))
     }
 }
 
