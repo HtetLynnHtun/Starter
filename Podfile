@@ -9,4 +9,5 @@ target 'Starter' do
   pod 'Alamofire', '~> 5.5'
   pod 'SDWebImage', '~> 5.0'
   pod 'YouTubePlayer'
+  pod 'RealmSwift', '~>10'
 end
