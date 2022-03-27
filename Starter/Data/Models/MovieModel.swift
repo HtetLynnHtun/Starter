@@ -26,7 +26,7 @@ class MovieModelImpl: MovieModel {
     
     let networkAgent: NetworkAgentProtocol = AlamofireNetworkAgent.shared
     let movieRepository: MovieRepository = MovieRepositoryImpl.shared
-    let genreRepository: GenreRepository = GenreRepositoryImpl.shared
+    let genreRepository: GenreRepository = GenreRepositoryRealm.shared
     let contentTypeRepository: ContentTypeRepository = ContentTypeRepositoryImpl.shared
     
     func getUpcomingMovieList(completion: @escaping (MDBResult<[MovieResult]>) -> Void) {

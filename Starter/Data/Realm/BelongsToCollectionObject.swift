@@ -24,4 +24,13 @@ class BelongsToCollectionObject: Object {
     
     @Persisted
     var movies: List<MovieResultObject>
+    
+    func toBelongsToCollection() -> BelongsToCollection {
+        return BelongsToCollection(
+            id: id,
+            name: name,
+            posterPath: posterPath,
+            backdropPath: backdrop
+        )
+    }
 }

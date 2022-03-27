@@ -51,7 +51,7 @@ class MovieResultObject: Object {
     
     @Persisted
     var originalTitle: String?
-        
+    
     @Persisted
     var overview: String?
     
@@ -63,7 +63,7 @@ class MovieResultObject: Object {
     
     @Persisted
     var releaseDate: String?
-
+    
     @Persisted
     var title: String?
     
@@ -87,7 +87,7 @@ class MovieResultObject: Object {
     
     @Persisted
     var voteCount: Int?
-
+    
     @Persisted
     var genres: List<MovieGenreObject>
     
@@ -110,5 +110,41 @@ class MovieResultObject: Object {
     
     @Persisted
     var productionCountries: List<ProductionCountryObject>
+    
+    func toMovieResult() -> MovieResult {
+        return MovieResult(
+            adult: adult,
+            backdropPath: backdropPath,
+            belongsToCollection: belongsToCollection?.toBelongsToCollection(),
+            budget: budget,
+            episodeRunTime: episodeRunTime.map { $0 },
+            firstAirDate: firstAirDate,
+            genres: genres.map { $0.toMovieGenre() },
+            genreIDS: genreIDS.map { $0 },
+            homepage: homepage,
+            id: id,
+            imdbID: imdbID,
+            originCountry: originCountry.map { $0 },
+            originalLanguage: originalLanguage,
+            name: name,
+            originalName: originalName,
+            originalTitle: originalTitle,
+            overview: overview,
+            popularity: popularity,
+            productionCompanies: productionCompanies.map { $0.toProductionCompany() },
+            productionCountries: productionCountries.map { $0.toProductionCountry() },
+            posterPath: posterPath,
+            releaseDate: releaseDate,
+            title: title,
+            revenue: revenue,
+            runtime: runtime,
+            spokenLanguages: spokenLanguages.map { $0.toSpokenLanguage() },
+            status: status,
+            tagline: tagline,
+            video: video,
+            voteAverage: voteAverage,
+            voteCount: voteCount
+        )
+    }
     
 }

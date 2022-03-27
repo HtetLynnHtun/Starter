@@ -16,4 +16,8 @@ class MovieGenreObject: Object {
     @Persisted
     var name: String
     
+    func toMovieGenre() -> MovieGenre {
+        return MovieGenre(id: id, name: name)
+    }
 }
+
