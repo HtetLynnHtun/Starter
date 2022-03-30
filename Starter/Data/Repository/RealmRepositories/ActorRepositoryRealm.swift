@@ -67,10 +67,13 @@ class ActorRepositoryRealm: BaseRepository {
     }
     
     func saveDetails(data: ActorResult) {
-        let object = data.toActorResultObject()
+        let actorObject = data.toActorResultObject()
+        if let savedActor = self.realm.object(ofType: ActorResultObject.self, forPrimaryKey: data.id!) {
+            actorObject.credits = savedActor.credits
+        }
         do {
             try self.realm.write({
-                self.realm.add(object, update: .modified)
+                self.realm.add(actorObject, update: .modified)
             })
         } catch {
             print("\(#function) \(error)")
@@ -85,13 +88,17 @@ class ActorRepositoryRealm: BaseRepository {
     
     func saveCredits(of id: Int, data: [MovieResult]) {
         if let actorObject = self.realm.object(ofType: ActorResultObject.self, forPrimaryKey: id) {
-            let movieObjects = data.map { $0.toMovieResultObject() }
-            movieObjects.forEach { object in
+            let newMovieCredits = data.filter { movie in
+                !actorObject.credits.contains { $0.id == movie.id! }
+            }
+            newMovieCredits.forEach { movie in
                 do {
                     try self.realm.write({
-                        if let savedObject = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: object.id) {
-                            actorObject.credits.append(savedObject)
+                        if let savedMovie = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: movie.id! ) {
+                            actorObject.credits.append(savedMovie)
                         } else {
+                            let object = movie.toMovieResultObject()
+                            self.realm.add(object, update: .modified)
                             actorObject.credits.append(object)
                         }
                     })
@@ -99,6 +106,21 @@ class ActorRepositoryRealm: BaseRepository {
                     print("\(#function) \(error)")
                 }
             }
+            
+//            let movieObjects = data.map { $0.toMovieResultObject() }
+//            movieObjects.forEach { object in
+//                do {
+//                    try self.realm.write({
+//                        if let savedObject = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: object.id) {
+//                            actorObject.credits.append(savedObject)
+//                        } else {
+//                            actorObject.credits.append(object)
+//                        }
+//                    })
+//                } catch {
+//                    print("\(#function) \(error)")
+//                }
+//            }
         }
     }
     

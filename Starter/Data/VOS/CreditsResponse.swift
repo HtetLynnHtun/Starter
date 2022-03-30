@@ -52,4 +52,15 @@ struct Cast: Codable {
             profilePath: profilePath
         )
     }
+    
+    func toActorResultObject() -> ActorResultObject {
+        let object = ActorResultObject()
+        object.id = id!
+        object.knownForDepartment = knownForDepartment
+        object.name = name
+        object.popularity = popularity
+        object.profilePath = profilePath
+        
+        return object
+    }
 }

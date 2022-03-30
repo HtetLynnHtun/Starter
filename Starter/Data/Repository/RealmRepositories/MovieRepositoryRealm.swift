@@ -54,6 +54,8 @@ class MovieRepositoryRealm: BaseRepository, MovieRepository {
         let newObject = data.toMovieResultObject()
         if let savedObject = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: data.id ?? -1) {
             newObject.genreIDS.append(objectsIn: savedObject.genreIDS)
+            newObject.casts.append(objectsIn: savedObject.casts)
+            newObject.similarContents.append(objectsIn: savedObject.similarContents)
         }
         
         do {
@@ -72,20 +74,27 @@ class MovieRepositoryRealm: BaseRepository, MovieRepository {
     
     func saveMovieCredits(of id: Int, data: CreditsResponse) {
         if let movieObject = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: id) {
-            if let actorObjects = data.cast?.map({ cast in
-                cast.toActorResult().toActorResultObject()
-            }) {
-                actorObjects.forEach { object in
+            if var actors = data.cast {
+                // filter out already-saved actors
+                actors = actors.filter({ cast in
+                    !movieObject.casts.contains { $0.id == cast.id! }
+                })
+                // add the new actors to movie.casts
+                actors.forEach { cast in
                     do {
                         try self.realm.write({
-                            self.realm.add(object, update: .modified)
-                            movieObject.casts.append(object)
+                            if let savedActor = self.realm.object(ofType: ActorResultObject.self, forPrimaryKey: cast.id!) {
+                                movieObject.casts.append(savedActor)
+                            } else {
+                                let object = cast.toActorResultObject()
+                                self.realm.add(object, update: .modified)
+                                movieObject.casts.append(object)
+                            }
                         })
                     } catch {
                         print("\(#function) \(error)")
                     }
                 }
-                
             }
         }
         
@@ -102,13 +111,18 @@ class MovieRepositoryRealm: BaseRepository, MovieRepository {
     
     func saveSimilarMovies(of id: Int, data: MovieListResponse) {
         if let movieObject = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: id) {
-            if let similarMovieObjects = data.results?.map({ $0.toMovieResultObject() }) {
-                similarMovieObjects.forEach { object in
+            if var similarMovies = data.results {
+                similarMovies = similarMovies.filter({ movie in
+                    !movieObject.similarContents.contains { $0.id == movie.id! }
+                })
+                
+                similarMovies.forEach { movie in
                     do {
                         try self.realm.write({
-                            if let savedObject = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: object.id) {
-                                movieObject.similarContents.append(savedObject)
+                            if let savedMovie = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: movie.id! ) {
+                                movieObject.similarContents.append(savedMovie)
                             } else {
+                                let object = movie.toMovieResultObject()
                                 self.realm.add(object, update: .modified)
                                 movieObject.similarContents.append(object)
                             }
