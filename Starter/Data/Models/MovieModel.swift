@@ -25,9 +25,10 @@ class MovieModelImpl: MovieModel {
     private init() { }
     
     let networkAgent: NetworkAgentProtocol = AlamofireNetworkAgent.shared
-    let movieRepository: MovieRepository = MovieRepositoryImpl.shared
+    let movieRepository: MovieRepository = MovieRepositoryRealm.shared
     let genreRepository: GenreRepository = GenreRepositoryRealm.shared
-    let contentTypeRepository: ContentTypeRepository = ContentTypeRepositoryImpl.shared
+    let contentTypeRepository = ContentTypeRepositoryRealm.shared
+    
     
     func getUpcomingMovieList(completion: @escaping (MDBResult<[MovieResult]>) -> Void) {
         let contentType: MovieSeriesGroupType = .upcomingMovies
@@ -114,13 +115,15 @@ class MovieModelImpl: MovieModel {
             }
             
             if networkResult.isEmpty {
-                self.contentTypeRepository.getTopRatedMoviesTotalPages { pages in
-                    self.totalPages = pages
-                }
+                self.totalPages =  self.contentTypeRepository.getTopRatedMoviesTotalPages()
             }
             
-            self.contentTypeRepository.getTopRatedMovies(page: page) { data in
-                completion(.success(data))
+            if (page > self.totalPages) {
+                completion(.success([]))
+            } else {
+                self.contentTypeRepository.getTopRatedMovies(page: page) { data in
+                    completion(.success(data))
+                }
             }
         }
     }

@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import RealmSwift
 
 // MARK: - MovieListResponse
 struct MovieListResponse: Codable {
@@ -81,10 +82,16 @@ struct MovieResult: Codable {
     }
     
     func toMediaResult() -> MediaResult {
+        var mediaTitle: String?
+        if let title = originalTitle, !title.isEmpty {
+            mediaTitle = title
+        } else {
+            mediaTitle = originalName
+        }
         return MediaResult(
             id: self.id,
             posterPath: self.posterPath,
-            originalTitle: self.originalTitle ?? self.originalName,
+            originalTitle: mediaTitle,
             voteAverage: self.voteAverage,
             genreIDS: self.genreIDS,
             contentType: self.originalTitle == nil ? .series : .movie
@@ -161,6 +168,109 @@ struct MovieResult: Codable {
         }
         
         return entity
+    }
+    
+    func toMovieResultObject() -> MovieResultObject {
+        let object = MovieResultObject()
+        object.id = id ?? -1
+        object.adult = adult ?? false
+        object.backdropPath = backdropPath ?? ""
+        object.budget = budget ?? 0
+        object.firstAirDate = firstAirDate ?? ""
+        object.homepage = homepage ?? ""
+        object.imdbID = imdbID ?? ""
+        object.name = name ?? ""
+        object.originalName = originalName ?? ""
+        object.originalTitle = originalTitle ?? ""
+        object.overview = overview ?? ""
+        object.popularity = popularity ?? 0
+        object.posterPath = posterPath ?? ""
+        object.releaseDate = releaseDate ?? ""
+        object.title = title ?? ""
+        object.revenue = revenue ?? 0
+        object.runtime = runtime ?? 0
+        object.status = status ?? ""
+        object.tagline = tagline ?? ""
+        object.video = video ?? false
+        object.voteAverage = voteAverage ?? 0
+        object.voteCount = voteCount ?? 0
+        
+//        object.belongsToCollection =
+        
+        if let episodeRunTime = episodeRunTime {
+            let runTimes = List<Int>()
+            episodeRunTime.forEach { runtime in
+                runTimes.append(runtime)
+            }
+            object.episodeRunTime = runTimes
+        }
+        
+        if let genreIDS = genreIDS {
+            let ids = List<Int>()
+            genreIDS.forEach { id in
+                ids.append(id)
+            }
+            object.genreIDS = ids
+        }
+        
+        if let genres = genres {
+            let listOfGernes = List<MovieGenreObject>()
+            genres.forEach { genre in
+                let obj = MovieGenreObject()
+                obj.id = genre.id
+                obj.name = genre.name
+                listOfGernes.append(obj)
+            }
+            object.genres = listOfGernes
+        }
+        
+        if let originCountry = originCountry {
+            let countries = List<String>()
+            originCountry.forEach { country in
+                countries.append(country)
+            }
+            object.originCountry = countries
+        }
+        
+        object.originalLanguage = originalLanguage ?? ""
+        
+        if let productionCompanies = productionCompanies {
+            let companies = List<ProductionCompanyObject>()
+            productionCompanies.forEach { company in
+                let obj = ProductionCompanyObject()
+                obj.id = company.id ?? -1
+                obj.logoPath = company.logoPath
+                obj.name = company.name
+                obj.originCountry = company.originCountry
+                companies.append(obj)
+            }
+            object.productionCompanies = companies
+        }
+        
+        if let productionCountries = productionCountries {
+            let countries = List<ProductionCountryObject>()
+            productionCountries.forEach { country in
+                let obj = ProductionCountryObject()
+                obj.iso3166_1 = country.iso3166_1
+                obj.name = country.name ?? ""
+                countries.append(obj)
+            }
+            object.productionCountries = countries
+        }
+        
+        if let spokenLanguages = spokenLanguages {
+            let languages = List<SpokenLanguageObject>()
+            spokenLanguages.forEach { language in
+                let obj = SpokenLanguageObject()
+                obj.iso639_1 = language.iso639_1
+                obj.englishName = language.englishName
+                obj.name = language.name ?? ""
+                languages.append(obj)
+            }
+            object.spokenLanguages = languages
+        }
+        
+        return object
     }
 }
 

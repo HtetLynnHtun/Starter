@@ -10,12 +10,9 @@ import RealmSwift
 
 class BaseRepository: NSObject {
     let coreData = CoreDataStack.shared
-    let realm = try! Realm()
+    let realm = RealmDB.shared.realm
     
     override init() {
         super.init()
-        
-        print("=======================")
-        print("Realm file is at: \(realm.configuration.fileURL!.absoluteString)")
     }
 }

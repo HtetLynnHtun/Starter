@@ -30,7 +30,7 @@ class BelongsToCollectionObject: Object {
             id: id,
             name: name,
             posterPath: posterPath,
-            backdropPath: backdrop
+            backdropPath: backdropPath
         )
     }
 }

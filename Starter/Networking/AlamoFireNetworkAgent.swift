@@ -85,6 +85,7 @@ struct AlamofireNetworkAgent: NetworkAgentProtocol {
         page: Int = 1,
         completion: @escaping (MDBResult<ActorListResponse>) -> Void
     ) {
+//        URLCache.shared.removeAllCachedResponses()
         AF.request(MDBEndpoint.popularPeople(page))
             .responseDecodable(of: ActorListResponse.self) { response in
                 switch response.result {

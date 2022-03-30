@@ -36,4 +36,17 @@ class ActorResultObject: Object {
     
     @Persisted
     var credits: List<MovieResultObject>
+    
+    func toActorResult() -> ActorResult {
+        return ActorResult(
+            biography: biography,
+            birthday: birthday,
+            homepage: homepage,
+            id: id,
+            knownForDepartment: knownForDepartment,
+            name: name,
+            popularity: popularity,
+            profilePath: profilePath
+        )
+    }
 }

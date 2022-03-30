@@ -14,6 +14,24 @@ class MovieResultObject: Object {
     var id: Int
     
     @Persisted
+    var isUpcoming = false
+    
+    @Persisted
+    var isPopular = false
+    
+    @Persisted
+    var isTopRated = false
+    
+    @Persisted
+    var isSeries = false
+    
+    @Persisted
+    var originalName: String?
+    
+    @Persisted
+    var originalTitle: String?
+    
+    @Persisted
     var adult: Bool?
     
     @Persisted
@@ -45,12 +63,6 @@ class MovieResultObject: Object {
     
     @Persisted
     var name: String?
-    
-    @Persisted
-    var originalName: String?
-    
-    @Persisted
-    var originalTitle: String?
     
     @Persisted
     var overview: String?
@@ -97,8 +109,6 @@ class MovieResultObject: Object {
     @Persisted
     var similarContents: List<MovieResultObject>
     
-    //    @Persisted(originProperty: "movies")
-    //    var belongsToCollection: LinkingObjects<BelongsToCollectionObject>
     @Persisted
     var belongsToCollection: BelongsToCollectionObject?
     

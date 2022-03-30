@@ -31,6 +31,7 @@ struct ActorResult: Codable {
     let name: String?
     let popularity: Double?
     let profilePath: String?
+    let credits = [MovieResult]()
 
     enum CodingKeys: String, CodingKey {
         case biography
@@ -41,6 +42,7 @@ struct ActorResult: Codable {
         case name
         case popularity
         case profilePath = "profile_path"
+        case credits
     }
     
     @discardableResult
@@ -56,6 +58,20 @@ struct ActorResult: Codable {
         entity.profilePath = profilePath
         
         return entity
+    }
+    
+    func toActorResultObject() -> ActorResultObject {
+        let object = ActorResultObject()
+        object.id = id ?? -1
+        object.biography = biography
+        object.birthday = birthday
+        object.homepage = homepage
+        object.knownForDepartment = knownForDepartment
+        object.name = name
+        object.popularity = popularity
+        object.profilePath = profilePath
+        
+        return object
     }
 }
 

@@ -19,7 +19,7 @@ class PersonModelImpl: PersonModel {
     private init() { }
     
     private let networkAgent: NetworkAgentProtocol = AlamofireNetworkAgent.shared
-    private let actorRepository: ActorRepository = ActorRepositoryImpl.shared
+    private let actorRepository = ActorRepositoryRealm.shared
     
     private var totalPages = 0
     
@@ -41,13 +41,15 @@ class PersonModelImpl: PersonModel {
             }
             
             if networkResult.isEmpty {
-                self.actorRepository.getTotalPages { pages in
-                    self.totalPages = pages
-                }
+                self.totalPages = self.actorRepository.getTotalPages()
             }
             
-            self.actorRepository.getByPage(of: page) { data in
-                completion(.success(data))
+            if page > self.totalPages {
+                completion(.success([]))
+            } else {
+                self.actorRepository.getByPage(of: page) { data in
+                    completion(.success(data))
+                }
             }
         }
     }

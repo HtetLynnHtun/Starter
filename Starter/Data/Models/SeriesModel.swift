@@ -20,8 +20,8 @@ class SeriesModelImpl: SeriesModel {
     private init() { }
     
     private let networkAgent: NetworkAgentProtocol = AlamofireNetworkAgent.shared
-    private let movieRepository: MovieRepository = MovieRepositoryImpl.shared
-    private let contentTypeRepository: ContentTypeRepository = ContentTypeRepositoryImpl.shared
+    private let movieRepository: MovieRepository = MovieRepositoryRealm.shared
+    private let contentTypeRepository = ContentTypeRepositoryRealm.shared
     
     func getPopularSeries(completion: @escaping (MDBResult<[MovieResult]>) -> Void) {
         let contentType: MovieSeriesGroupType = .popularSeries
