@@ -79,21 +79,20 @@ class MovieRepositoryRealm: BaseRepository, MovieRepository {
                 actors = actors.filter({ cast in
                     !movieObject.casts.contains { $0.id == cast.id! }
                 })
-                // add the new actors to movie.casts
-                actors.forEach { cast in
-                    do {
-                        try self.realm.write({
-                            if let savedActor = self.realm.object(ofType: ActorResultObject.self, forPrimaryKey: cast.id!) {
-                                movieObject.casts.append(savedActor)
-                            } else {
-                                let object = cast.toActorResultObject()
-                                self.realm.add(object, update: .modified)
-                                movieObject.casts.append(object)
-                            }
-                        })
-                    } catch {
-                        print("\(#function) \(error)")
+                let objects = actors.map { cast -> ActorResultObject in
+                    if let savedActor = self.realm.object(ofType: ActorResultObject.self, forPrimaryKey: cast.id!) {
+                        return savedActor
+                    } else {
+                        return cast.toActorResultObject()
                     }
+                }
+                do {
+                    try self.realm.write({
+                        self.realm.add(objects, update: .modified)
+                        movieObject.casts.append(objectsIn: objects)
+                    })
+                } catch {
+                    print("\(#function) \(error.localizedDescription)")
                 }
             }
         }
@@ -116,20 +115,21 @@ class MovieRepositoryRealm: BaseRepository, MovieRepository {
                     !movieObject.similarContents.contains { $0.id == movie.id! }
                 })
                 
-                similarMovies.forEach { movie in
-                    do {
-                        try self.realm.write({
-                            if let savedMovie = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: movie.id! ) {
-                                movieObject.similarContents.append(savedMovie)
-                            } else {
-                                let object = movie.toMovieResultObject()
-                                self.realm.add(object, update: .modified)
-                                movieObject.similarContents.append(object)
-                            }
-                        })
-                    } catch {
-                        print("\(#function) \(error)")
+                let objects = similarMovies.map { movie -> MovieResultObject in
+                    if let savedMovie = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: movie.id!) {
+                        return savedMovie
+                    } else {
+                        return movie.toMovieResultObject()
                     }
+                }
+                
+                do {
+                    try self.realm.write({
+                        self.realm.add(objects, update: .modified)
+                        movieObject.similarContents.append(objectsIn: objects)
+                    })
+                } catch {
+                    print("\(#function) \(error.localizedDescription)")
                 }
             }
         }
