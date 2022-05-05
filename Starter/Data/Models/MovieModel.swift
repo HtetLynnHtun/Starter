@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol MovieModel {
     func getUpcomingMovieList(completion: @escaping (MDBResult<[MovieResult]>) -> Void)
@@ -62,6 +63,45 @@ class MovieModelImpl: MovieModel {
                 completion(.success(data))
             }
         }
+    }
+    
+    // Rx
+    let disposeBag = DisposeBag()
+    func getPopularMovieList() -> Observable<[MovieResult]> {
+        let contentType: MovieSeriesGroupType = .popularMovies
+        
+        /**
+         Show data coming from persistance first
+         Make network request
+         - success - update persistance -> notify(push) -> Update UI
+         - fail - xxx
+         */
+        
+        // When data from remote is arrived, update persistance,
+        // all observers to persistance will be notified
+        RxNetworkAgent.shared.getPopularMovieList()
+            .subscribe(onNext: { data in
+                self.movieRepository.saveList(data: data.results ?? [], type: contentType)
+            })
+            .disposed(by: disposeBag)
+        
+        // show data from persistance first while requesting data from remote
+        return ContentTypeRepositoryRealm.shared.getMoviesOrSeries(type: contentType)
+        
+//        return RxNetworkAgent.shared.getPopularMovieList()
+//            .do(onNext: { data in
+//                self.movieRepository.saveList(data: data.results ?? [], type: contentType)
+//            })
+//            .catchAndReturn(MovieListResponse.empty())
+//            .flatMap { _ -> Observable<[MovieResult]> in
+//                return Observable.create { observer in
+//                    self.contentTypeRepository.getMoviesOrSeries(type: contentType) { data in
+//                        observer.onNext(data)
+//                        observer.on(.completed)
+//                    }
+//                    return Disposables.create()
+//                }
+//            }
     }
     
     func getPopularSeriesList(completion: @escaping (MDBResult<[MovieResult]>) -> Void) {

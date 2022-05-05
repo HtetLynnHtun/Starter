@@ -10,4 +10,8 @@ target 'Starter' do
   pod 'SDWebImage', '~> 5.0'
   pod 'YouTubePlayer'
   pod 'RealmSwift', '~>10'
+  pod 'RxSwift', '6.5.0'
+  pod 'RxCocoa', '6.5.0'
+  pod 'RxAlamofire'
+  pod "RxRealm"
 end

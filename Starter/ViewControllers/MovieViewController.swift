@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class MovieViewController: UIViewController, MovieItemDelegate {
     
@@ -78,20 +79,33 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         }
     }
     
+    let disposeBag = DisposeBag()
     private func fetchPopularMovieList() {
-        movieModel.getPopularMovieList { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let popularMovieList):
-                self.popularMovieList = popularMovieList
+        
+        MovieModelImpl.shared.getPopularMovieList()
+            .subscribe { data in
+                self.popularMovieList = data
                 self.tableViewMovies.reloadSections(
                     IndexSet(integer: MovieType.MOVIE_POPULAR.rawValue),
                     with: .automatic
                 )
-            case .failure(let error):
+            } onError: { error in
                 print(error)
-            }
-        }
+            }.disposed(by: disposeBag)
+        
+//        movieModel.getPopularMovieList { [weak self] result in
+//            guard let self = self else { return }
+//            switch result {
+//            case .success(let popularMovieList):
+//                self.popularMovieList = popularMovieList
+//                self.tableViewMovies.reloadSections(
+//                    IndexSet(integer: MovieType.MOVIE_POPULAR.rawValue),
+//                    with: .automatic
+//                )
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
     }
     
     private func fetchTopRatedMovieList() {

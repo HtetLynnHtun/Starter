@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import RxSwift
+import RealmSwift
+import RxRealm
 
 class ContentTypeRepositoryRealm: BaseRepository {
     
@@ -33,6 +36,63 @@ class ContentTypeRepositoryRealm: BaseRepository {
         
         let data: [MovieResult] = objects.map { $0.toMovieResult() }
         completion(data)
+    }
+    
+    // Rx
+    func getMoviesOrSeries(type: MovieSeriesGroupType) -> Observable<[MovieResult]> {
+        let objects = self.realm.objects(MovieResultObject.self)
+        
+        return Observable.collection(from: objects)
+            .map { $0.toArray() }
+            .map { $0.filter {
+                switch type {
+                case .upcomingMovies:
+                    return $0.isUpcoming
+                case .popularMovies:
+                    return $0.isPopular && !$0.isSeries
+                case .topRatedMovies:
+                    return $0.isTopRated
+                case .popularSeries:
+                    return $0.isPopular && $0.isSeries
+                }
+            }.map { $0.toMovieResult() }
+            }
+        
+//        return Observable.create { observer in
+//            var notificationToken: NotificationToken?
+//            var movieObjects = [MovieResultObject]()
+//
+//            notificationToken = self.realm.objects(MovieResultObject.self)
+//                .observe { change in
+//                    switch change {
+//                    case .initial(let objects):
+//                        movieObjects = Array(objects)
+//                    case .update(let objects, _, _, _):
+//                        movieObjects = Array(objects)
+//                    case .error(let error):
+//                        observer.onError(error)
+//                    }
+//
+//                    let results = movieObjects.filter {
+//                        switch type {
+//                        case .upcomingMovies:
+//                            return $0.isUpcoming
+//                        case .popularMovies:
+//                            return $0.isPopular
+//                        case .topRatedMovies:
+//                            return $0.isTopRated
+//                        case .popularSeries:
+//                            return $0.isPopular && $0.isSeries
+//                        }
+//                    }.map { $0.toMovieResult() }
+//
+//                    observer.onNext(results)
+//                }
+//
+//            return Disposables.create {
+//                notificationToken?.invalidate()
+//            }
+//        }
     }
     
     private var itemsPerPage = 20

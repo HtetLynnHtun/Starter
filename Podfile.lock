@@ -5,6 +5,22 @@ PODS:
   - Realm/Headers (10.24.2)
   - RealmSwift (10.24.2):
     - Realm (= 10.24.2)
+  - RxAlamofire (6.1.1):
+    - RxAlamofire/Core (= 6.1.1)
+  - RxAlamofire/Core (6.1.1):
+    - Alamofire (~> 5.4)
+    - RxSwift (~> 6.0)
+  - RxCocoa (6.5.0):
+    - RxRelay (= 6.5.0)
+    - RxSwift (= 6.5.0)
+  - RxRealm (5.0.4):
+    - Realm (~> 10.21)
+    - RealmSwift (~> 10.21)
+    - RxCocoa (~> 6.1)
+    - RxSwift (~> 6.1)
+  - RxRelay (6.5.0):
+    - RxSwift (= 6.5.0)
+  - RxSwift (6.5.0)
   - SDWebImage (5.12.4):
     - SDWebImage/Core (= 5.12.4)
   - SDWebImage/Core (5.12.4)
@@ -13,6 +29,10 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 5.5)
   - RealmSwift (~> 10)
+  - RxAlamofire
+  - RxCocoa (= 6.5.0)
+  - RxRealm
+  - RxSwift (= 6.5.0)
   - SDWebImage (~> 5.0)
   - YouTubePlayer
 
@@ -21,6 +41,11 @@ SPEC REPOS:
     - Alamofire
     - Realm
     - RealmSwift
+    - RxAlamofire
+    - RxCocoa
+    - RxRealm
+    - RxRelay
+    - RxSwift
     - SDWebImage
     - YouTubePlayer
 
@@ -28,9 +53,14 @@ SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
   Realm: c8421eee9ff92b16b4f91a313b5cc695c37c1921
   RealmSwift: 10ed6fa09c36aaaff55e12afdc71802ec3ddb1c0
+  RxAlamofire: beb75a1c452d0de225651db4903f5d29d034a620
+  RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxRealm: 666c8785327fe2fff972a3093b35dc7055c1ca38
+  RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
+  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SDWebImage: 631cf572cc93dfdfe54162e556410a61f1141928
   YouTubePlayer: 2b5f2830d8f9b2cde942083211291e382c9e6bd5
 
-PODFILE CHECKSUM: 5cca1f2eedac058a28ebde3a890639becc9129ed
+PODFILE CHECKSUM: 15e5b05e1cf5dcff2bfe47ab726e48f6069f54dd
 
 COCOAPODS: 1.11.2
