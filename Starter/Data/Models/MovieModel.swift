@@ -29,7 +29,7 @@ class MovieModelImpl: MovieModel {
     let movieRepository: MovieRepository = MovieRepositoryRealm.shared
     let genreRepository: GenreRepository = GenreRepositoryRealm.shared
     let contentTypeRepository = ContentTypeRepositoryRealm.shared
-    
+    let disposeBag = DisposeBag()
     
     func getUpcomingMovieList(completion: @escaping (MDBResult<[MovieResult]>) -> Void) {
         let contentType: MovieSeriesGroupType = .upcomingMovies
@@ -46,6 +46,19 @@ class MovieModelImpl: MovieModel {
                 completion(.success(data))
             }
         }
+    }
+    
+    // Rx
+    func getUpcomingMovieList() -> Observable<[MovieResult]> {
+        let contentType: MovieSeriesGroupType = .upcomingMovies
+        
+        RxNetworkAgent.shared.getUpcomingMovieList()
+            .subscribe(onNext: { data in
+                self.movieRepository.saveList(data: data.results ?? [], type: contentType)
+            })
+            .disposed(by: disposeBag)
+        
+        return ContentTypeRepositoryRealm.shared.getMoviesOrSeries(type: contentType)
     }
     
     func getPopularMovieList(completion: @escaping (MDBResult<[MovieResult]>) -> Void) {
@@ -66,7 +79,6 @@ class MovieModelImpl: MovieModel {
     }
     
     // Rx
-    let disposeBag = DisposeBag()
     func getPopularMovieList() -> Observable<[MovieResult]> {
         let contentType: MovieSeriesGroupType = .popularMovies
         

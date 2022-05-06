@@ -15,6 +15,20 @@ class RxNetworkAgent {
     
     private init() { }
     
+    func getPopularPeople(page: Int) -> Observable<ActorListResponse> {
+        return RxAlamofire.requestDecodable(URLRequest(url: MDBEndpoint.popularPeople(page).url))
+            .flatMap { (_, data) in
+                return Observable.just(data)
+            }
+    }
+    
+    func getUpcomingMovieList() -> Observable<MovieListResponse> {
+        return RxAlamofire.requestDecodable(URLRequest(url: MDBEndpoint.upcomingMovies.url))
+            .flatMap { (_, data) in
+                return Observable.just(data)
+            }
+    }
+    
     func getPopularMovieList() -> Observable<MovieListResponse> {
         return RxAlamofire.requestDecodable(URLRequest(url: MDBEndpoint.popularMovies.url))
             .flatMap { (_, data) in

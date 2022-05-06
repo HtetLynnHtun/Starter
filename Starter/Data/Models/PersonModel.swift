@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol PersonModel {
     func getPopularPeople(page: Int, completion: @escaping (MDBResult<[ActorResult]>) -> Void)
@@ -22,6 +23,7 @@ class PersonModelImpl: PersonModel {
     private let actorRepository = ActorRepositoryRealm.shared
     
     private var totalPages = 0
+    private let disposeBag = DisposeBag()
     
     func getTotalPages() -> Int {
         return totalPages
@@ -52,6 +54,17 @@ class PersonModelImpl: PersonModel {
                 }
             }
         }
+    }
+    
+    // Rx
+    func getPopularPeople(page: Int) -> Observable<[ActorResult]> {
+        RxNetworkAgent.shared.getPopularPeople(page: page)
+            .subscribe(onNext: { data in
+                self.actorRepository.saveAll(data: data.results ?? [])
+            })
+            .disposed(by: disposeBag)
+        
+        return self.actorRepository.getByPage(of: page)
     }
     
     func getPersonDetailsByID(of id: Int, completion: @escaping (MDBResult<ActorResult>) -> Void) {

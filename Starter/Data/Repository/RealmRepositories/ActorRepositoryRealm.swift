@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import RxSwift
+import RxRealm
 
 class ActorRepositoryRealm: BaseRepository {
     
@@ -64,6 +66,27 @@ class ActorRepositoryRealm: BaseRepository {
         }
         
         completion(data)
+    }
+    
+    // Rx
+    func getByPage(of page: Int) -> Observable<[ActorResult]> {
+        let objects = self.realm.objects(ActorResultObject.self)
+            .sorted(byKeyPath: "popularity", ascending: false)
+        
+        return Observable.collection(from: objects)
+            .map { $0.toArray() }
+            .map { data in
+                let startAt = (self.itemsPerPage * page) - self.itemsPerPage
+                let endAt = startAt + self.itemsPerPage
+                var results = [ActorResult]()
+                
+                if (self.isLastPage(page)) {
+                    results = data.dropFirst((page - 1) * self.itemsPerPage).map { $0.toActorResult() }
+                } else {
+                    results = data[startAt..<endAt].map { $0.toActorResult() }
+                }
+                return results
+            }
     }
     
     func saveDetails(data: ActorResult) {
