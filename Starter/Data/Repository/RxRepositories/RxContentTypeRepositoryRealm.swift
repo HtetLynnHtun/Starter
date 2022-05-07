@@ -34,6 +34,13 @@ class RxContentTypeRepositoryRealm: BaseRepository {
                     return $0.isPopular && $0.isSeries
                 }
             }.map { $0.toMovieResult() }
+                    .sorted { first, second in
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "yyyy-MM-dd"
+                        let firstDate = dateFormatter.date(from: first.releaseDate ?? "") ?? Date()
+                        let secondDate = dateFormatter.date(from: second.releaseDate ?? "") ?? Date()
+                        return firstDate.compare(secondDate) == .orderedDescending
+                    }
             }
         
 //        return Observable.create { observer in
