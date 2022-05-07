@@ -11,6 +11,10 @@
 		4F0114E227B624FC008C9080 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0114E127B624FC008C9080 /* Router.swift */; };
 		4F0BE34727F176DB0068F4DB /* RealmDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0BE34627F176DB0068F4DB /* RealmDB.swift */; };
 		4F21686C282270DA006A0A7B /* RxNetworkAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F21686B282270DA006A0A7B /* RxNetworkAgent.swift */; };
+		4F2168712825368E006A0A7B /* RxMovieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2168702825368E006A0A7B /* RxMovieModel.swift */; };
+		4F2168742825389C006A0A7B /* RxMovieRepositoryRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2168732825389C006A0A7B /* RxMovieRepositoryRealm.swift */; };
+		4F216876282539F8006A0A7B /* RxContentTypeRepositoryRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F216875282539F8006A0A7B /* RxContentTypeRepositoryRealm.swift */; };
+		4F21687828260F4A006A0A7B /* RxGenreRepositoryRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F21687728260F4A006A0A7B /* RxGenreRepositoryRealm.swift */; };
 		4F3E6A4527EAFF570005C6BF /* GenreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E6A4427EAFF570005C6BF /* GenreRepository.swift */; };
 		4F3E6A4827EB02D20005C6BF /* GenreEntityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E6A4727EB02D20005C6BF /* GenreEntityExtensions.swift */; };
 		4F3E6A4A27EB493F0005C6BF /* ContentTypeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E6A4927EB493F0005C6BF /* ContentTypeRepository.swift */; };
@@ -119,6 +123,10 @@
 		4F0114E127B624FC008C9080 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		4F0BE34627F176DB0068F4DB /* RealmDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDB.swift; sourceTree = "<group>"; };
 		4F21686B282270DA006A0A7B /* RxNetworkAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxNetworkAgent.swift; sourceTree = "<group>"; };
+		4F2168702825368E006A0A7B /* RxMovieModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxMovieModel.swift; sourceTree = "<group>"; };
+		4F2168732825389C006A0A7B /* RxMovieRepositoryRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxMovieRepositoryRealm.swift; sourceTree = "<group>"; };
+		4F216875282539F8006A0A7B /* RxContentTypeRepositoryRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxContentTypeRepositoryRealm.swift; sourceTree = "<group>"; };
+		4F21687728260F4A006A0A7B /* RxGenreRepositoryRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxGenreRepositoryRealm.swift; sourceTree = "<group>"; };
 		4F3E6A4427EAFF570005C6BF /* GenreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreRepository.swift; sourceTree = "<group>"; };
 		4F3E6A4727EB02D20005C6BF /* GenreEntityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreEntityExtensions.swift; sourceTree = "<group>"; };
 		4F3E6A4927EB493F0005C6BF /* ContentTypeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTypeRepository.swift; sourceTree = "<group>"; };
@@ -261,6 +269,24 @@
 			path = Objects;
 			sourceTree = "<group>";
 		};
+		4F21687228253867006A0A7B /* RxRepositories */ = {
+			isa = PBXGroup;
+			children = (
+				4F2168732825389C006A0A7B /* RxMovieRepositoryRealm.swift */,
+				4F216875282539F8006A0A7B /* RxContentTypeRepositoryRealm.swift */,
+				4F21687728260F4A006A0A7B /* RxGenreRepositoryRealm.swift */,
+			);
+			path = RxRepositories;
+			sourceTree = "<group>";
+		};
+		4F21687928261167006A0A7B /* RxModels */ = {
+			isa = PBXGroup;
+			children = (
+				4F2168702825368E006A0A7B /* RxMovieModel.swift */,
+			);
+			path = RxModels;
+			sourceTree = "<group>";
+		};
 		4F3E6A4627EB02C10005C6BF /* ModelExtensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -286,6 +312,7 @@
 		4F5DC1B527E9A8210072E6D0 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				4F21687228253867006A0A7B /* RxRepositories */,
 				4FDC320B27F0389500D08D62 /* RealmRepositories */,
 				4F5DC1B627E9A8340072E6D0 /* BaseRepository.swift */,
 				4F5DC1B827E9A8820072E6D0 /* MovieRepository.swift */,
@@ -342,6 +369,7 @@
 		4F70059927E30B1A00AD2E5F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4F21687928261167006A0A7B /* RxModels */,
 				4F70059A27E3100600AD2E5F /* MovieModel.swift */,
 				4F70059C27E3125C00AD2E5F /* SearchModel.swift */,
 				4F70059E27E312DC00AD2E5F /* SeriesModel.swift */,
@@ -726,18 +754,21 @@
 				4F94E93527B25F5B00FAA2CD /* MovieSliderTableViewCell.swift in Sources */,
 				4F5BFF2027B4096800B10C1E /* ShowCaseCollectionViewCell.swift in Sources */,
 				4F0114E227B624FC008C9080 /* Router.swift in Sources */,
+				4F2168712825368E006A0A7B /* RxMovieModel.swift in Sources */,
 				4F94E92627B23E8800FAA2CD /* SampleCollectionViewCell.swift in Sources */,
 				4F7005A127E3136E00AD2E5F /* PersonModel.swift in Sources */,
 				4FB95B1C27EC1F37008EDE1A /* ActorRepository.swift in Sources */,
 				4F70059B27E3100600AD2E5F /* MovieModel.swift in Sources */,
 				4FB80B5327DDC292006B6BB9 /* SeriesDetailResponse.swift in Sources */,
 				4F3E6A4C27EB5F830005C6BF /* MovieEntityExtensions.swift in Sources */,
+				4F2168742825389C006A0A7B /* RxMovieRepositoryRealm.swift in Sources */,
 				4FF270E427DC7D9700137889 /* CreditsResponse.swift in Sources */,
 				4F417C7127AE8AC500724D0E /* MovieDetailViewController.swift in Sources */,
 				4FA3CF5827B5257200206582 /* MovieType.swift in Sources */,
 				4FDC320627F0339800D08D62 /* MovieGenreObject.swift in Sources */,
 				4FDC320D27F038B100D08D62 /* MovieRepositoryRealm.swift in Sources */,
 				4F70059427E2DB7C00AD2E5F /* NetworkAgentProtocol.swift in Sources */,
+				4F216876282539F8006A0A7B /* RxContentTypeRepositoryRealm.swift in Sources */,
 				4F75448127DA272500E6B84F /* ActorListResponse.swift in Sources */,
 				4F21686C282270DA006A0A7B /* RxNetworkAgent.swift in Sources */,
 				4FAF847C27B29DDD008F2F91 /* RatingControl.swift in Sources */,
@@ -769,6 +800,7 @@
 				4FDC320227F0339800D08D62 /* SpokenLanguageObject.swift in Sources */,
 				4F7F109027DB57EE0088D3B2 /* PopularSeriesTableViewCell.swift in Sources */,
 				4FDC320727F0339800D08D62 /* ProductionCountryObject.swift in Sources */,
+				4F21687828260F4A006A0A7B /* RxGenreRepositoryRealm.swift in Sources */,
 				4FDC320427F0339800D08D62 /* BelongsToCollectionObject.swift in Sources */,
 				4F58A8B427DF6F16000B9FEB /* ActorDetailResponse.swift in Sources */,
 				4F0114E027B61CC9008C9080 /* MovieItemDelegate.swift in Sources */,

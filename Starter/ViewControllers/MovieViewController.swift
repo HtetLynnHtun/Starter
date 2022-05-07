@@ -16,19 +16,12 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     @IBOutlet weak var tableViewMovies: UITableView!
     
     // MARK: - propetry
-    private let movieModel: MovieModel = MovieModelImpl.shared
-    private let personModel: PersonModel = PersonModelImpl.shared
-    private let seriesModel: SeriesModel = SeriesModelImpl.shared
-    private var upcomingMovieList: [MovieResult]?
-    private var popularMovieList: [MovieResult]?
-    private var popularSeriesList: [MovieResult]?
-    private var topRatedMovieList: [MovieResult]?
-    private var movieGenreList: [MovieGenre]?
-    private var popularPeople: [ActorResult]?
-    
-    private let observableUpcomingMovies = MovieModelImpl.shared.getUpcomingMovieList()
-    private let observablePopularMovies = MovieModelImpl.shared.getPopularMovieList()
+    private let observableUpcomingMovies = RxMovieModel.shared.getUpcomingMovieList()
+    private let observablePopularMovies = RxMovieModel.shared.getPopularMovieList()
+    private let observablePopularSeries = RxMovieModel.shared.getPopularSeriesList()
     private let observablePopularPeople = PersonModelImpl.shared.getPopularPeople(page: 1)
+    private let observableTopRatedMovies = RxMovieModel.shared.getTopRatedMoviesList(page: 1)
+    private let observableMovieGenres = RxMovieModel.shared.getMovieGenresList()
     
     // MARK: - view lifecycles
     override func viewDidLoad() {
@@ -36,23 +29,31 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         
         setupNavBar()
         registerTableViewCells()
-//        fetchUpcomingMovieList()
-//        fetchPopularMovieList()
-//        fetchPopularSeries()
-//        fetchMovieGenreList()
-//        fetchTopRatedMovieList()
-//        fetchPopularPeople()
         
         let dataSource = initDataSource()
         
         Observable.combineLatest(
             observableUpcomingMovies,
             observablePopularMovies,
-            observablePopularPeople
-        ).flatMap { (upcomingMovies, popularMovies, popularPeople) -> Observable<[MovieSectionModel]> in
+            observablePopularSeries,
+            observablePopularPeople,
+            observableTopRatedMovies,
+            observableMovieGenres
+        ).flatMap { (upcomingMovies, popularMovies, popularSeries, popularPeople, topRatedMovies, movieGernes) -> Observable<[MovieSectionModel]> in
+            var allMoviesAndSeries = Set<MediaResult>()
+            upcomingMovies.forEach { allMoviesAndSeries.insert($0.toMediaResult())}
+            popularMovies.forEach { allMoviesAndSeries.insert($0.toMediaResult())}
+            popularSeries.forEach { allMoviesAndSeries.insert($0.toMediaResult())}
+            let genreVOs = movieGernes.map { $0.converToVO() }
+            genreVOs.first?.isSelected = true
+            
             return Observable.just([
                 .movieResult(items: [.movieSliderSection(items: upcomingMovies)]),
                 .movieResult(items: [.moviePopularSection(items: popularMovies)]),
+                .movieResult(items: [.seriesPopularSection(items: popularSeries)]),
+                .movieResult(items: [.movieShowTimeSection]),
+                .movieResult(items: [.movieGenreSection(items: allMoviesAndSeries, genres: genreVOs)]),
+                .movieResult(items: [.movieShowCaseSection(items: topRatedMovies)]),
                 .actorResult(items: [.bestActorSection(items: popularPeople)])
             ])
         }.bind(to: tableViewMovies.rx.items(dataSource: dataSource))
@@ -72,22 +73,37 @@ class MovieViewController: UIViewController, MovieItemDelegate {
                 cell.delegate = self
                 cell.data = items
                 return cell
+            case .seriesPopularSection(let items):
+                let cell = tableView.dequeCell(identifier: PopularSeriesTableViewCell.identifier, indexPath: indexPath) as PopularSeriesTableViewCell
+                cell.delegate = self
+                cell.data = items
+                return cell
+            case .movieGenreSection(let items, let genres):
+                let cell = tableView.dequeCell(identifier: GenreTableViewCell.identifier, indexPath: indexPath) as! GenreTableViewCell
+                cell.delegate = self
+                cell.allMoviesAndSeries = items
+                cell.genreList = genres
+                return cell
+            case .movieShowTimeSection:
+                return tableView.dequeCell(identifier: MovieShowTimeTableViewCell.identifier, indexPath: indexPath)
+            case .movieShowCaseSection(let items):
+                let cell = tableView.dequeCell(identifier: ShowCaseTableViewCell.identifier, indexPath: indexPath) as! ShowCaseTableViewCell
+                cell.data = items
+                cell.delegate = self
+                cell.onTapMore = self.onTapMore
+                return cell
             case .bestActorSection(let items):
                 let cell = tableView.dequeCell(identifier: BestActorTableViewCell.identifier, indexPath: indexPath) as! BestActorTableViewCell
                 cell.data = items
                 cell.onTapActor = self.onTapActor
                 cell.onTapMore = self.onTapMore
                 return cell
-            default:
-                return UITableViewCell()
             }
         }
     }
     
     // MARK: - cell registrations
     private func registerTableViewCells () {
-//        tableViewMovies.dataSource = self
-        
         tableViewMovies.registerForCell(MovieSliderTableViewCell.identifier)
         tableViewMovies.registerForCell(PopularFilmTableViewCell.identifier)
         tableViewMovies.registerForCell(PopularSeriesTableViewCell.identifier)
@@ -108,24 +124,8 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
-    // MARK: - api methods
-    private func fetchUpcomingMovieList() {
-        movieModel.getUpcomingMovieList { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let upcomingMovieList):
-                self.upcomingMovieList = upcomingMovieList
-                self.tableViewMovies.reloadSections(
-                    IndexSet(integer: MovieType.MOVIE_SLIDER.rawValue),
-                    with: .automatic
-                )
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
     let disposeBag = DisposeBag()
+    
     private func fetchPopularMovieList() {
         MovieModelImpl.shared.getPopularMovieList()
             .map { [$0] }
@@ -164,71 +164,6 @@ class MovieViewController: UIViewController, MovieItemDelegate {
 //        }
     }
     
-    private func fetchTopRatedMovieList() {
-        movieModel.getTopRatedMovieList(page: 1) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let topRatedMovieList):
-                self.topRatedMovieList = topRatedMovieList
-                self.tableViewMovies.reloadSections(
-                    IndexSet(integer: MovieType.MOIVE_SHOWCASE.rawValue),
-                    with: .automatic
-                )
-            case .failure(let error):
-                print(error)
-            }
-        }
-
-    }
-    
-    private func fetchMovieGenreList() {
-        movieModel.getMovieGenreList { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let movieGenreList):
-                self.movieGenreList = movieGenreList
-                self.tableViewMovies.reloadSections(
-                    IndexSet(integer: MovieType.MOVIE_GENRE.rawValue),
-                    with: .automatic
-                )
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
-    private func fetchPopularPeople() {
-        personModel.getPopularPeople(page: 1) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let actorListResponse):
-                self.popularPeople = actorListResponse
-                self.tableViewMovies.reloadSections(
-                    IndexSet(integer: MovieType.MOVIE_BESTACTOR.rawValue),
-                    with: .automatic
-                )
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
-    private func fetchPopularSeries() {
-        seriesModel.getPopularSeries { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let seriesListResponse):
-                self.popularSeriesList = seriesListResponse
-                self.tableViewMovies.reloadSections(
-                    IndexSet(integer: MovieType.SERIES_POPULAR.rawValue),
-                    with: .automatic
-                )
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
     // MARK: - onTap callbacks
     @IBAction func onTapSearch(_ sender: UIBarButtonItem) {
         navigateToSearchViewController()
@@ -247,79 +182,6 @@ class MovieViewController: UIViewController, MovieItemDelegate {
     }
 }
 
-// MARK: - ViewController extensions
-extension MovieViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 7
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.section {
-            case MovieType.MOVIE_SLIDER.rawValue:
-            let cell = tableView.dequeCell(identifier: MovieSliderTableViewCell.identifier, indexPath: indexPath) as MovieSliderTableViewCell
-            cell.delegate = self
-            cell.data = self.upcomingMovieList
-            return cell
-            
-            case MovieType.MOVIE_POPULAR.rawValue:
-            let cell = tableView.dequeCell(identifier: PopularFilmTableViewCell.identifier, indexPath: indexPath) as PopularFilmTableViewCell
-            cell.delegate = self
-            cell.data = self.popularMovieList
-            return cell
-            
-            case MovieType.SERIES_POPULAR.rawValue:
-            let cell = tableView.dequeCell(identifier: PopularSeriesTableViewCell.identifier, indexPath: indexPath) as PopularSeriesTableViewCell
-            cell.delegate = self
-            cell.data = self.popularSeriesList
-            return cell
-            
-            case MovieType.MOVIE_SHOWTIME.rawValue:
-                return tableView.dequeCell(identifier: MovieShowTimeTableViewCell.identifier, indexPath: indexPath)
-            
-            case MovieType.MOVIE_GENRE.rawValue:
-            let cell = tableView.dequeCell(identifier: GenreTableViewCell.identifier, indexPath: indexPath) as! GenreTableViewCell
-            cell.delegate = self
-            var allMoviesAndSeries = Set<MediaResult>()
-            self.upcomingMovieList?.forEach({ movieResult in
-                allMoviesAndSeries.insert(movieResult.toMediaResult())
-            })
-            self.popularMovieList?.forEach({ movieResult in
-                allMoviesAndSeries.insert(movieResult.toMediaResult())
-            })
-            self.popularSeriesList?.forEach({ seriesResult in
-                allMoviesAndSeries.insert(seriesResult.toMediaResult())
-            })
-            cell.allMoviesAndSeries = allMoviesAndSeries
-            
-            let genreVOList = self.movieGenreList?.map({ genre in
-                return genre.converToVO()
-            })
-            genreVOList?.first?.isSelected = true
-            cell.genreList = genreVOList
-            return cell
-            
-            case MovieType.MOIVE_SHOWCASE.rawValue:
-                let cell = tableView.dequeCell(identifier: ShowCaseTableViewCell.identifier, indexPath: indexPath) as! ShowCaseTableViewCell
-            cell.data = topRatedMovieList
-            cell.delegate = self
-            cell.onTapMore = onTapMore
-            return cell
-            
-            case MovieType.MOVIE_BESTACTOR.rawValue:
-                let cell = tableView.dequeCell(identifier: BestActorTableViewCell.identifier, indexPath: indexPath) as! BestActorTableViewCell
-            cell.data = popularPeople
-            cell.onTapActor = onTapActor
-            cell.onTapMore = onTapMore
-            return cell
-            default:
-                return UITableViewCell()
-            }
-        }
-}
 
 // Rx Model
 enum SectionItem {
@@ -327,7 +189,7 @@ enum SectionItem {
     case moviePopularSection(items: [MovieResult])
     case seriesPopularSection(items: [MovieResult])
     case movieShowTimeSection
-    case movieGenreSection(items: [MovieResult])
+    case movieGenreSection(items: Set<MediaResult>, genres: [GenreVO])
     case movieShowCaseSection(items: [MovieResult])
     case bestActorSection(items: [ActorResult])
 }
