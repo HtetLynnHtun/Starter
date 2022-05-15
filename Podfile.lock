@@ -1,5 +1,21 @@
 PODS:
   - Alamofire (5.5.0)
+  - Differentiator (5.0.0)
+  - RxAlamofire (6.1.1):
+    - RxAlamofire/Core (= 6.1.1)
+  - RxAlamofire/Core (6.1.1):
+    - Alamofire (~> 5.4)
+    - RxSwift (~> 6.0)
+  - RxCocoa (6.5.0):
+    - RxRelay (= 6.5.0)
+    - RxSwift (= 6.5.0)
+  - RxDataSources (5.0.0):
+    - Differentiator (~> 5.0)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+  - RxRelay (6.5.0):
+    - RxSwift (= 6.5.0)
+  - RxSwift (6.5.0)
   - SDWebImage (5.12.4):
     - SDWebImage/Core (= 5.12.4)
   - SDWebImage/Core (5.12.4)
@@ -7,20 +23,36 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.5)
+  - RxAlamofire
+  - RxCocoa
+  - RxDataSources
+  - RxSwift
   - SDWebImage (~> 5.0)
   - YouTubePlayer
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - Differentiator
+    - RxAlamofire
+    - RxCocoa
+    - RxDataSources
+    - RxRelay
+    - RxSwift
     - SDWebImage
     - YouTubePlayer
 
 SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
+  Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
+  RxAlamofire: beb75a1c452d0de225651db4903f5d29d034a620
+  RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
+  RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
+  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SDWebImage: 631cf572cc93dfdfe54162e556410a61f1141928
   YouTubePlayer: 2b5f2830d8f9b2cde942083211291e382c9e6bd5
 
-PODFILE CHECKSUM: 54a1ded2b5e0bdb7b780fb3c31d4fd7d2e953a86
+PODFILE CHECKSUM: 46bf4e8c2fb94ae14736b86f56e080e59d1039bd
 
 COCOAPODS: 1.11.2

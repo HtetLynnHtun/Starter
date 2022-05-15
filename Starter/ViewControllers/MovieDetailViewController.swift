@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxDataSources
 
 class MovieDetailViewController: UIViewController {
 
@@ -40,7 +42,7 @@ class MovieDetailViewController: UIViewController {
     var similarMovies = [MovieResult]()
     var similarSeries = [MovieResult]()
     var trailers = [TrailerResult]()
-    
+    var disposeBag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -87,28 +89,25 @@ class MovieDetailViewController: UIViewController {
         case .movie:
             fetchMovieDetails()
             fetchMovieTrailers()
-            fetchCredits()
+//            fetchCredits()
             fetchSimilarMovies()
         case .series:
             fetchSeriesDetails()
             fetchSeriesTrailers()
-            fetchSeriesCredits()
-            fetchSimilarSeriess()
+//            fetchSeriesCredits()
+//            fetchSimilarSeriess()
         }
     }
     
     // MARK: - API methods - movie
     private func fetchMovieDetails() {
-        movieModel.getMovieDetailsByID(id: contentId) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let movieDetailResponse):
-                self.bindData(movieDetailResponse)
-            case .failure(let error):
-                print(error)
-                
-            }
-        }
+        RxMovieModel.shared.getMovieDetailsByID(id: contentId)
+            .subscribe(onNext: { (movieResult, actors) in
+                self.bindData(movieResult)
+                self.actors = actors
+                self.collectionViewActors.reloadData()
+            })
+            .disposed(by: disposeBag)
     }
     
     private func fetchCredits() {
@@ -125,16 +124,11 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchSimilarMovies() {
-        movieModel.getSimilarMovies(id: contentId) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let similarMovies):
-                self.similarMovies = similarMovies
+        RxMovieModel.shared.getSimilarMovies(id: contentId)
+            .subscribe(onNext: { data in
+                self.similarMovies = data
                 self.collectionViewSimilarContents.reloadData()
-            case .failure(let error):
-                print(error)
-            }
-        }
+            }).disposed(by: disposeBag)
     }
     
     private func fetchMovieTrailers() {

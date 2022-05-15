@@ -9,4 +9,8 @@ target 'Starter' do
   pod 'Alamofire', '~> 5.5'
   pod 'SDWebImage', '~> 5.0'
   pod 'YouTubePlayer'
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'RxAlamofire'
+  pod 'RxDataSources'
 end
