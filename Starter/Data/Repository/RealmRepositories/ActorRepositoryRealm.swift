@@ -76,6 +76,9 @@ class ActorRepositoryRealm: BaseRepository {
         return Observable.collection(from: objects)
             .map { $0.toArray() }
             .map { data in
+                guard !data.isEmpty else {
+                    return []
+                }
                 let startAt = (self.itemsPerPage * page) - self.itemsPerPage
                 let endAt = startAt + self.itemsPerPage
                 var results = [ActorResult]()
