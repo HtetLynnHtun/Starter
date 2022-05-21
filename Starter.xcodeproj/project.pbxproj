@@ -15,6 +15,9 @@
 		4F2168742825389C006A0A7B /* RxMovieRepositoryRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2168732825389C006A0A7B /* RxMovieRepositoryRealm.swift */; };
 		4F216876282539F8006A0A7B /* RxContentTypeRepositoryRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F216875282539F8006A0A7B /* RxContentTypeRepositoryRealm.swift */; };
 		4F21687828260F4A006A0A7B /* RxGenreRepositoryRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F21687728260F4A006A0A7B /* RxGenreRepositoryRealm.swift */; };
+		4F399CE02838A26E00837676 /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F399CDF2838A26E00837676 /* MovieViewModel.swift */; };
+		4F399CE32838AEFA00837676 /* RxPersonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F399CE22838AEFA00837676 /* RxPersonModel.swift */; };
+		4F399CE52838AF5900837676 /* RxActorRepositoryRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F399CE42838AF5900837676 /* RxActorRepositoryRealm.swift */; };
 		4F3E6A4527EAFF570005C6BF /* GenreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E6A4427EAFF570005C6BF /* GenreRepository.swift */; };
 		4F3E6A4827EB02D20005C6BF /* GenreEntityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E6A4727EB02D20005C6BF /* GenreEntityExtensions.swift */; };
 		4F3E6A4A27EB493F0005C6BF /* ContentTypeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E6A4927EB493F0005C6BF /* ContentTypeRepository.swift */; };
@@ -127,6 +130,9 @@
 		4F2168732825389C006A0A7B /* RxMovieRepositoryRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxMovieRepositoryRealm.swift; sourceTree = "<group>"; };
 		4F216875282539F8006A0A7B /* RxContentTypeRepositoryRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxContentTypeRepositoryRealm.swift; sourceTree = "<group>"; };
 		4F21687728260F4A006A0A7B /* RxGenreRepositoryRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxGenreRepositoryRealm.swift; sourceTree = "<group>"; };
+		4F399CDF2838A26E00837676 /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
+		4F399CE22838AEFA00837676 /* RxPersonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxPersonModel.swift; sourceTree = "<group>"; };
+		4F399CE42838AF5900837676 /* RxActorRepositoryRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxActorRepositoryRealm.swift; sourceTree = "<group>"; };
 		4F3E6A4427EAFF570005C6BF /* GenreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreRepository.swift; sourceTree = "<group>"; };
 		4F3E6A4727EB02D20005C6BF /* GenreEntityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreEntityExtensions.swift; sourceTree = "<group>"; };
 		4F3E6A4927EB493F0005C6BF /* ContentTypeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTypeRepository.swift; sourceTree = "<group>"; };
@@ -275,6 +281,7 @@
 				4F2168732825389C006A0A7B /* RxMovieRepositoryRealm.swift */,
 				4F216875282539F8006A0A7B /* RxContentTypeRepositoryRealm.swift */,
 				4F21687728260F4A006A0A7B /* RxGenreRepositoryRealm.swift */,
+				4F399CE42838AF5900837676 /* RxActorRepositoryRealm.swift */,
 			);
 			path = RxRepositories;
 			sourceTree = "<group>";
@@ -283,8 +290,17 @@
 			isa = PBXGroup;
 			children = (
 				4F2168702825368E006A0A7B /* RxMovieModel.swift */,
+				4F399CE22838AEFA00837676 /* RxPersonModel.swift */,
 			);
 			path = RxModels;
+			sourceTree = "<group>";
+		};
+		4F399CDE2838A22F00837676 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				4F399CDF2838A26E00837676 /* MovieViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		4F3E6A4627EB02C10005C6BF /* ModelExtensions */ = {
@@ -338,7 +354,6 @@
 			children = (
 				4FDC31F827F0337E00D08D62 /* Realm */,
 				4F5DC1B527E9A8210072E6D0 /* Repository */,
-				4F70059927E30B1A00AD2E5F /* Models */,
 				4FA3CF5627B5256700206582 /* Enums */,
 				4F5DC1BA27E9AA610072E6D0 /* CoreData */,
 				4F70059827E30AB000AD2E5F /* VOS */,
@@ -571,7 +586,9 @@
 		4FB9C1752794771D00746052 /* Starter */ = {
 			isa = PBXGroup;
 			children = (
+				4F70059927E30B1A00AD2E5F /* Models */,
 				4F94E92827B24C9300FAA2CD /* ViewControllers */,
+				4F399CDE2838A22F00837676 /* ViewModels */,
 				4F70059727E30A9700AD2E5F /* Data */,
 				4FB3153727D9A13500510B07 /* Networking */,
 				4F94E92B27B24DF600FAA2CD /* Cells */,
@@ -760,6 +777,7 @@
 				4FB95B1C27EC1F37008EDE1A /* ActorRepository.swift in Sources */,
 				4F70059B27E3100600AD2E5F /* MovieModel.swift in Sources */,
 				4FB80B5327DDC292006B6BB9 /* SeriesDetailResponse.swift in Sources */,
+				4F399CE52838AF5900837676 /* RxActorRepositoryRealm.swift in Sources */,
 				4F3E6A4C27EB5F830005C6BF /* MovieEntityExtensions.swift in Sources */,
 				4F2168742825389C006A0A7B /* RxMovieRepositoryRealm.swift in Sources */,
 				4FF270E427DC7D9700137889 /* CreditsResponse.swift in Sources */,
@@ -815,6 +833,7 @@
 				4FB95B1627EC166C008EDE1A /* ProductionCompanyEntityExtensions.dart.swift in Sources */,
 				4FDC320827F0339800D08D62 /* MovieResultObject.swift in Sources */,
 				4FE83D4127E218B8000C8C59 /* MDBEndpoint.swift in Sources */,
+				4F399CE02838A26E00837676 /* MovieViewModel.swift in Sources */,
 				4F7F109327DB5DE40088D3B2 /* SeriesListResponse.swift in Sources */,
 				4FA3CF5527B4F67C00206582 /* ActorActionDelegate.swift in Sources */,
 				4FDC320F27F03AEE00D08D62 /* ContentTypeRepositoryRealm.swift in Sources */,
@@ -832,6 +851,7 @@
 				4F3E6A4527EAFF570005C6BF /* GenreRepository.swift in Sources */,
 				4F5DC1BD27E9AAB20072E6D0 /* MovieDB.xcdatamodeld in Sources */,
 				4FB7059127E0315F00F44341 /* ActorCreditsResponse.swift in Sources */,
+				4F399CE32838AEFA00837676 /* RxPersonModel.swift in Sources */,
 				4F5DC1BF27E9ACCE0072E6D0 /* CoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
