@@ -25,7 +25,7 @@ class MovieViewController: UIViewController, MovieItemDelegate {
         setupNavBar()
         registerTableViewCells()
         
-        viewModel = MovieViewModel.shared
+        viewModel = MovieViewModelImpl.shared
         viewModel.fetchData()
         viewModel.movieSectionsSubject
             .bind(to: tableViewMovies.rx.items(dataSource: initDataSource()))

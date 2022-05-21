@@ -9,15 +9,20 @@ import Foundation
 import RxSwift
 import Differentiator
 
-class MovieViewModel {
+protocol MovieViewModel {
+    var movieSectionsSubject: BehaviorSubject<[MovieSectionModel]> { get }
     
-    static let shared = MovieViewModel()
+    func fetchData()
+}
+
+class MovieViewModelImpl: MovieViewModel {
+    static let shared = MovieViewModelImpl()
     
     // MARK: - States
     let movieSectionsSubject = BehaviorSubject(value: [MovieSectionModel]())
     
     // TODO: swap with protocol
-    private let movieModel = RxMovieModel.shared
+    private let movieModel: RxMovieModel = RxMovieModelImpl.shared
     private let personModel = RxPersonModel.shared
     
     private let upcomingMoviesSubject = BehaviorSubject(value: [MovieResult]())

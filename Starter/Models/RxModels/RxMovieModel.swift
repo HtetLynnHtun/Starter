@@ -8,9 +8,21 @@
 import Foundation
 import RxSwift
 
-class RxMovieModel {
+protocol RxMovieModel {
+    func getUpcomingMovieList() -> Observable<[MovieResult]>
+    func getPopularMovieList() -> Observable<[MovieResult]>
+    func getPopularSeriesList() -> Observable<[MovieResult]>
+    func getTopRatedMoviesList(page: Int) -> Observable<[MovieResult]>
+    func getMovieGenresList() -> Observable<[MovieGenre]>
+    func getMovieDetailsByID(id: Int) -> Observable<MovieResult>
+    func getMovieCredits(id: Int) -> Observable<[ActorResult]>
+    func getSimilarMovies(id: Int) -> Observable<[MovieResult]>
+    func getMovieTrailers(id: Int) -> Observable<TrailersResponse>
+}
+
+class RxMovieModelImpl: RxMovieModel {
     
-    static let shared = RxMovieModel()
+    static let shared = RxMovieModelImpl()
     private init() { }
     private let movieRepository = RxMovieRepositoryRealm.shared
     private let genreRepository = RxGenreRepositoryRealm.shared
