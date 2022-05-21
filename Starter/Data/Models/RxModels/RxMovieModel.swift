@@ -97,4 +97,38 @@ class RxMovieModel {
         
         return self.genreRepository.get()
     }
+    
+    func getMovieDetailsByID(id: Int) -> Observable<MovieResult> {
+        RxNetworkAgent.shared.getMovieDetailsByID(id: id)
+            .subscribe(onNext: { data in
+                self.movieRepository.saveDetails(data: data)
+            })
+            .disposed(by: disposeBag)
+        
+        return self.movieRepository.getDetails(of: id)
+    }
+    
+    func getMovieCredits(id: Int) -> Observable<[ActorResult]> {
+        RxNetworkAgent.shared.getMovieCredits(id: id)
+            .subscribe(onNext: { data in
+                self.movieRepository.saveMovieCredits(of: id, data: data)
+            })
+            .disposed(by: disposeBag)
+        
+        return self.movieRepository.getMovieCredits(of: id)
+    }
+    
+    func getSimilarMovies(id: Int) -> Observable<[MovieResult]> {
+        RxNetworkAgent.shared.getSimilarMovies(id: id)
+            .subscribe(onNext: { data in
+                self.movieRepository.saveSimilarMovies(of: id, data: data)
+            })
+            .disposed(by: disposeBag)
+        
+        return self.movieRepository.getSimilarMovies(of: id)
+    }
+    
+    func getMovieTrailers(id: Int) -> Observable<TrailersResponse> {
+        return RxNetworkAgent.shared.getMovieTrailers(id: id)
+    }
 }

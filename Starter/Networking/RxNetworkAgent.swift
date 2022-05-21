@@ -78,4 +78,32 @@ class RxNetworkAgent {
                 return Observable.just(data)
             }
     }
+    
+    func getMovieDetailsByID(id: Int) -> Observable<MovieResult> {
+        return RxAlamofire.requestDecodable(URLRequest(url: MDBEndpoint.movieDetails(id).url))
+            .flatMap { (_, data) in
+                return Observable.just(data)
+            }
+    }
+    
+    func getMovieCredits(id: Int) -> Observable<CreditsResponse> {
+        return RxAlamofire.requestDecodable(URLRequest(url: MDBEndpoint.movieCredits(id).url))
+            .flatMap { (_, data) in
+                return Observable.just(data)
+            }
+    }
+    
+    func getSimilarMovies(id: Int) -> Observable<MovieListResponse> {
+        return RxAlamofire.requestDecodable(URLRequest(url: MDBEndpoint.similarMovies(id).url))
+            .flatMap { (_, data) in
+                return Observable.just(data)
+            }
+    }
+    
+    func getMovieTrailers(id: Int) -> Observable<TrailersResponse> {
+        return RxAlamofire.requestDecodable(URLRequest(url: MDBEndpoint.movieTrailers(id).url))
+            .flatMap { (_, data) in
+                return Observable.just(data)
+            }
+    }
 }

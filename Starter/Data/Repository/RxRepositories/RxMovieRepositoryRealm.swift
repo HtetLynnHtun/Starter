@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import RxSwift
+import RxRealm
 
 class RxMovieRepositoryRealm: BaseRepository {
     
@@ -56,6 +58,10 @@ class RxMovieRepositoryRealm: BaseRepository {
             newObject.genreIDS.append(objectsIn: savedObject.genreIDS)
             newObject.casts.append(objectsIn: savedObject.casts)
             newObject.similarContents.append(objectsIn: savedObject.similarContents)
+            newObject.isSeries = savedObject.isSeries
+            newObject.isPopular = savedObject.isPopular
+            newObject.isUpcoming = savedObject.isUpcoming
+            newObject.isTopRated = savedObject.isTopRated
         }
         
         do {
@@ -67,9 +73,10 @@ class RxMovieRepositoryRealm: BaseRepository {
         }
     }
     
-    func getDetails(of id: Int, completion: @escaping (MovieResult?) -> Void) {
-        let object = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: id)
-        completion(object?.toMovieResult())
+    func getDetails(of id: Int) -> Observable<MovieResult> {
+        let object = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: id)!
+        return Observable.from(object: object)
+            .map { $0.toMovieResult() }
     }
     
     func saveMovieCredits(of id: Int, data: CreditsResponse) {
@@ -99,13 +106,10 @@ class RxMovieRepositoryRealm: BaseRepository {
         
     }
     
-    func getMovieCredits(of id: Int, completion: @escaping ([ActorResult]) -> Void) {
-        if let movieObject = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: id) {
-            let data: [ActorResult] = movieObject.casts.map { $0.toActorResult() }
-            completion(data)
-        } else {
-            completion([])
-        }
+    func getMovieCredits(of id: Int) -> Observable<[ActorResult]> {
+        let movieObject = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: id)!
+        return Observable.from(object: movieObject)
+            .map { $0.casts.map { $0.toActorResult() } }
     }
     
     func saveSimilarMovies(of id: Int, data: MovieListResponse) {
@@ -135,13 +139,10 @@ class RxMovieRepositoryRealm: BaseRepository {
         }
     }
     
-    func getSimilarMovies(of id: Int, completion: @escaping ([MovieResult]) -> Void) {
-        if let movieObject = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: id) {
-            let data: [MovieResult] = movieObject.similarContents.map({ $0.toMovieResult() })
-            completion(data)
-        } else {
-            completion([])
-        }
+    func getSimilarMovies(of id: Int) -> Observable<[MovieResult]> {
+        let movieObject = self.realm.object(ofType: MovieResultObject.self, forPrimaryKey: id)!
+        return Observable.from(object: movieObject)
+            .map { $0.similarContents.map { $0.toMovieResult() } }
     }
     
 

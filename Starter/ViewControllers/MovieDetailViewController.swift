@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class MovieDetailViewController: UIViewController {
 
@@ -31,6 +32,8 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var lableDescription: UILabel!
     
     // MARK: - Properties
+    private let disposeBag = DisposeBag()
+    private let rxMovieModel = RxMovieModel.shared
     private let movieModel: MovieModel = MovieModelImpl.shared
     private let seriesModel: SeriesModel = SeriesModelImpl.shared
     var contentType: DetailContentType = .movie
@@ -99,57 +102,47 @@ class MovieDetailViewController: UIViewController {
     
     // MARK: - API methods - movie
     private func fetchMovieDetails() {
-        movieModel.getMovieDetailsByID(id: contentId) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let movieDetailResponse):
-                self.bindData(movieDetailResponse)
-            case .failure(let error):
-                print(error)
-                
-            }
-        }
+        rxMovieModel.getMovieDetailsByID(id: contentId)
+            .subscribe(onNext: { [weak self] data in
+                guard let self = self else {
+                    return
+                }
+                self.bindData(data)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func fetchCredits() {
-        movieModel.getMovieCredits(of: contentId) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let actors):
-                self.actors = actors
+        rxMovieModel.getMovieCredits(id: contentId)
+            .subscribe(onNext: { [weak self] data in
+                guard let self = self else { return }
+                self.actors = data
                 self.collectionViewActors.reloadData()
-            case .failure(let error):
-                print(error)
-            }
-        }
+            })
+            .disposed(by: disposeBag)
     }
     
     private func fetchSimilarMovies() {
-        movieModel.getSimilarMovies(id: contentId) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let similarMovies):
-                self.similarMovies = similarMovies
+        rxMovieModel.getSimilarMovies(id: contentId)
+            .subscribe(onNext: { [weak self] data in
+                guard let self = self else { return }
+                
+                self.similarMovies = data
                 self.collectionViewSimilarContents.reloadData()
-            case .failure(let error):
-                print(error)
-            }
-        }
+            })
+            .disposed(by: disposeBag)
     }
     
     private func fetchMovieTrailers() {
-        movieModel.getMovieTrailers(id: contentId) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let trailersResponse):
-                self.trailers = trailersResponse.results ?? []
+        rxMovieModel.getMovieTrailers(id: contentId)
+            .subscribe(onNext: { [weak self] data in
+                guard let self = self else { return }
+                self.trailers = data.results ?? []
                 if !self.trailers.isEmpty {
                     self.buttonPlayTrailer.isHidden = false
                 }
-            case .failure(let error):
-                print(error)
-            }
-        }
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - API methods - series
