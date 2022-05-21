@@ -18,6 +18,7 @@ protocol RxMovieModel {
     func getMovieCredits(id: Int) -> Observable<[ActorResult]>
     func getSimilarMovies(id: Int) -> Observable<[MovieResult]>
     func getMovieTrailers(id: Int) -> Observable<TrailersResponse>
+    func searchMoviesAndSeries(query: String, page: Int) -> Observable<SearchResponse>
 }
 
 class RxMovieModelImpl: RxMovieModel {
@@ -117,5 +118,9 @@ class RxMovieModelImpl: RxMovieModel {
     
     func getMovieTrailers(id: Int) -> Observable<TrailersResponse> {
         return RxNetworkAgent.shared.getMovieTrailers(id: id)
+    }
+    
+    func searchMoviesAndSeries(query: String, page: Int) -> Observable<SearchResponse> {
+        return RxNetworkAgent.shared.searchMoviesAndSeries(query: query, page: page)
     }
 }

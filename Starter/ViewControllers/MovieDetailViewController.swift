@@ -33,7 +33,7 @@ class MovieDetailViewController: UIViewController {
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
-    private let rxMovieModel = RxMovieModel.shared
+    private let rxMovieModel = RxMovieModelImpl.shared
     private let movieModel: MovieModel = MovieModelImpl.shared
     private let seriesModel: SeriesModel = SeriesModelImpl.shared
     var contentType: DetailContentType = .movie

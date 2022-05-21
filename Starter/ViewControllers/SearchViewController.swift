@@ -15,22 +15,17 @@ class SearchViewController: UIViewController, MovieItemDelegate {
     @IBOutlet weak var collectionViewContent: UICollectionView!
     
     // MARK: - properties
-    private let searchModel: SearchModel = SearchModelImpl.shared
-    var searchBar = UISearchBar()
-    let networkAgent = AlamofireNetworkAgent.shared
-    var data = [SearchResult] ()
-    var currentPage = 1
-    var totalPages = 1
-    var itemSpacing = 12
-    var searchedQuery = ""
+    private var viewModel: SearchViewModel!
     private let disposeBag = DisposeBag()
-    private let searchResultsSubject = BehaviorSubject(value: [SearchResult]())
+    
+    private var searchBar = UISearchBar()
     
     // MARK: - view lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSearchBar()
         registerCells()
+        viewModel = SearchViewModelImpl.shared
         initObservers()
     }
     
@@ -73,40 +68,21 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Rx extensions
 extension SearchViewController {
-    private func rxMovieSearch(query: String, page: Int) {
-        RxNetworkAgent.shared.searchMoviesAndSeries(query: query, page: page)
-            .do(onNext: { value in
-                self.totalPages = value.totalPages ?? 1
-            })
-            .compactMap { $0.results }
-            .subscribe(onNext: { value in
-                if (self.currentPage == 1) {
-                    self.searchResultsSubject.onNext(value)
-                } else {
-                    self.searchResultsSubject.onNext(try! self.searchResultsSubject.value() + value)
-                }
-            })
-            .disposed(by: disposeBag)
-    }
     
     private func addSearchBarObserver() {
         searchBar.rx.text.orEmpty
             .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
             .do(onNext: { print($0)})
-            .subscribe(onNext: { value in
-                if value.isEmpty {
-                    self.currentPage = 1
-                    self.totalPages = 1
-                    self.searchResultsSubject.onNext([])
-                } else {
-                    self.rxMovieSearch(query: value, page: self.currentPage)
-                }
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                
+                self.viewModel.startSearching(keyword: value)
             })
             .disposed(by: disposeBag)
     }
     
     private func addCollectionViewBindingObserver() {
-        searchResultsSubject
+        viewModel.searchResultsSubject
             .bind(to: collectionViewContent.rx.items(
                 cellIdentifier: PopularFilmCollectionViewCell.identifier,
                 cellType: PopularFilmCollectionViewCell.self))
@@ -120,23 +96,21 @@ extension SearchViewController {
         Observable.combineLatest(
             collectionViewContent.rx.willDisplayCell,
             searchBar.rx.text.orEmpty)
-        .subscribe(onNext: { (cellTuple, searchText) in
+        .subscribe(onNext: { [weak self] (cellTuple, searchText) in
+            guard let self = self else { return }
+            
             let (_, indexPath) = cellTuple
-            let totalItems = try! self.searchResultsSubject.value().count
-            let isAtLastRow = indexPath.row == totalItems - 1
-            let hasMorePage = self.currentPage < self.totalPages
-            if (isAtLastRow && hasMorePage) {
-                self.currentPage += 1
-                self.rxMovieSearch(query: searchText, page: self.currentPage)
-            }
+            self.viewModel.handlePagination(row: indexPath.row, keyword: searchText)
         })
         .disposed(by: disposeBag)
     }
     
     private func addItemSelectedObserver() {
         collectionViewContent.rx.itemSelected
-            .subscribe(onNext: { indexPath in
-                let selectedItem = try! self.searchResultsSubject.value()[indexPath.row]
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let self = self else { return }
+                
+                let selectedItem = try! self.viewModel.searchResultsSubject.value()[indexPath.row]
                 let contentType: DetailContentType!
                 if (selectedItem.mediaType == "tv") {
                     contentType = .series
