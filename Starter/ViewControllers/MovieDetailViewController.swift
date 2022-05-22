@@ -89,7 +89,6 @@ class MovieDetailViewController: UIViewController {
         case .movie:
             fetchMovieDetails()
             fetchMovieTrailers()
-//            fetchCredits()
             fetchSimilarMovies()
         case .series:
             fetchSeriesDetails()
@@ -108,19 +107,6 @@ class MovieDetailViewController: UIViewController {
                 self.collectionViewActors.reloadData()
             })
             .disposed(by: disposeBag)
-    }
-    
-    private func fetchCredits() {
-        movieModel.getMovieCredits(of: contentId) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let actors):
-                self.actors = actors
-                self.collectionViewActors.reloadData()
-            case .failure(let error):
-                print(error)
-            }
-        }
     }
     
     private func fetchSimilarMovies() {
