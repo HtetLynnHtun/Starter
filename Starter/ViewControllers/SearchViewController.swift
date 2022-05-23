@@ -111,12 +111,7 @@ extension SearchViewController {
                 guard let self = self else { return }
                 
                 let selectedItem = try! self.viewModel.searchResultsSubject.value()[indexPath.row]
-                let contentType: DetailContentType!
-                if (selectedItem.mediaType == "tv") {
-                    contentType = .series
-                } else {
-                    contentType = .movie
-                }
+                let contentType = DetailContentType.of(mediaType: selectedItem.mediaType!)
                 self.navigateToMovieDetailViewController(id: selectedItem.id!, contentType: contentType)
             })
             .disposed(by: disposeBag)
